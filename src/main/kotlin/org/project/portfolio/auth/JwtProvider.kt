@@ -29,7 +29,7 @@ class JwtProvider {
 
     /** Token Create */
     fun createToken(subject: String): String {
-        return Jwts.builder()
+        return "Bearer " + Jwts.builder()
             .issuer("portfolio")
             .issuedAt(Date())
             .expiration(Date(System.currentTimeMillis() + expiration.toLong()))
