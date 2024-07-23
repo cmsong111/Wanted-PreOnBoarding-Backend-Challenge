@@ -4,7 +4,7 @@ on:
     branches: [ "main" ]
 
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   build:
@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Asia/Seoul"
+
       - name: Checkout
         uses: actions/checkout@v4
 
