@@ -4,6 +4,7 @@ import org.project.portfolio.auth.AuthService
 import org.project.portfolio.auth.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -38,6 +39,8 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it
                     .requestMatchers(*WHITE_LIST_URL).permitAll()
+                    // 게시글 조회(GET) API는 인증 없이 접근 가능
+                    .requestMatchers(HttpMethod.GET, "/api/v1/article/**").permitAll()
                     .anyRequest().authenticated()
             }
             .userDetailsService(authService)

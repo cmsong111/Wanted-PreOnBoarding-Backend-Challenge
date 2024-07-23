@@ -19,4 +19,12 @@ class UserService(
             throw BusinessException(ErrorCode.USER_NOT_FOUND)
         }
     }
+
+    /**
+     * Delete user
+     * @param name 유저 이름
+     */
+    fun deleteUser(name: String) {
+        userRepository.deleteById(name)
+    }
 }

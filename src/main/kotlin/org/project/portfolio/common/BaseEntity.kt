@@ -16,7 +16,7 @@ import java.sql.Timestamp
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-@SoftDelete(columnName = "is_deleted")
+@SoftDelete(columnName = "deleted_at", converter = DeletedAtConverter::class)
 abstract class BaseEntity {
     /** 생성일 */
     @CreatedDate

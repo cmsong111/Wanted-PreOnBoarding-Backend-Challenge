@@ -20,5 +20,9 @@ enum class ErrorCode(
     USER_INVALID_NAME(HttpStatus.BAD_REQUEST, "U006", "유효하지 않은 이름입니다."),
 
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "V001", "입력값이 올바르지 않습니다."),
+
+
+    ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "A001", "게시글을 찾을 수 없습니다."),
+    ARTICLE_AUTHOR_NOT_MATCH(HttpStatus.FORBIDDEN, "A002", "게시글 작성자와 요청자가 일치하지 않습니다."),
     ;
 }
