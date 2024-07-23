@@ -1,5 +1,8 @@
 # 📝 포트폴리오 프로젝트
 
+[![Test Ci with Gradle](https://github.com/cmsong111/Wanted-PreOnBoarding-Backend-Challenge/actions/workflows/test.yaml/badge.svg)](https://github.com/cmsong111/Wanted-PreOnBoarding-Backend-Challenge/actions/workflows/test.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cmsong111_Wanted-PreOnBoarding-Backend-Challenge&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cmsong111_Wanted-PreOnBoarding-Backend-Challenge)
+
 > 원티드 8월 프리온보딩 백엔드 챌린지
 
 ## 설명
