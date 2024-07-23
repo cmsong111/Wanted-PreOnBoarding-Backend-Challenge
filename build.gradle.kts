@@ -26,8 +26,10 @@ repositories {
     mavenCentral()
 }
 
+val openApiVersion = "2.3.0"
+val jwtVersion = "0.12.6"
+
 dependencies {
-    // Spring Boot dependencies
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -36,25 +38,13 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-
-
-    // Kotlin dependencies
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-    // Database dependencies
-    runtimeOnly("com.h2database:h2")
-
-    // Springdoc OpenAPI dependencies
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
-
-    // JWT
-    val jwtVersion = "0.12.6"
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion")
     implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
+    runtimeOnly("com.h2database:h2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
-
-    // Test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.security:spring-security-test")
@@ -84,5 +74,20 @@ tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
         html.required.set(true)
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "cmsong111_Wanted-PreOnBoarding-Backend-Challenge")
+        property("sonar.organization", "cmsong111")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.language", "kotlin")
+        property("sonar.sources", "src/main/kotlin")
+        property("sonar.tests", "src/test/kotlin")
+        property("sonar.java.binaries", "build/classes/kotlin/main")
+        property("sonar.java.test.binaries", "build/classes/kotlin/test")
+        property("sonar.junit.reportPaths", "build/test-results/test")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
