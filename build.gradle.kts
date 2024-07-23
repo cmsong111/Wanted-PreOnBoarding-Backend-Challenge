@@ -89,5 +89,6 @@ sonar {
         property("sonar.java.test.binaries", "build/classes/kotlin/test")
         property("sonar.junit.reportPaths", "build/test-results/test")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
+        property("sonar.exclusions", "./SwaggerConfig.kt, **/entity/**, **/dto/**, **/config/**")
     }
 }
