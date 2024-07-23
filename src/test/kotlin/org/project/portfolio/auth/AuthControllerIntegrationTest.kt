@@ -18,10 +18,10 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-@DisplayName("AuthController 테스트")
+@DisplayName("AuthController 통합 테스트")
 @SpringBootTest
 @AutoConfigureMockMvc
-class AuthControllerTest {
+class AuthControllerIntegrationTest {
 
     @Autowired
     lateinit var mvc: MockMvc

@@ -1,5 +1,6 @@
 package org.project.portfolio.exception_handler
 
+import org.project.portfolio.exception_handler.dto.ApiResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler

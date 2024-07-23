@@ -1,6 +1,6 @@
-package org.project.portfolio.exception_handler
+package org.project.portfolio.exception_handler.dto
 
-class ApiResponse(
+data class ApiResponse(
     val resultCode: String,
     val resultMessage: String
 ) {

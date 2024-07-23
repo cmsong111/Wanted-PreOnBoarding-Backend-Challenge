@@ -3,7 +3,7 @@ package org.project.portfolio.auth
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.project.portfolio.exception_handler.ApiResponse
+import org.project.portfolio.exception_handler.dto.ApiResponse
 import org.project.portfolio.exception_handler.ErrorCode
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.web.access.AccessDeniedHandler
