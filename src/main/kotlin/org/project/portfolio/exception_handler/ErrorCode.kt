@@ -1,4 +1,4 @@
-package org.project.portfolio.common
+package org.project.portfolio.exception_handler
 
 import org.springframework.http.HttpStatus
 
@@ -10,6 +10,7 @@ enum class ErrorCode(
 ) {
     TOKEN_INVALID(HttpStatus.BAD_REQUEST, "C001", "유효하지 않은 토큰입니다."),
     TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "C002", "만료된 토큰입니다."),
+    TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "C003", "토큰을 찾을 수 없습니다."),
 
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "U001", "유효하지 않은 사용자입니다."),
     USER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "U002", "이미 존재하는 사용자입니다."),

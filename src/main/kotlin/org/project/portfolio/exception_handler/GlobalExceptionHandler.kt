@@ -1,4 +1,4 @@
-package org.project.portfolio.common
+package org.project.portfolio.exception_handler
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -44,7 +44,6 @@ class GlobalExceptionHandler {
             )
     }
 
-    /** API 응답 */
     inner class ApiResponse(
         val resultCode: String,
         val resultMessage: String
@@ -53,6 +52,7 @@ class GlobalExceptionHandler {
             return "ApiResponse(resultCode='$resultCode', resultMessage='$resultMessage')"
         }
     }
+
 }
 
 

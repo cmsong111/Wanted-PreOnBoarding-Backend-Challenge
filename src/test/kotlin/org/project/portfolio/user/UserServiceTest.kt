@@ -9,7 +9,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import org.project.portfolio.common.BusinessException
+import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.user.entity.User
 import java.util.*
 
