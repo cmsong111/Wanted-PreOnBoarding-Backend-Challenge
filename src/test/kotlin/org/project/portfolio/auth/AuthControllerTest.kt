@@ -14,9 +14,11 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
+@DisplayName("AuthController 테스트")
 @SpringBootTest
 @AutoConfigureMockMvc
 class AuthControllerTest {
@@ -30,7 +32,7 @@ class AuthControllerTest {
         // given
         val loginRequest: LoginRequest = LoginRequest(
             email = "test@test.com",
-            password = "password"
+            password = "Password1234~!"
         )
 
         // when
@@ -52,7 +54,7 @@ class AuthControllerTest {
         // given
         val loginRequest: LoginRequest = LoginRequest(
             email = "test@test.com",
-            password = "wrong_password"
+            password = "wrong_password1234~!"
         )
 
         // when
@@ -63,7 +65,7 @@ class AuthControllerTest {
         ).andReturn()
 
         // then
-        assertEquals(401, result.response.status)
+        assertEquals(400, result.response.status)
     }
 
     @Test
@@ -73,7 +75,7 @@ class AuthControllerTest {
         // given
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "tester@test.com",
-            password = "password",
+            password = "Password12345!!",
             phone = "010-1234-5678",
             name = "테스터"
         )
@@ -97,7 +99,7 @@ class AuthControllerTest {
         // given
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "test@test.com",
-            password = "password1234~!",
+            password = "Password1234~!",
             phone = "010-1234-5678",
             name = "테스터"
         )
@@ -111,6 +113,7 @@ class AuthControllerTest {
 
         // then
         assertEquals(400, result.response.status)
+        assertContains(result.response.contentAsString, "이미")
     }
 
     @Test
@@ -119,7 +122,7 @@ class AuthControllerTest {
         // given
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "test",
-            password = "password1234~!",
+            password = "Password1234~!",
             phone = "010-1234-5678",
             name = "테스터"
         )
@@ -133,6 +136,7 @@ class AuthControllerTest {
 
         // then
         assertEquals(400, result.response.status)
+        assertContains(result.response.contentAsString, "이메일")
     }
 
     @Test
@@ -141,8 +145,8 @@ class AuthControllerTest {
         // given
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "test123@test.com",
-            password = "password1234~!",
-            phone = "my_phone_number_is_010-1234-5678",
+            password = "Password1234~!",
+            phone = "I am not a phone number",
             name = "테스터"
         )
 
@@ -155,6 +159,7 @@ class AuthControllerTest {
 
         // then
         assertEquals(400, result.response.status)
+        assertContains(result.response.contentAsString, "전화번호")
     }
 
     @Test
@@ -163,8 +168,8 @@ class AuthControllerTest {
         // given
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "test123@test.com",
-            password = "password1234~!",
-            phone = "my_phone_number_is_010-1234-5678",
+            password = "Password1234~!",
+            phone = "010-1234-5678",
             name = "테스터123@*(&$(*@$&*(^<h1>"
         )
 
@@ -177,6 +182,7 @@ class AuthControllerTest {
 
         // then
         assertEquals(400, result.response.status)
+        assertContains(result.response.contentAsString, "이름")
     }
 
     @Test
@@ -186,8 +192,31 @@ class AuthControllerTest {
         val registerRequest: RegisterRequest = RegisterRequest(
             email = "test123@test.com",
             password = "password",
-            phone = "my_phone_number_is_010-1234-5678",
+            phone = "010-1234-5678",
             name = "테스터"
+        )
+
+        // when
+        val result: MvcResult = mvc.perform(
+            post("/api/v1/auth/register")
+                .content(ObjectMapper().writeValueAsString(registerRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andReturn()
+
+        // then
+        assertEquals(400, result.response.status)
+        assertContains(result.response.contentAsString, "비밀번호")
+    }
+
+    @Test
+    @DisplayName("회원가입 API 테스트 - 실패(빈 값)")
+    fun registerFailEmpty() {
+        // given
+        val registerRequest: RegisterRequest = RegisterRequest(
+            email = "",
+            password = "",
+            phone = "",
+            name = ""
         )
 
         // when

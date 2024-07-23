@@ -36,7 +36,9 @@ jwt:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
     tags-sorter: alpha
 
-
+server:
+  servlet:
+    encoding:
+      force-response: true # 한글 인코딩 반환 강제화
