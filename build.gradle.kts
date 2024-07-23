@@ -2,6 +2,8 @@ plugins {
     id("org.springframework.boot") version "3.3.2"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jetbrains.dokka") version "1.9.20"
+    id("org.sonarqube") version "5.1.0.4882"
+    id("jacoco")
     kotlin("plugin.jpa") version "1.9.24"
     kotlin("jvm") version "1.9.24"
     kotlin("plugin.spring") version "1.9.24"
@@ -14,6 +16,10 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+jacoco {
+    toolVersion = "0.8.12"
 }
 
 repositories {
@@ -43,7 +49,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
     // JWT
-    val jwtVersion  = "0.12.6"
+    val jwtVersion = "0.12.6"
     implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
@@ -71,5 +77,12 @@ configurations.matching { it.name.startsWith("dokka") }.configureEach {
         if (requested.group.startsWith("com.fasterxml.jackson")) {
             useVersion("2.15.3")
         }
+    }
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        html.required.set(false)
     }
 }
