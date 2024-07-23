@@ -1,6 +1,8 @@
 package org.project.portfolio.config
 
 import org.project.portfolio.auth.AuthService
+import org.project.portfolio.auth.CustomAccessDeniedHandler
+import org.project.portfolio.auth.CustomAuthenticationEntryPoint
 import org.project.portfolio.auth.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 class SecurityConfig(
     private val authService: AuthService,
-    private val jwtAuthFilter: JwtAuthFilter
+    private val jwtAuthFilter: JwtAuthFilter,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler
 ) {
 
     /** 허용 URL 목록 */
@@ -45,6 +49,10 @@ class SecurityConfig(
             }
             .userDetailsService(authService)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling {
+                it.authenticationEntryPoint(customAuthenticationEntryPoint)
+                it.accessDeniedHandler(customAccessDeniedHandler)
+            }
             .build()
     }
 }
