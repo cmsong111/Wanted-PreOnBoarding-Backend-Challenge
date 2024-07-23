@@ -83,6 +83,6 @@ configurations.matching { it.name.startsWith("dokka") }.configureEach {
 tasks.jacocoTestReport {
     reports {
         xml.required.set(true)
-        html.required.set(false)
+        html.required.set(true)
     }
 }
