@@ -13,7 +13,7 @@ import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
 import org.project.portfolio.common.BusinessException
-import org.project.portfolio.user.User
+import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder

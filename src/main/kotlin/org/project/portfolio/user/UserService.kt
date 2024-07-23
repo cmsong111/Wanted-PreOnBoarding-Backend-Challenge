@@ -2,6 +2,7 @@ package org.project.portfolio.user
 
 import org.project.portfolio.common.BusinessException
 import org.project.portfolio.common.ErrorCode
+import org.project.portfolio.user.entity.User
 import org.springframework.stereotype.Service
 
 @Service

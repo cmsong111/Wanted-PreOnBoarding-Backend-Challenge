@@ -1,4 +1,4 @@
-package org.project.portfolio.user
+package org.project.portfolio.user.entity
 
 import org.springframework.security.core.GrantedAuthority
 
