@@ -4,7 +4,6 @@ import org.project.portfolio.article.entity.Article
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
 import org.project.portfolio.user.UserRepository
-import org.project.portfolio.user.entity.Role
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -23,17 +22,13 @@ class ArticleChecker(
      * @return 수정 가능 여부 (true: 수정 가능, false: 수정 불가능)
      */
     fun isEditable(id: Long): Boolean {
+        // 게시글이 존재하지 않는 경우 수정 불가능
         val article: Article = articleRepository.findById(id).orElseThrow() {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
-        val authentication: Authentication = SecurityContextHolder.getContext().authentication
 
-        // 관리자인 경우 수정 가능
-        if (authentication.authorities.contains(Role.ADMIN)) {
-            return true
-        }
         // 작성자가 아닌 경우 수정 불가능
-        if (authentication.name != article.author.email) {
+        if (!isAuthor(id)) {
             return false
         }
 
@@ -42,5 +37,17 @@ class ArticleChecker(
         val diff: Long = now.time - article.createdAt.time
         val diffDays: Long = diff / (24 * 60 * 60 * 1000)
         return diffDays < 10
+    }
+
+    /**
+     * 본인 게시글 여부 확인
+     */
+    fun isAuthor(id: Long): Boolean {
+        val article: Article = articleRepository.findById(id).orElseThrow() {
+            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
+        }
+        val authentication: Authentication = SecurityContextHolder.getContext().authentication
+
+        return authentication.name == article.author.email
     }
 }

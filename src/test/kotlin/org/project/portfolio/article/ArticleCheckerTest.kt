@@ -36,39 +36,6 @@ class ArticleCheckerTest {
 
 
     @Test
-    @DisplayName("게시글 수정 가능 - 관리자")
-    fun isEditable() {
-        // given
-        val user: User = User(
-            email = "test@test.com",
-            password = "Password1234~!",
-            name = "홍길동",
-            phone = "010-1234-5678"
-        )
-        user.addRole(Role.ADMIN)
-
-        val author: User = User(
-            email = "user@test.com",
-            password = "Password1234~!",
-            name = "홍길동",
-            phone = "010-1234-5678"
-        )
-
-        val article: Article = Article(
-            title = "제목",
-            content = "내용",
-            author = author
-        )
-
-        val context: SecurityContext = SecurityContextHolder.getContext()
-        context.authentication = UsernamePasswordAuthenticationToken(user.email, user.password, user.authorities)
-
-        Mockito.`when`(articleRepository.findById(1L)).thenReturn(Optional.of(article))
-
-        assertTrue { articleChecker.isEditable(1L) }
-    }
-
-    @Test
     @DisplayName("게시글 수정 가능 - 작성자 본인")
     fun isEditable2() {
         // given

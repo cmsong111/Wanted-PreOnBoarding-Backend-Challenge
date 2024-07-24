@@ -87,7 +87,6 @@ class AuthServiceTest {
         Mockito.`when`(passwordEncoder.encode(registerRequest.password)).thenReturn("encodedPassword")
         Mockito.`when`(jwtProvider.createToken(registerRequest.email!!)).thenReturn("token")
 
-
         // when
         val result: TokenResponse = authService.register(registerRequest)
 

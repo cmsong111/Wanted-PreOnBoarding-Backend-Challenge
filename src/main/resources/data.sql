@@ -12,7 +12,7 @@ values ('test@test.com', 'ADMIN'),
 -- 게시글 더미 데이터
 -- @SoftDelete에서 NULL을 허용하지 않기 때문에, 삭제 되지 않음을 표현하기 위해서 TimeStamp(0)값을 넣어줌
 insert into article (deleted_at, updated_at, created_at, title, content, author_email)
-values ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 1', '1번 테스트 게시글입니다', 'test@test.com'),
+values ('1970-01-01 09:00:00', '2000-03-11 09:00:00', '2000-03-11 09:00:00', '테스트 게시글 1', '1번 테스트 게시글입니다', 'test@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 2', '2번 테스트 게시글입니다', 'test@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 3', '3번 테스트 게시글입니다', 'test@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 4', '4번 테스트 게시글입니다', 'test@test.com'),
@@ -22,7 +22,7 @@ values ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 8', '8번 테스트 게시글입니다', 'test@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 9', '9번 테스트 게시글입니다', 'test@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 10', '10번 테스트 게시글입니다', 'test@test.com'),
-       ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 11', '11번 테스트 게시글입니다', 'user@test.com'),
+       ('1970-01-01 09:00:00', '2000-03-11 09:00:00', '2000-03-11 09:00:00', '테스트 게시글 11', '11번 테스트 게시글입니다', 'user@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 12', '12번 테스트 게시글입니다', 'user@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 13', '13번 테스트 게시글입니다', 'user@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 14', '14번 테스트 게시글입니다', 'user@test.com'),
