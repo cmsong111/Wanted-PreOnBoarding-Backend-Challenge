@@ -1,5 +1,6 @@
-package org.project.portfolio.common
+package org.project.portfolio.exception_handler
 
+import org.project.portfolio.exception_handler.dto.ApiResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -43,17 +44,8 @@ class GlobalExceptionHandler {
                 )
             )
     }
-
-    /** API 응답 */
-    inner class ApiResponse(
-        val resultCode: String,
-        val resultMessage: String
-    ) {
-        override fun toString(): String {
-            return "ApiResponse(resultCode='$resultCode', resultMessage='$resultMessage')"
-        }
-    }
 }
+
 
 
 

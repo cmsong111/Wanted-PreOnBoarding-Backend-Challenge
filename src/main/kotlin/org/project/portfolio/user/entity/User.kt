@@ -34,6 +34,11 @@ class User(
         return roles.toMutableSet()
     }
 
+    /** 계정 역할 부여  */
+    fun addRole(role: Role) {
+        roles.add(role)
+    }
+
     /** 패드워드 Getter */
     override fun getPassword(): String {
         return password

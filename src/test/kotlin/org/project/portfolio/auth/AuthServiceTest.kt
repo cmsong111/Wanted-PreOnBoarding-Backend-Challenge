@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
-import org.project.portfolio.common.BusinessException
+import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
@@ -86,7 +86,6 @@ class AuthServiceTest {
         Mockito.`when`(userRepository.existsById(registerRequest.email!!)).thenReturn(false)
         Mockito.`when`(passwordEncoder.encode(registerRequest.password)).thenReturn("encodedPassword")
         Mockito.`when`(jwtProvider.createToken(registerRequest.email!!)).thenReturn("token")
-
 
         // when
         val result: TokenResponse = authService.register(registerRequest)
