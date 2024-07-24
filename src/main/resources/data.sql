@@ -39,3 +39,7 @@ values ('1970-01-01 09:00:00', '2000-03-11 09:00:00', '2000-03-11 09:00:00', '�
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 25', '25번 테스트 게시글입니다', 'user@test.com'),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 26', '26번 테스트 게시글입니다', 'user@test.com');
 
+
+insert into notification (title, content, receiver_email, sender, deleted_at, created_at, updated_at)
+values ('테스트 알림 1', '1번 테스트 알림입니다', 'user@test.com', 'system', '1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       ('테스트 알림 2', '2번 테스트 알림입니다', 'user@test.com', 'system', '1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
