@@ -135,3 +135,6 @@ HELP.md
 logs/
 bin
 !dd-java-agent.jar
+
+data/
+data/**
