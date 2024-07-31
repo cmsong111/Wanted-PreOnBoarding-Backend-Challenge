@@ -5,8 +5,8 @@ import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
-import org.project.portfolio.user.UserRepository
 import org.project.portfolio.user.entity.User
+import org.project.portfolio.user.repository.UserRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder

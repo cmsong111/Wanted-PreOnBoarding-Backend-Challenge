@@ -1,9 +1,10 @@
 package org.project.portfolio.article
 
 import org.project.portfolio.article.entity.Article
+import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
-import org.project.portfolio.user.UserRepository
+import org.project.portfolio.user.repository.UserRepository
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component

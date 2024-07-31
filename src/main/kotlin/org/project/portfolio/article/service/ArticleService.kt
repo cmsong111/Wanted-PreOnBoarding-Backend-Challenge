@@ -1,17 +1,18 @@
-package org.project.portfolio.article
+package org.project.portfolio.article.service
 
 import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.article.entity.Article
+import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
-import org.project.portfolio.user.UserRepository
 import org.project.portfolio.user.entity.User
+import org.project.portfolio.user.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
 
     /**
@@ -75,7 +76,7 @@ class ArticleService(
      */
     fun deleteArticle(id: Long) {
         // 게시글 조회
-        val article: Article = articleRepository.findById(id).orElseThrow() {
+        articleRepository.findById(id).orElseThrow() {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
         // 게시글 삭제
