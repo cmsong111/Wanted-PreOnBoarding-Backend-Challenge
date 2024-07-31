@@ -45,7 +45,7 @@ class NotificationServiceTest {
             )
         )
 
-        Mockito.`when`(notificationRepository.findByReceiver_EmailOrderByCreatedAtDesc(email, PageRequest.of(0, 10))).thenReturn(notifications)
+        Mockito.`when`(notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email, PageRequest.of(0, 10))).thenReturn(notifications)
         val emitter = notificationService.notificationSubscribe(email)
 
         assertNotNull(emitter)
@@ -148,7 +148,7 @@ class NotificationServiceTest {
                 sender = "admin"
             )
         )
-        Mockito.`when`(notificationRepository.findByReceiver_EmailOrderByCreatedAtDesc(email)).thenReturn(notifications)
+        Mockito.`when`(notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email)).thenReturn(notifications)
 
         // when
         val notificationList: List<Notification> = notificationService.getNotifications(email)

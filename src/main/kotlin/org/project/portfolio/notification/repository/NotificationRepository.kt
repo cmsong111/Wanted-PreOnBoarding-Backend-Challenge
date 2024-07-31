@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 interface NotificationRepository : JpaRepository<Notification, Long> {
 
     /** 수신자 이메일로 알림 조회 (페이징) */
-    fun findByReceiver_EmailOrderByCreatedAtDesc(email: String, pageable: Pageable): List<Notification>
-    fun findByReceiver_EmailOrderByCreatedAtDesc(email: String): List<Notification>
+    fun findByReceiverEmailOrderByCreatedAtDesc(email: String, pageable: Pageable): List<Notification>
+    fun findByReceiverEmailOrderByCreatedAtDesc(email: String): List<Notification>
 
 }

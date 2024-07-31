@@ -25,7 +25,7 @@ class NotificationService(
         val emitter = SseEmitter(Long.MAX_VALUE)
         emitter.send(SseEmitter.event().name("system").data("connected"))
         // 최근 10개의 알림을 전송
-        notificationRepository.findByReceiver_EmailOrderByCreatedAtDesc(email, PageRequest.of(0, 10)).forEach {
+        notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email, PageRequest.of(0, 10)).forEach {
             emitter.send(SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(it)))
         }
         emitters[email] = emitter
@@ -68,7 +68,7 @@ class NotificationService(
      * @param email 사용자 이메일
      */
     fun getNotifications(email: String): List<Notification> {
-        return notificationRepository.findByReceiver_EmailOrderByCreatedAtDesc(email)
+        return notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email)
     }
 
 

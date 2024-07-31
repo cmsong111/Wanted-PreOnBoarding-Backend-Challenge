@@ -76,7 +76,7 @@ class ArticleService(
      */
     fun deleteArticle(id: Long) {
         // 게시글 조회
-        val article: Article = articleRepository.findById(id).orElseThrow() {
+        articleRepository.findById(id).orElseThrow() {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
         // 게시글 삭제
