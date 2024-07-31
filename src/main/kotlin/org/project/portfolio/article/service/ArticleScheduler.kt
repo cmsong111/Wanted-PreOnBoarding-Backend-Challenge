@@ -2,6 +2,7 @@ package org.project.portfolio.article.service
 
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
+import org.project.portfolio.notification.dto.NotificationRequestDto
 import org.project.portfolio.notification.service.NotificationService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,9 +31,12 @@ class ArticleScheduler(
         logger.info("조회된 게시글 수: ${articles.size}")
         articles.forEach {
             notificationService.sendNotification(
-                it.author.email,
-                "게시글 수정가능 알림",
-                "게시글 '${it.title}'이 내일까지 수정가능합니다",
+                NotificationRequestDto(
+                    title = "게시글 수정가능 알림",
+                    content = "게시글 '${it.title}'이 내일까지 수정가능합니다",
+                    receiver = it.author.email,
+                    sender = "system"
+                ),
                 "system"
             )
         }

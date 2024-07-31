@@ -1,6 +1,7 @@
 package org.project.portfolio.notification.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.project.portfolio.notification.dto.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
 import org.project.portfolio.notification.repository.NotificationRepository
 import org.project.portfolio.user.entity.User
@@ -32,12 +33,12 @@ class NotificationService(
     }
 
     /** 알림 발송 API */
-    fun sendNotification(email: String?, title: String, content: String, sender: String) {
+    fun sendNotification(notificationRequestDto: NotificationRequestDto, sender: String) {
         // 전체 알림인 경우
-        if (email == null) {
+        if (notificationRequestDto.receiver == null) {
             // 알림 저장
             userRepository.findAll().forEach {
-                val notification = saveNotification(title, content, it, sender)
+                val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[notification.receiver.email]?.send(
                     SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification))
                 )
@@ -45,19 +46,19 @@ class NotificationService(
         }
         // 특정 사용자에게 알림을 보내는 경우
         else {
-            userRepository.findById(email).orElseThrow().let {
-                val notification = saveNotification(title, content, it, sender)
+            userRepository.findById(notificationRequestDto.receiver).orElseThrow().let {
+                val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[it.email]?.send(SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification)))
             }
         }
     }
 
-    private fun saveNotification(title: String, content: String, receiver: User, sender: String): Notification {
+    private fun saveNotification(notificationRequestDto: NotificationRequestDto, receiver: User, sender: String): Notification {
         val notification: Notification = Notification(
-            title = title,
-            content = content,
+            title = notificationRequestDto.title!!,
+            content = notificationRequestDto.content!!,
             receiver = receiver,
-            sender = sender
+            sender = notificationRequestDto.sender ?: sender
         )
         return notificationRepository.save(notification)
     }

@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
+import org.project.portfolio.notification.dto.NotificationRequestDto
 import org.project.portfolio.notification.service.NotificationService
 import org.project.portfolio.user.entity.User
 import java.sql.Timestamp
@@ -51,7 +52,7 @@ class ArticleSchedulerTest {
         Mockito.`when`(articleRepository.findByCreatedAtBetween(any<Timestamp>(), any<Timestamp>()))
             .thenReturn(articles)
         Mockito.doNothing().`when`(notificationService)
-            .sendNotification(any(), any(), any(), any())
+            .sendNotification(any<NotificationRequestDto>(), any())
 
         // when
         articleScheduler.sendArticleUpdateNotification()
