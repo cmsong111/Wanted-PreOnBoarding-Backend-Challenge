@@ -1,18 +1,19 @@
 package org.project.portfolio.article
 
+import com.amazonaws.services.s3.AmazonS3
 import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
 import org.project.portfolio.user.UserRepository
 import org.project.portfolio.user.entity.User
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
+    private val amazonS3: AmazonS3,
 ) {
 
     /**

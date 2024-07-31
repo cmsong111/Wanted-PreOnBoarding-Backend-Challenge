@@ -24,10 +24,10 @@ spring:
       host: localhost
       port: 6379
 
-
   sql:
     init:
       mode: always
+
 
 jwt:
   secret-key: ${JWT_SECRET:dGhpcy1pcy1zZWNyZXQta2V5LXJlcGxhY2Utd2l0aC15b3VyLW93bi1zZWNyZXQta2V5} # this-is-secret-key-replace-with-your-own-secret-key with BASE64 encoded
@@ -35,8 +35,6 @@ jwt:
 
 minio:
   url: http://localhost:9000
-  access-key: username
-  secret-key: password
 
 springdoc:
   swagger-ui:
@@ -46,3 +44,13 @@ server:
   servlet:
     encoding:
       force-response: true # 한글 인코딩 반환 강제화
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY:username}
+      secret-key: ${AWS_SECRET_KEY:password}
+    region:
+      static: kr-busan-1
+
+

@@ -46,7 +46,7 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
     testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-    implementation("io.minio:minio:8.5.11")
+    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
