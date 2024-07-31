@@ -11,8 +11,8 @@ import java.sql.Timestamp
 
 @Component
 class ArticleScheduler(
-    val articleRepository: ArticleRepository,
-    val notificationService: NotificationService,
+    private val articleRepository: ArticleRepository,
+    private val notificationService: NotificationService,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(ArticleScheduler::class.java)
 
