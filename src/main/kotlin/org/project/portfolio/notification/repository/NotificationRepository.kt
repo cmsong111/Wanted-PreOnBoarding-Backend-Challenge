@@ -1,4 +1,4 @@
-package org.project.portfolio.notification
+package org.project.portfolio.notification.repository
 
 import org.project.portfolio.notification.entity.Notification
 import org.springframework.data.domain.Pageable

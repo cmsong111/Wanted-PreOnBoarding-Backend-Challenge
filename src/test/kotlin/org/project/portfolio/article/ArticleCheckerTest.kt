@@ -9,9 +9,9 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.article.entity.Article
+import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.user.UserRepository
-import org.project.portfolio.user.entity.Role
+import org.project.portfolio.user.repository.UserRepository
 import org.project.portfolio.user.entity.User
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContext

@@ -1,9 +1,10 @@
-package org.project.portfolio.notification
+package org.project.portfolio.notification.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.project.portfolio.notification.entity.Notification
-import org.project.portfolio.user.UserRepository
+import org.project.portfolio.notification.repository.NotificationRepository
 import org.project.portfolio.user.entity.User
+import org.project.portfolio.user.repository.UserRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter

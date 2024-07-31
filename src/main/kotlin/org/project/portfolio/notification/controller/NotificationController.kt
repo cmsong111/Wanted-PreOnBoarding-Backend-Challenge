@@ -1,4 +1,4 @@
-package org.project.portfolio.notification
+package org.project.portfolio.notification.controller
 
 
 import io.swagger.v3.oas.annotations.Operation
@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.project.portfolio.notification.entity.Notification
+import org.project.portfolio.notification.service.NotificationService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -47,13 +48,14 @@ class NotificationController(
         @RequestParam @Parameter(description = "알림 메시지 제목") title: String,
         @RequestParam @Parameter(description = "알림 메시지 내용") content: String,
         @RequestParam(required = false) @Parameter(description = "알람을 전달 받을 사람<br>Null인 경우 전체 알림") email: String?,
+        @RequestParam(required = false) @Parameter(description = "알림을 발송한 사람") sender: String?,
         principal: Principal
     ): ResponseEntity<String> {
         notificationService.sendNotification(
             email = email,
             title = title,
             content = content,
-            sender = principal.name
+            sender = sender ?: principal.name
         )
         return ResponseEntity.accepted().body("OK")
     }
