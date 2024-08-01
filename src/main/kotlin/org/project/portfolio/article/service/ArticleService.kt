@@ -1,5 +1,6 @@
 package org.project.portfolio.article.service
 
+import com.amazonaws.services.s3.AmazonS3
 import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
+    private val amazonS3: AmazonS3,
 ) {
 
     /**
