@@ -6,8 +6,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.project.portfolio.article.dto.ArticleRequest
+import org.project.portfolio.article.dto.ArticleResponseHeader
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.service.ArticleService
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -27,8 +30,18 @@ class ArticleController(
 
     @GetMapping
     @Operation(summary = "게시글 조회 API")
-    fun getArticles(): ResponseEntity<List<Article>> {
-        return ResponseEntity.ok(articleService.getArticles())
+    fun getArticles(
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "10") size: Int,
+        @RequestParam(required = false, defaultValue = "createdAt") sort: String,
+        @RequestParam(required = false) title: String?
+    ): ResponseEntity<List<ArticleResponseHeader>> {
+        return ResponseEntity.ok(
+            articleService.getArticles(
+                pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, sort),
+                title = title,
+            )
+        )
     }
 
     @GetMapping("/{id}")

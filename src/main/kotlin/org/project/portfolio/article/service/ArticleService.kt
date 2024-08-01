@@ -2,12 +2,14 @@ package org.project.portfolio.article.service
 
 import com.amazonaws.services.s3.AmazonS3
 import org.project.portfolio.article.dto.ArticleRequest
+import org.project.portfolio.article.dto.ArticleResponseHeader
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -22,6 +24,22 @@ class ArticleService(
      */
     fun getArticles(): List<Article> {
         return articleRepository.findAll()
+    }
+
+    /**
+     * 게시글 전체 조회 메소드
+     * @param pageable 페이징 정보 객체
+     * @param title 검색할 게시글 제목(null일 경우 전체 조회)
+     */
+    fun getArticles(pageable: Pageable, title: String?): List<ArticleResponseHeader> {
+        return articleRepository.findByTitleContains(
+            pageable = pageable,
+            title = title
+        ).map {
+            ArticleResponseHeader(
+                article = it,
+            )
+        }
     }
 
     /**
