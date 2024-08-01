@@ -158,6 +158,9 @@ class ArticleControllerIntegrationTest {
                 .content(ObjectMapper().writeValueAsString(articleRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
+            .andReturn()
+
+        assertNotNull(result.response.contentAsString)
     }
 
 
