@@ -1,4 +1,4 @@
-package org.project.portfolio.article
+package org.project.portfolio.article.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.article.entity.Article
+import org.project.portfolio.article.service.ArticleService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*

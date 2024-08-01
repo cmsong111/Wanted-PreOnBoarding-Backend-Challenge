@@ -11,6 +11,8 @@ import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.user.entity.User
+import org.project.portfolio.user.repository.UserRepository
+import org.project.portfolio.user.service.UserService
 import java.util.*
 
 /** UserService 단위 테스트 */
