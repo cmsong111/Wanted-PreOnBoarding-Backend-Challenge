@@ -19,6 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Docker Compose Up
+        run: docker-compose -f docker-compose.yml up -d
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
