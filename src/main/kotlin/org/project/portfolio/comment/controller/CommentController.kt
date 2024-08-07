@@ -17,9 +17,9 @@ import java.security.Principal
 @RequestMapping("/api/v1/articles/{articleId}/comments")
 @Tag(name = "4. Comments", description = "API for managing comments")
 @SecurityRequirement(name = "Bearer Authentication")
-class CommentController(private val commentService: CommentService) {
-
-
+class CommentController(
+    private val commentService: CommentService
+) {
     @PostMapping
     @Operation(summary = "Create a new comment for a specific article")
     fun createComment(

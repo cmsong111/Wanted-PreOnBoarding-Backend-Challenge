@@ -2,19 +2,23 @@ package org.project.portfolio.article.service
 
 import com.amazonaws.services.s3.AmazonS3
 import org.project.portfolio.article.dto.ArticleRequest
+import org.project.portfolio.article.dto.ArticleResponseDetail
 import org.project.portfolio.article.dto.ArticleResponseHeader
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
+import org.project.portfolio.comment.repository.CommentRepository
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
+    private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
     private val amazonS3: AmazonS3,
 ) {
@@ -46,10 +50,13 @@ class ArticleService(
      * 게시글 단일 조회 메소드
      * @param id 게시글 ID
      */
-    fun getArticle(id: Long): Article {
-        return articleRepository.findById(id).orElseThrow() {
-            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
-        }
+    fun getArticle(id: Long): ArticleResponseDetail {
+        return ArticleResponseDetail(
+            article = articleRepository.findById(id).orElseThrow() {
+                BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
+            },
+            commentList = commentRepository.findByArticleId(id, Sort.by(Sort.Direction.ASC, "createdAt"))
+        )
     }
 
     /**

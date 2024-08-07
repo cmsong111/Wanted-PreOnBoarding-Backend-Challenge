@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.project.portfolio.article.dto.ArticleRequest
+import org.project.portfolio.article.dto.ArticleResponseDetail
 import org.project.portfolio.article.dto.ArticleResponseHeader
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.service.ArticleService
@@ -48,7 +49,7 @@ class ArticleController(
     @Operation(summary = "게시글 상세 조회 API")
     fun getArticle(
         @PathVariable @Parameter(description = "게시글 ID") id: Long
-    ): ResponseEntity<Article> {
+    ): ResponseEntity<ArticleResponseDetail> {
         return ResponseEntity.ok(articleService.getArticle(id))
     }
 
