@@ -52,7 +52,7 @@ class ArticleService(
     @Transactional
     fun getArticle(id: Long, ip: String): ArticleResponseDetail {
         // 게시글 조회
-        val article: Article = articleRepository.findById(id).orElseThrow() {
+        val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
 

@@ -54,7 +54,7 @@ class NotificationService(
     }
 
     private fun saveNotification(notificationRequestDto: NotificationRequestDto, receiver: User, sender: String): Notification {
-        val notification: Notification = Notification(
+        val notification = Notification(
             title = notificationRequestDto.title!!,
             content = notificationRequestDto.content!!,
             receiver = receiver,

@@ -18,29 +18,10 @@ class CommentChecker(
      * @return Whether the user is the author of the comment (true: author, false: not author)
      */
     fun isAuthor(commentId: Long): Boolean {
-        val comment: Comment = commentRepository.findById(commentId).orElseThrow() {
+        val comment: Comment = commentRepository.findById(commentId).orElseThrow {
             BusinessException(ErrorCode.COMMENT_NOT_FOUND)
         }
 
         return comment.author.email == SecurityContextHolder.getContext().authentication.name
     }
-
-    /**
-     * Check if the comment is related to the article
-     */
-    fun isArticleComment(articleId: Long, commentId: Long): Boolean {
-        val comment: Comment = commentRepository.findById(commentId).orElseThrow() {
-            BusinessException(ErrorCode.COMMENT_NOT_FOUND)
-        }
-
-        return comment.article.id == articleId
-    }
-
-    /**
-     * Check if the comment is editable
-     */
-    fun isEditable(articleId: Long, commentId: Long): Boolean {
-        return isAuthor(commentId) && isArticleComment(articleId, commentId)
-    }
-
 }

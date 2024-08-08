@@ -4,7 +4,6 @@ import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.exception_handler.BusinessException
 import org.project.portfolio.exception_handler.ErrorCode
-import org.project.portfolio.user.repository.UserRepository
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -33,7 +32,7 @@ class ArticleChecker(
         }
 
         // 작성 후 10일이 지나지 않은 경우 수정 가능
-        val now: Date = Date()
+        val now = Date()
         val diff: Long = now.time - article.createdAt.time
         val diffDays: Long = diff / (24 * 60 * 60 * 1000)
         return diffDays < 10

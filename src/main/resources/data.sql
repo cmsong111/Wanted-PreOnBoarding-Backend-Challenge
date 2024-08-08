@@ -4,6 +4,7 @@ values ('test@test.com', 'test', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBza
         '010-0000-0000', '1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
        ('user@test.com', 'user', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
         '010-1234-1234', '1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
 insert into user_roles (user_email, roles)
 values ('test@test.com', 'ADMIN'),
        ('test@test.com', 'USER'),

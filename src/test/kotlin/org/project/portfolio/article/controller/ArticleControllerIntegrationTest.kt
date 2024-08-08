@@ -1,4 +1,4 @@
-package org.project.portfolio.article
+package org.project.portfolio.article.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional

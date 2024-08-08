@@ -11,7 +11,10 @@ import org.project.portfolio.notification.service.NotificationService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.security.Principal
 
@@ -22,9 +25,6 @@ import java.security.Principal
 class NotificationController(
     private val notificationService: NotificationService
 ) {
-
-    /** 현재 연결된 모든 SSE 클라이언트 */
-    private val emitters: MutableList<SseEmitter> = mutableListOf()
 
     @Operation(summary = "알림 구독 API", description = "Client 측에서 SSE 신호를 처리하기 위해 Event-Source-Polyfill와 같은 라이브러리를 사용해야 함")
     @GetMapping(path = ["/subscribe"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])

@@ -14,7 +14,7 @@ import java.net.URI
 import java.security.Principal
 
 @RestController
-@RequestMapping("/api/v1/articles/{articleId}/comments")
+@RequestMapping("/api/v1/article/{articleId}/comment")
 @Tag(name = "4. Comments", description = "API for managing comments")
 @SecurityRequirement(name = "Bearer Authentication")
 class CommentController(
@@ -27,27 +27,30 @@ class CommentController(
         @PathVariable articleId: Long,
         @Valid @RequestBody commentRequest: CommentRequest
     ): ResponseEntity<CommentResponse> {
+        println("create request method is called")
         val comment = commentService.createComment(principal.name, articleId, commentRequest)
+        println("comment: $comment")
         return ResponseEntity.created(URI.create("/api/v1/articles/${articleId}/comments/${comment.id}")).body(comment)
     }
 
     @PatchMapping("/{id}")
     @Operation(summary = "Update an existing comment")
-    @PreAuthorize("@commentChecker.isEditable(#articleId, #id)")
+    @PreAuthorize("@commentChecker.isAuthor(#id)")
     fun updateComment(
         principal: Principal,
         @PathVariable articleId: Long,
         @PathVariable id: Long,
         @Valid @RequestBody commentRequest: CommentRequest
     ): ResponseEntity<CommentResponse> {
-        return ResponseEntity.ok(commentService.updateComment(articleId, id, commentRequest))
+        println("update request method is called")
+        return ResponseEntity.ok(commentService.updateComment(id, commentRequest))
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete an existing comment")
-    @PreAuthorize("@commentChecker.isEditable(#articleId, #id)")
+    @PreAuthorize("@commentChecker.isAuthor(#id)")
     fun deleteComment(@PathVariable articleId: Long, @PathVariable id: Long): ResponseEntity<Unit> {
-        commentService.deleteComment(articleId, id)
+        commentService.deleteComment(id)
         return ResponseEntity.noContent().build()
     }
 }
