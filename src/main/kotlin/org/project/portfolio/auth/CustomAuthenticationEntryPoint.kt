@@ -21,7 +21,7 @@ class CustomAuthenticationEntryPoint(
         response: HttpServletResponse,
         authException: AuthenticationException
     ) {
-        val token: String? = jwtProvider.resolveToken(request);
+        val token: String? = jwtProvider.resolveToken(request)
 
         if (token.isNullOrEmpty()) {
             ApiResponse(

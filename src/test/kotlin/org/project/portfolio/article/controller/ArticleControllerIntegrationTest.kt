@@ -1,4 +1,4 @@
-package org.project.portfolio.article
+package org.project.portfolio.article.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
@@ -158,6 +158,9 @@ class ArticleControllerIntegrationTest {
                 .content(ObjectMapper().writeValueAsString(articleRequest))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
+            .andReturn()
+
+        assertNotNull(result.response.contentAsString)
     }
 
 

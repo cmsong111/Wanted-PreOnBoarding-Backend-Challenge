@@ -8,6 +8,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
@@ -28,15 +29,24 @@ class RedisConfig(
     @Bean
     fun cacheManager(): RedisCacheManager {
         return RedisCacheManager.builder(redisConnectionFactory()).cacheDefaults(
-                RedisCacheConfiguration.defaultCacheConfig()
-                    // Set cache expiration to 10 seconds
-                    .entryTtl(Duration.ofSeconds(60))
-                    // Serialize values with GenericJackson2JsonRedisSerializer
-                    .serializeValuesWith(
-                        RedisSerializationContext.SerializationPair.fromSerializer(
-                            GenericJackson2JsonRedisSerializer()
-                        )
+            RedisCacheConfiguration.defaultCacheConfig()
+                // Set cache expiration to 10 seconds
+                .entryTtl(Duration.ofSeconds(60))
+                // Serialize values with GenericJackson2JsonRedisSerializer
+                .serializeValuesWith(
+                    RedisSerializationContext.SerializationPair.fromSerializer(
+                        GenericJackson2JsonRedisSerializer()
                     )
-            ).build()
+                )
+        ).build()
+    }
+
+    @Bean
+    fun redisTemplate(): RedisTemplate<String, Any> {
+        val redisTemplate = RedisTemplate<String, Any>()
+        redisTemplate.keySerializer = GenericJackson2JsonRedisSerializer()
+        redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer()
+        redisTemplate.connectionFactory = redisConnectionFactory()
+        return redisTemplate
     }
 }
