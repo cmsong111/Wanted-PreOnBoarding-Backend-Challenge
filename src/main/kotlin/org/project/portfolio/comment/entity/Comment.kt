@@ -1,6 +1,8 @@
 package org.project.portfolio.comment.entity
 
 import jakarta.persistence.*
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.common.BaseEntity
 import org.project.portfolio.user.entity.User
@@ -16,6 +18,7 @@ class Comment(
 
     /** 게시글 */
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     var article: Article,
 
     /** 댓글 작성자 */

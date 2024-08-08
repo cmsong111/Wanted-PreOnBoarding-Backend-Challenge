@@ -131,4 +131,14 @@ class ArticleService(
         // 게시글 삭제
         articleRepository.deleteById(id)
     }
+
+    /**
+     * 게시글 Hard 삭제 메소드
+     * @param id 게시글 ID
+     */
+    @Transactional
+    fun hardDeleteArticle(id: Long) {
+        // 게시글 Hard 삭제
+        articleRepository.hardDeleteById(id)
+    }
 }

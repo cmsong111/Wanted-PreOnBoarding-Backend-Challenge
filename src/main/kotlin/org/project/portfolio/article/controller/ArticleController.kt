@@ -92,4 +92,16 @@ class ArticleController(
         return ResponseEntity.noContent().build()
     }
 
+    @DeleteMapping("/{id}/hard")
+    @Operation(summary = "게시글 삭제 API", description = "게시글을 완전 삭제합니다. 복구가 불가능하니 주의하세요.")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    fun hardDeleteArticle(
+        principal: Principal,
+        @PathVariable @Parameter(description = "게시글 ID") id: Long
+    ): ResponseEntity<Unit> {
+        articleService.hardDeleteArticle(id)
+        return ResponseEntity.noContent().build()
+    }
+
 }
