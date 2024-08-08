@@ -13,7 +13,6 @@ import java.util.*
 @Component
 class ArticleChecker(
     private val articleRepository: ArticleRepository,
-    private val userRepository: UserRepository
 ) {
 
     /**

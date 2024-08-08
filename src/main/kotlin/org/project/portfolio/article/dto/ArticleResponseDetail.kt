@@ -20,6 +20,10 @@ data class ArticleResponseDetail(
     var createdAt: String,
     @field:Schema(description = "게시글 수정일시")
     var updatedAt: String,
+    @field:Schema(description = "게시글 수정 가능 일시")
+    var updatability: String,
+    @field:Schema(description = "조회수")
+    var viewCount: Long,
     @field:Schema(description = "댓글 목록")
     var commentList: List<CommentResponse>
 ) {
@@ -30,6 +34,8 @@ data class ArticleResponseDetail(
         author = article.author.name,
         createdAt = article.createdAt.toString(),
         updatedAt = article.updatedAt.toString(),
+        updatability = article.createdAt.toLocalDateTime().plusDays(7).toString(),
+        viewCount = article.viewCount,
         commentList = commentList.map { CommentResponse(it) }
     )
 }

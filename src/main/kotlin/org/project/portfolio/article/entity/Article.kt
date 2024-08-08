@@ -3,6 +3,7 @@ package org.project.portfolio.article.entity
 import jakarta.persistence.*
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
+import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.common.BaseEntity
 import org.project.portfolio.user.entity.User
 
@@ -28,13 +29,16 @@ class Article(
     /** 게시글 작성자 */
     @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    var author: User
+    var author: User,
+
+    /** 조회수 */
+    var viewCount: Long = 0
 
 ) : BaseEntity() {
 
-    fun update(title: String, content: String) {
-        this.title = title
-        this.content = content
+    fun update(articleRequest: ArticleRequest) {
+        this.title = articleRequest.title!!
+        this.content = articleRequest.content!!
     }
 
     override fun toString(): String {

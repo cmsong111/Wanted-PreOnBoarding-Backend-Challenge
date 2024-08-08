@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
+import jakarta.servlet.ServletRequest
 import jakarta.validation.Valid
 import org.project.portfolio.article.dto.ArticleRequest
 import org.project.portfolio.article.dto.ArticleResponseDetail
@@ -48,9 +49,10 @@ class ArticleController(
     @GetMapping("/{id}")
     @Operation(summary = "게시글 상세 조회 API")
     fun getArticle(
-        @PathVariable @Parameter(description = "게시글 ID") id: Long
+        @PathVariable @Parameter(description = "게시글 ID") id: Long,
+        servletRequest: ServletRequest
     ): ResponseEntity<ArticleResponseDetail> {
-        return ResponseEntity.ok(articleService.getArticle(id))
+        return ResponseEntity.ok(articleService.getArticle(id, servletRequest.remoteAddr))
     }
 
     @PostMapping
