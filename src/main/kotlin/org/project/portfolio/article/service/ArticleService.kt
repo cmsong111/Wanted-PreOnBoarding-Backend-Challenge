@@ -63,8 +63,7 @@ class ArticleService(
         if (!redisTemplate.hasKey(redisKey)) {
             article.viewCount += 1
             articleRepository.save(article)
-            redisTemplate.opsForValue().set(redisKey, true)
-            redisTemplate.expire(redisKey, 1, java.util.concurrent.TimeUnit.DAYS)
+            redisTemplate.opsForValue()[redisKey, true, 1] = java.util.concurrent.TimeUnit.DAYS
             logger.info("조회수 증가")
         }
 
