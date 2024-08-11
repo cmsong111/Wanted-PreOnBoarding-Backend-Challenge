@@ -55,14 +55,14 @@ class ArticleController(
         return ResponseEntity.ok(articleService.getArticle(id, servletRequest.remoteAddr))
     }
 
-    @PostMapping
+    @PostMapping(consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 생성 API")
     @SecurityRequirement(name = "Bearer Authentication")
     fun createArticle(
         principal: Principal,
-        @Valid @RequestBody @Parameter(description = "게시글 요청 폼") articleRequest: ArticleRequest
-    ): ResponseEntity<Article> {
-        val article: Article = articleService.createArticle(principal.name, articleRequest)
+        @Valid @ModelAttribute articleRequest: ArticleRequest
+    ): ResponseEntity<ArticleResponseDetail> {
+        val article: ArticleResponseDetail = articleService.createArticle(principal.name, articleRequest)
         return ResponseEntity
             .created(URI.create("/api/v1/article/${article.id}"))
             .body(article)

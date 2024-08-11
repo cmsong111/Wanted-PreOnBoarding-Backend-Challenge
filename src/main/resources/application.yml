@@ -28,6 +28,11 @@ spring:
     init:
       mode: always
 
+  servlet:
+    multipart:
+      # File Max Size 15MB
+      max-file-size: 15MB
+      max-request-size: 15MB
 
 jwt:
   secret-key: ${JWT_SECRET:dGhpcy1pcy1zZWNyZXQta2V5LXJlcGxhY2Utd2l0aC15b3VyLW93bi1zZWNyZXQta2V5} # this-is-secret-key-replace-with-your-own-secret-key with BASE64 encoded
@@ -52,5 +57,7 @@ cloud:
       secret-key: ${AWS_SECRET_KEY:password}
     region:
       static: kr-busan-1
+    s3:
+      bucket: article
 
 
