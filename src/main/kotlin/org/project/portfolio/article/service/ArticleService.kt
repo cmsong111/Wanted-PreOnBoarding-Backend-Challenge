@@ -130,17 +130,39 @@ class ArticleService(
      * @param articleRequest 게시글 요청 DTO
      */
     @Transactional
-    fun updateArticle(id: Long, articleRequest: ArticleRequest): Article {
+    fun updateArticle(id: Long, articleRequest: ArticleRequest): ArticleResponseDetail {
         // 게시글 조회
         val article: Article = articleRepository.findById(id).orElseThrow() {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
+        }
+
+        // 수정 요첨 폼에 이미지가 있을 경우
+        val image: Image? = articleRequest.image?.let {
+            val url = storageService.uploadFile(it)
+            imageRepository.findByArticleId(id)?.let {
+                // 이미 존재하는 이미지가 있을 경우
+                it.url = url
+                imageRepository.save(it)
+            } ?: run {
+                // 이미 존재하는 이미지가 없을 경우
+                imageRepository.save(
+                    Image(
+                        url = url,
+                        article = article
+                    )
+                )
+            }
         }
 
         // 게시글 수정
         article.update(articleRequest)
 
         // 게시글 저장 및 반환
-        return articleRepository.save(article)
+        return ArticleResponseDetail(
+            article = articleRepository.save(article),
+            commentList = commentRepository.findByArticleId(id, Sort.by(Sort.Direction.ASC, "createdAt")),
+            image = image
+        )
     }
 
     /**
@@ -166,6 +188,20 @@ class ArticleService(
     fun hardDeleteArticle(id: Long) {
         // 게시글 Hard 삭제
         articleRepository.hardDeleteById(id)
+    }
+
+    @Transactional
+    fun deleteArticleImage(id: Long) {
+        // 게시글 조회
+        articleRepository.findById(id).orElseThrow() {
+            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
+        }
+
+        // 이미지 조회
+        val image: Image = imageRepository.findByArticleId(id) ?: throw BusinessException(ErrorCode.IMAGE_NOT_FOUND)
+
+        // 이미지 삭제
+        imageRepository.delete(image)
     }
 
 }

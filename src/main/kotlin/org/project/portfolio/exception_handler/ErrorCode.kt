@@ -26,5 +26,7 @@ enum class ErrorCode(
     ARTICLE_AUTHOR_NOT_MATCH(HttpStatus.FORBIDDEN, "A002", "게시글 작성자와 요청자가 일치하지 않습니다."),
 
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "댓글을 찾을 수 없습니다."),
+
+    IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "I001", "이미지를 찾을 수 없습니다."),
     ;
 }

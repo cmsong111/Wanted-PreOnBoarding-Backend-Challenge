@@ -19,6 +19,6 @@ data class ArticleRequest(
     val content: String?,
 
     /** 게시글 사진 */
-    @field:Schema(description = "게시글 사진", example = "사진입니다")
+    @field:Schema(description = "게시글 사진 (수정이 필요하면 이미지를 첨부해주세요. 삭제는 API를 이용해주세요.)")
     val image: MultipartFile?
 )

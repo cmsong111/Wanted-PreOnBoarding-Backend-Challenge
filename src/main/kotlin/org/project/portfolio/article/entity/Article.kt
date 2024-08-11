@@ -36,9 +36,10 @@ class Article(
 
 ) : BaseEntity() {
 
-    fun update(articleRequest: ArticleRequest) {
+    fun update(articleRequest: ArticleRequest): Article {
         this.title = articleRequest.title!!
         this.content = articleRequest.content!!
+        return this
     }
 
     override fun toString(): String {

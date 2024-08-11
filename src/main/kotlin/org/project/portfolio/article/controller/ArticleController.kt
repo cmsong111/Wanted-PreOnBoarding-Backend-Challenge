@@ -68,15 +68,15 @@ class ArticleController(
             .body(article)
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}", consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 수정 API")
     @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isEditable(#id)")
     fun updateArticle(
         principal: Principal,
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
-        @Valid @RequestBody @Parameter(description = "게시글 요청 폼") articleRequest: ArticleRequest
-    ): ResponseEntity<Article> {
+        @Valid @ModelAttribute articleRequest: ArticleRequest
+    ): ResponseEntity<ArticleResponseDetail> {
         return ResponseEntity.ok(articleService.updateArticle(id, articleRequest))
     }
 
@@ -101,6 +101,18 @@ class ArticleController(
         @PathVariable @Parameter(description = "게시글 ID") id: Long
     ): ResponseEntity<Unit> {
         articleService.hardDeleteArticle(id)
+        return ResponseEntity.noContent().build()
+    }
+
+    @DeleteMapping("/{id}/image")
+    @Operation(summary = "게시글 이미지 삭제 API")
+    @SecurityRequirement(name = "Bearer Authentication")
+    @PreAuthorize("@articleChecker.isAuthor(#id)")
+    fun deleteArticleImage(
+        principal: Principal,
+        @PathVariable @Parameter(description = "게시글 ID") id: Long
+    ): ResponseEntity<Unit> {
+        articleService.deleteArticleImage(id)
         return ResponseEntity.noContent().build()
     }
 
