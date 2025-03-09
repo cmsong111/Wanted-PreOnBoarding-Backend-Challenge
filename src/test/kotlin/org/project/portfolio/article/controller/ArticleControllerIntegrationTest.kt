@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.transaction.Transactional
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.project.portfolio.article.dto.ArticleRequest
+import org.project.portfolio.article.controller.request.ArticleForm
 import org.project.portfolio.auth.JwtProvider
-import org.project.portfolio.exception_handler.ErrorCode
+import org.project.portfolio.common.exception.ErrorCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -62,7 +62,7 @@ class ArticleControllerIntegrationTest {
     @Transactional
     @DisplayName("게시글 생성(일반 유저) - 성공")
     fun createArticleSuccess() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "제목입니다",
             content = "내용입니다"
         )
@@ -70,7 +70,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             post("/api/v1/article")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated)
             .andReturn()
@@ -81,7 +81,7 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 생성 제목 200글자 초과 - 실패")
     fun createArticleTitleFail() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = makeString(201),
             content = "내용입니다"
         )
@@ -89,7 +89,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             post("/api/v1/article")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest)
             .andReturn()
@@ -100,7 +100,7 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 생성 내용 2000글자 초과 - 실패")
     fun createArticleContentFail() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "제목입니다",
             content = makeString(2001)
         )
@@ -108,7 +108,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             post("/api/v1/article")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isBadRequest)
             .andReturn()
@@ -128,14 +128,14 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 생성(토큰 없음) - 실패")
     fun createArticleFailNoToken() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "제목입니다",
             content = "내용입니다"
         )
 
         val result = mvc.perform(
             post("/api/v1/article")
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isUnauthorized)
             .andReturn()
@@ -147,7 +147,7 @@ class ArticleControllerIntegrationTest {
     @Transactional
     @DisplayName("게시글 수정 작성자 - 성공")
     fun updateArticleAuthorSuccess() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
@@ -155,7 +155,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             patch("/api/v1/article/12")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
             .andReturn()
@@ -168,7 +168,7 @@ class ArticleControllerIntegrationTest {
     @Transactional
     @DisplayName("게시글 수정 관리자 - 성공")
     fun updateArticleAdminSuccess() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
@@ -176,7 +176,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             patch("/api/v1/article/12")
                 .header("Authorization", createJwtToken("test@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
     }
@@ -184,14 +184,14 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 수정 토큰 없음 - 실패")
     fun updateArticleFailNoToken() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
 
         val result = mvc.perform(
             patch("/api/v1/article/12")
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isUnauthorized)
             .andReturn()
@@ -200,7 +200,7 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 수정 타 사용자 - 실패")
     fun updateArticleFailAnotherUser() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
@@ -208,7 +208,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             patch("/api/v1/article/5")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden)
             .andReturn()
@@ -217,7 +217,7 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 수정 작성자 10일 지남 - 실패")
     fun updateArticleAuthorAfter10DaysFail() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
@@ -225,7 +225,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             patch("/api/v1/article/11")
                 .header("Authorization", createJwtToken("user@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isForbidden)
             .andReturn()
@@ -235,7 +235,7 @@ class ArticleControllerIntegrationTest {
     @Test
     @DisplayName("게시글 수정 관리자 10일 지남 - 성공")
     fun updateArticleAdminAfter10DaysSuccess() {
-        val articleRequest = ArticleRequest(
+        val articleForm = ArticleForm(
             title = "수정 제목입니다",
             content = "수정 내용입니다"
         )
@@ -243,7 +243,7 @@ class ArticleControllerIntegrationTest {
         val result = mvc.perform(
             patch("/api/v1/article/1")
                 .header("Authorization", createJwtToken("test@test.com"))
-                .content(ObjectMapper().writeValueAsString(articleRequest))
+                .content(ObjectMapper().writeValueAsString(articleForm))
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk)
             .andReturn()

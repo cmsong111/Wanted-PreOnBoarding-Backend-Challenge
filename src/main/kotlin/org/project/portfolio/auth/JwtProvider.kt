@@ -5,8 +5,8 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders.BASE64
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
-import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.exception_handler.ErrorCode
+import org.project.portfolio.common.exception.BusinessException
+import org.project.portfolio.common.exception.ErrorCode
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.*

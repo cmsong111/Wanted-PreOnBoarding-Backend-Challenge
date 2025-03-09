@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import java.sql.Timestamp
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.project.portfolio.common.entity.DeletedAtConverter
 
 @DisplayName("DeletedAtConverter 단위 테스트")
 class DeletedAtConverterTest {

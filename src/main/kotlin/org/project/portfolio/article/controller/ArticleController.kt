@@ -6,25 +6,37 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.ServletRequest
 import jakarta.validation.Valid
-import org.project.portfolio.article.dto.ArticleRequest
-import org.project.portfolio.article.dto.ArticleResponseDetail
-import org.project.portfolio.article.dto.ArticleResponseHeader
-import org.project.portfolio.article.entity.Article
-import org.project.portfolio.article.service.ArticleService
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Sort
-import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.*
 import java.net.URI
 import java.security.Principal
+import org.project.portfolio.article.controller.request.ArticleForm
+import org.project.portfolio.article.controller.response.ArticleDetailResponse
+import org.project.portfolio.article.controller.response.ArticleHeaderResponse
+import org.project.portfolio.article.service.ArticleService
+import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
+import org.springdoc.core.annotations.ParameterObject
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PatchMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * 게시글 컨트롤러
  * <p>스프링 시큐리티에서 @GET 요청에 한해 permitAll 적용</p>
  */
 @RestController
-@RequestMapping("/api/v1/article")
+@RequestMapping("/api/v1/articles")
 @Tag(name = "3. Article", description = "The article API")
 class ArticleController(
     private val articleService: ArticleService
@@ -33,14 +45,13 @@ class ArticleController(
     @GetMapping
     @Operation(summary = "게시글 조회 API")
     fun getArticles(
-        @RequestParam(required = false, defaultValue = "1") page: Int,
-        @RequestParam(required = false, defaultValue = "10") size: Int,
-        @RequestParam(required = false, defaultValue = "createdAt") sort: String,
+        @PageableDefault(page = 0, size = 10, sort = ["createdAt"], direction = Sort.Direction.DESC)
+        @ParameterObject pageable: PageRequest,
         @RequestParam(required = false) title: String?
-    ): ResponseEntity<List<ArticleResponseHeader>> {
+    ): ResponseEntity<Page<ArticleHeaderResponse>> {
         return ResponseEntity.ok(
             articleService.getArticles(
-                pageable = PageRequest.of(page - 1, size, Sort.Direction.DESC, sort),
+                pageable = pageable,
                 title = title,
             )
         )
@@ -51,18 +62,18 @@ class ArticleController(
     fun getArticle(
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
         servletRequest: ServletRequest
-    ): ResponseEntity<ArticleResponseDetail> {
+    ): ResponseEntity<ArticleDetailResponse> {
         return ResponseEntity.ok(articleService.getArticle(id, servletRequest.remoteAddr))
     }
 
     @PostMapping(consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 생성 API")
-    @SecurityRequirement(name = "Bearer Authentication")
+    @SecurityRequirement(name = BEARER_AUTH)
     fun createArticle(
-        principal: Principal,
-        @Valid @ModelAttribute articleRequest: ArticleRequest
-    ): ResponseEntity<ArticleResponseDetail> {
-        val article: ArticleResponseDetail = articleService.createArticle(principal.name, articleRequest)
+        @AuthenticationPrincipal principal: Principal,
+        @Valid @ModelAttribute articleForm: ArticleForm
+    ): ResponseEntity<ArticleDetailResponse> {
+        val article: ArticleDetailResponse = articleService.createArticle(principal.name, articleForm)
         return ResponseEntity
             .created(URI.create("/api/v1/article/${article.id}"))
             .body(article)
@@ -70,50 +81,25 @@ class ArticleController(
 
     @PatchMapping("/{id}", consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 수정 API")
-    @SecurityRequirement(name = "Bearer Authentication")
+    @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isEditable(#id)")
     fun updateArticle(
-        principal: Principal,
+        @AuthenticationPrincipal principal: Principal,
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
-        @Valid @ModelAttribute articleRequest: ArticleRequest
-    ): ResponseEntity<ArticleResponseDetail> {
-        return ResponseEntity.ok(articleService.updateArticle(id, articleRequest))
+        @Valid @ModelAttribute articleForm: ArticleForm
+    ): ResponseEntity<ArticleDetailResponse> {
+        return ResponseEntity.ok(articleService.updateArticle(id, articleForm))
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "게시글 삭제 API")
-    @SecurityRequirement(name = "Bearer Authentication")
+    @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isAuthor(#id)")
     fun deleteArticle(
-        principal: Principal,
+        @AuthenticationPrincipal principal: Principal,
         @PathVariable @Parameter(description = "게시글 ID") id: Long
     ): ResponseEntity<Unit> {
         articleService.deleteArticle(id)
         return ResponseEntity.noContent().build()
     }
-
-    @DeleteMapping("/{id}/hard")
-    @Operation(summary = "게시글 삭제 API", description = "게시글을 완전 삭제합니다. 복구가 불가능하니 주의하세요.")
-    @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    fun hardDeleteArticle(
-        principal: Principal,
-        @PathVariable @Parameter(description = "게시글 ID") id: Long
-    ): ResponseEntity<Unit> {
-        articleService.hardDeleteArticle(id)
-        return ResponseEntity.noContent().build()
-    }
-
-    @DeleteMapping("/{id}/image")
-    @Operation(summary = "게시글 이미지 삭제 API")
-    @SecurityRequirement(name = "Bearer Authentication")
-    @PreAuthorize("@articleChecker.isAuthor(#id)")
-    fun deleteArticleImage(
-        principal: Principal,
-        @PathVariable @Parameter(description = "게시글 ID") id: Long
-    ): ResponseEntity<Unit> {
-        articleService.deleteArticleImage(id)
-        return ResponseEntity.noContent().build()
-    }
-
 }

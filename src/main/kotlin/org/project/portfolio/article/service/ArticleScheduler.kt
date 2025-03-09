@@ -34,7 +34,7 @@ class ArticleScheduler(
                 NotificationRequestDto(
                     title = "게시글 수정가능 알림",
                     content = "게시글 '${it.title}'이 내일까지 수정가능합니다",
-                    receiver = it.author.email,
+                    receiver = it.author!!.email,
                     sender = "system"
                 ),
                 "system"

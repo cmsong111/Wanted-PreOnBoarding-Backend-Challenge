@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.TokenResponse
-import org.project.portfolio.exception_handler.ErrorCode
+import org.project.portfolio.common.exception.ErrorCode
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest

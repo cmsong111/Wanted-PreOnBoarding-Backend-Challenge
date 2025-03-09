@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost/article
+    url: jdbc:mariadb://localhost/portfolio
     username: root
     password: root
     driver-class-name: org.mariadb.jdbc.Driver
@@ -21,7 +21,7 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: localhost/1
       port: 6379
 
   sql:
@@ -46,6 +46,7 @@ springdoc:
     tags-sorter: alpha
 
 server:
+  forward-headers-strategy: framework
   servlet:
     encoding:
       force-response: true # 한글 인코딩 반환 강제화
@@ -59,5 +60,8 @@ cloud:
       static: kr-busan-1
     s3:
       bucket: article
+
+imgbb:
+  api-key: ${IMGBB_API_KEY:your-api-key}
 
 

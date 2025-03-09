@@ -1,7 +1,7 @@
 package org.project.portfolio.notification.entity
 
 import jakarta.persistence.*
-import org.project.portfolio.common.BaseEntity
+import org.project.portfolio.common.entity.BaseEntity
 import org.project.portfolio.user.entity.User
 
 /**

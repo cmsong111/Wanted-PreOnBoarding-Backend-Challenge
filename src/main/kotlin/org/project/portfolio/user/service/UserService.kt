@@ -1,7 +1,7 @@
 package org.project.portfolio.user.service
 
-import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.exception_handler.ErrorCode
+import org.project.portfolio.common.exception.BusinessException
+import org.project.portfolio.common.exception.ErrorCode
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.springframework.stereotype.Service

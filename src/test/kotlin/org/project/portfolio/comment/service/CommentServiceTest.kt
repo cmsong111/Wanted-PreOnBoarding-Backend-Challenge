@@ -12,16 +12,17 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.mockito.kotlin.any
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
-import org.project.portfolio.comment.dto.CommentRequest
-import org.project.portfolio.comment.dto.CommentResponse
-import org.project.portfolio.comment.entity.Comment
+import org.project.portfolio.article.controller.request.CommentForm
+import org.project.portfolio.article.controller.response.CommentResponse
+import org.project.portfolio.article.entity.Comment
 import org.project.portfolio.comment.repository.CommentRepository
-import org.project.portfolio.exception_handler.BusinessException
+import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
+import org.project.portfolio.article.service.CommentService
 
 @DisplayName("CommentService 단위 테스트")
 @ExtendWith(MockitoExtension::class)
@@ -45,7 +46,7 @@ class CommentServiceTest {
         // given
         val name: String = "test@test.com"
         val articleId: Long = 1
-        val commentRequest: CommentRequest = CommentRequest(content = "댓글 내용")
+        val commentForm: CommentForm = CommentForm(content = "댓글 내용")
         val expectedUser = User(
             email = "test@test.com",
             password = "Password1234~!",
@@ -62,7 +63,7 @@ class CommentServiceTest {
             id = 1,
             article = expectArticle,
             author = expectedUser,
-            content = commentRequest.content!!
+            content = commentForm.content!!
         )
 
         // when
@@ -71,11 +72,11 @@ class CommentServiceTest {
         Mockito.`when`(commentRepository.save(any<Comment>())).thenReturn(expectComment)
 
         // then
-        val result: CommentResponse = commentService.createComment(name, articleId, commentRequest)
+        val result: CommentResponse = commentService.createComment(name, articleId, commentForm)
 
         // expected
         assertNotEquals(result.id, 0)
-        assertEquals(result.content, commentRequest.content)
+        assertEquals(result.content, commentForm.content)
         assertEquals(result.articleId, articleId)
     }
 
@@ -85,7 +86,7 @@ class CommentServiceTest {
         // given
         val name: String = "test@test.com"
         val articleId: Long = 1
-        val commentRequest: CommentRequest = CommentRequest(content = "댓글 내용")
+        val commentForm: CommentForm = CommentForm(content = "댓글 내용")
 
 
         // when
@@ -93,7 +94,7 @@ class CommentServiceTest {
 
         // then
         assertThrows<BusinessException> {
-            commentService.createComment(name, articleId, commentRequest)
+            commentService.createComment(name, articleId, commentForm)
         }
     }
 
@@ -103,7 +104,7 @@ class CommentServiceTest {
         // given
         val name: String = "test@test.com"
         val articleId: Long = 1
-        val commentRequest: CommentRequest = CommentRequest(content = "댓글 내용")
+        val commentForm: CommentForm = CommentForm(content = "댓글 내용")
 
         val expectArticle = Article(
             id = 1,
@@ -123,7 +124,7 @@ class CommentServiceTest {
 
         // then
         assertThrows<BusinessException> {
-            commentService.createComment(name, articleId, commentRequest)
+            commentService.createComment(name, articleId, commentForm)
         }
     }
 
@@ -133,7 +134,7 @@ class CommentServiceTest {
     fun updateComment() {
         // given
         val id: Long = 1
-        val commentRequest: CommentRequest = CommentRequest(content = "댓글 내용")
+        val commentForm: CommentForm = CommentForm(content = "댓글 내용")
         val user = User(
             email = "test@test.com",
             password = "Password1234~!",
@@ -157,10 +158,10 @@ class CommentServiceTest {
         Mockito.`when`(commentRepository.save(any<Comment>())).thenReturn(expectComment)
 
         // then
-        val result: CommentResponse = commentService.updateComment(id, commentRequest)
+        val result: CommentResponse = commentService.updateComment(id, commentForm)
 
         assertEquals(result.id, id)
-        assertEquals(result.content, commentRequest.content)
+        assertEquals(result.content, commentForm.content)
     }
 
     @Test
@@ -168,14 +169,14 @@ class CommentServiceTest {
     fun updateCommentFailNoComment() {
         // given
         val id: Long = 1
-        val commentRequest: CommentRequest = CommentRequest(content = "댓글 내용")
+        val commentForm: CommentForm = CommentForm(content = "댓글 내용")
 
         // when
         Mockito.`when`(commentRepository.findById(anyLong())).thenReturn(Optional.empty())
 
         // then
         assertThrows<BusinessException> {
-            commentService.updateComment(id, commentRequest)
+            commentService.updateComment(id, commentForm)
         }
     }
 

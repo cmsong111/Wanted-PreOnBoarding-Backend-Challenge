@@ -1,12 +1,16 @@
 plugins {
-    id("org.springframework.boot") version "3.3.2"
-    id("io.spring.dependency-management") version "1.1.6"
-    id("org.jetbrains.dokka") version "1.9.20"
-    id("org.sonarqube") version "5.1.0.4882"
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
     id("jacoco")
-    kotlin("plugin.jpa") version "1.9.24"
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
+    id("org.springframework.boot") version "3.4.3"
+    id("io.spring.dependency-management") version "1.1.7"
+    id("org.hibernate.orm") version "6.6.8.Final"
+    id("org.graalvm.buildtools.native") version "0.10.5"
+    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.sonarqube") version "6.0.1.5171"
+    id("com.gorylenko.gradle-git-properties") version "2.5.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
+    kotlin("plugin.jpa") version "1.9.25"
 }
 
 group = "org.project"
@@ -14,7 +18,7 @@ version = "0.0.1-SNAPSHOT"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -26,7 +30,7 @@ repositories {
     mavenCentral()
 }
 
-val openApiVersion = "2.3.0"
+val openApiVersion = "2.8.5"
 val jwtVersion = "0.12.6"
 
 dependencies {
@@ -35,17 +39,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation("org.springframework.boot:spring-boot-starter-aop")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    developmentOnly("org.springframework.boot:spring-boot-docker-compose")
-    testAndDevelopmentOnly("org.springframework.boot:spring-boot-docker-compose")
+    runtimeOnly("com.h2database:h2")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
     implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
+
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
@@ -61,6 +67,19 @@ kotlin {
     }
 }
 
+hibernate {
+    enhancement {
+        enableAssociationManagement = true
+    }
+}
+
+
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -73,12 +92,14 @@ configurations.matching { it.name.startsWith("dokka") }.configureEach {
     }
 }
 
-tasks.jacocoTestReport {
+tasks.withType<JacocoReport> {
     reports {
         xml.required.set(true)
         html.required.set(true)
     }
 }
+
+
 
 sonar {
     properties {

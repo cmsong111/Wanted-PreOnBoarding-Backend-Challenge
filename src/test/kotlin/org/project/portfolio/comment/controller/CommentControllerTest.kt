@@ -9,9 +9,9 @@ import org.mockito.ArgumentMatchers.anyString
 import org.mockito.kotlin.*
 import org.project.portfolio.auth.JwtAuthFilter
 import org.project.portfolio.auth.JwtProvider
-import org.project.portfolio.comment.dto.CommentRequest
-import org.project.portfolio.comment.dto.CommentResponse
-import org.project.portfolio.comment.service.CommentService
+import org.project.portfolio.article.controller.request.CommentForm
+import org.project.portfolio.article.controller.response.CommentResponse
+import org.project.portfolio.article.service.CommentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
 import java.time.LocalDateTime
+import org.project.portfolio.article.controller.CommentController
 
 
 @WebMvcTest(CommentController::class)
@@ -64,13 +65,13 @@ class CommentControllerTest {
     fun createComment() {
         val articleId: Long = 1
 
-        val commentRequest: CommentRequest = CommentRequest(
+        val commentForm: CommentForm = CommentForm(
             content = "content"
         )
 
         val expectedCommentResponse = CommentResponse(
             id = 1L,
-            content = commentRequest.content!!,
+            content = commentForm.content!!,
             articleId = articleId,
             userId = "test@test.com",
             userName = "user",
@@ -82,7 +83,7 @@ class CommentControllerTest {
             commentService.createComment(
                 anyString(),
                 anyLong(),
-                any<CommentRequest>()
+                any<CommentForm>()
             )
         ).thenReturn(expectedCommentResponse)
 
@@ -92,11 +93,11 @@ class CommentControllerTest {
             post("/api/v1/article/$articleId/comment")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(ObjectMapper().writeValueAsString(commentRequest))
+                .content(ObjectMapper().writeValueAsString(commentForm))
         )
             .andExpect(status().isCreated) // 201 Created
 
-        verify(commentService, atLeastOnce()).createComment(anyString(), anyLong(), any<CommentRequest>())
+        verify(commentService, atLeastOnce()).createComment(anyString(), anyLong(), any<CommentForm>())
     }
 
     @Test
@@ -105,7 +106,7 @@ class CommentControllerTest {
     fun createCommentFailNoUser() {
         val articleId: Long = 1
 
-        val commentRequest = CommentRequest(
+        val commentForm = CommentForm(
             content = "content"
         )
 
@@ -114,11 +115,11 @@ class CommentControllerTest {
             post("/api/v1/article/$articleId/comment")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(ObjectMapper().writeValueAsString(commentRequest))
+                .content(ObjectMapper().writeValueAsString(commentForm))
         )
             .andExpect(status().isUnauthorized) // 401 Unauthorized
 
-        verify(commentService, times(0)).createComment(anyString(), anyLong(), any<CommentRequest>())
+        verify(commentService, times(0)).createComment(anyString(), anyLong(), any<CommentForm>())
     }
 
     @Test
@@ -129,13 +130,13 @@ class CommentControllerTest {
         val articleId: Long = 1
         val commentId: Long = 1
 
-        val commentRequest: CommentRequest = CommentRequest(
+        val commentForm: CommentForm = CommentForm(
             content = "content"
         )
 
         val expectedCommentResponse = CommentResponse(
             id = 1L,
-            content = commentRequest.content!!,
+            content = commentForm.content!!,
             articleId = articleId,
             userId = "test@test.com",
             userName = "user",
@@ -146,7 +147,7 @@ class CommentControllerTest {
         given(
             commentService.updateComment(
                 anyLong(),
-                any<CommentRequest>()
+                any<CommentForm>()
             )
         ).willReturn(
             expectedCommentResponse
@@ -157,7 +158,7 @@ class CommentControllerTest {
             patch("/api/v1/article/$articleId/comment/$commentId")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(ObjectMapper().writeValueAsString(commentRequest))
+                .content(ObjectMapper().writeValueAsString(commentForm))
         )
             .andExpect(status().isOk) // 200 OK
 

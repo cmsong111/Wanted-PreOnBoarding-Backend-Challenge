@@ -10,7 +10,7 @@ import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
-import org.project.portfolio.exception_handler.BusinessException
+import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -20,6 +20,7 @@ import java.sql.Timestamp
 import java.util.*
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import org.project.portfolio.article.chcker.ArticleChecker
 
 @DisplayName("ArticleChecker 단위 테스트")
 @ExtendWith(MockitoExtension::class)

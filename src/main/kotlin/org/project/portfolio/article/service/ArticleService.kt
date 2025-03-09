@@ -1,38 +1,29 @@
 package org.project.portfolio.article.service
 
-import org.project.portfolio.article.dto.ArticleRequest
-import org.project.portfolio.article.dto.ArticleResponseDetail
-import org.project.portfolio.article.dto.ArticleResponseHeader
+import java.util.concurrent.TimeUnit
+import org.project.portfolio.article.controller.request.ArticleForm
+import org.project.portfolio.article.controller.response.ArticleDetailResponse
+import org.project.portfolio.article.controller.response.ArticleHeaderResponse
 import org.project.portfolio.article.entity.Article
-import org.project.portfolio.article.entity.Image
 import org.project.portfolio.article.repository.ArticleRepository
-import org.project.portfolio.article.repository.ImageRepository
-import org.project.portfolio.comment.repository.CommentRepository
-import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.exception_handler.ErrorCode
-import org.project.portfolio.storage.Imagebb
-import org.project.portfolio.storage.StorageService
+import org.project.portfolio.common.exception.BusinessException
+import org.project.portfolio.common.exception.ErrorCode
+import org.project.portfolio.common.storage.StorageService
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.concurrent.TimeUnit
 
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
-    private val commentRepository: CommentRepository,
-    private val imageRepository: ImageRepository,
     private val userRepository: UserRepository,
     private val redisTemplate: RedisTemplate<String, Any>,
-    @Qualifier("amazonS3")
-    private val storageService: StorageService,
-    private val imagebb: Imagebb,
+    private val storageService: StorageService
 ) {
     private val logger = LoggerFactory.getLogger(ArticleService::class.java)
 
@@ -42,14 +33,15 @@ class ArticleService(
      * @param title 검색할 게시글 제목(null일 경우 전체 조회)
      */
     @Transactional(readOnly = true)
-    fun getArticles(pageable: Pageable, title: String?): List<ArticleResponseHeader> {
+    fun getArticles(
+        title: String?,
+        pageable: Pageable,
+    ): Page<ArticleHeaderResponse> {
         return articleRepository.findByTitleContains(
+            title = title,
             pageable = pageable,
-            title = title
         ).map {
-            ArticleResponseHeader(
-                article = it,
-            )
+            ArticleHeaderResponse.from(it)
         }
     }
 
@@ -58,7 +50,7 @@ class ArticleService(
      * @param id 게시글 ID
      */
     @Transactional
-    fun getArticle(id: Long, ip: String): ArticleResponseDetail {
+    fun getArticle(id: Long, ip: String): ArticleDetailResponse {
         // 게시글 조회
         val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
@@ -76,11 +68,7 @@ class ArticleService(
         }
 
         // 게시글 DTO 반환
-        return ArticleResponseDetail(
-            article = article,
-            commentList = commentRepository.findByArticleId(id, Sort.by(Sort.Direction.ASC, "createdAt")),
-            image = imageRepository.findByArticleId(id)
-        )
+        return ArticleDetailResponse.from(article)
     }
 
     /**
@@ -89,80 +77,49 @@ class ArticleService(
      * @articleRequest 게시글 요청 DTO
      */
     @Transactional
-    fun createArticle(username: String, articleRequest: ArticleRequest): ArticleResponseDetail {
+    fun createArticle(username: String, articleForm: ArticleForm): ArticleDetailResponse {
         // 유저 조회
         val user: User = userRepository.findById(username).orElseThrow() {
             BusinessException(ErrorCode.USER_NOT_FOUND)
         }
 
-        // 게시글 생성 및 저장
-        val article = articleRepository.save(
-            Article(
-                title = articleRequest.title!!,
-                content = articleRequest.content!!,
+        val article: Article = articleRepository.save(
+            Article.create(
+                title = articleForm.title!!,
+                content = articleForm.content!!,
+                images = articleForm.images?.map {
+                    storageService.uploadFile(it)
+                },
                 author = user
             )
         )
 
-        // 게시글 사진 업로드
-        val image: Image? = articleRequest.image?.let {
-            val url = storageService.uploadFile(it)
-            imageRepository.save(
-                Image(
-                    url = url,
-                    article = article
-                )
-            )
-        }
-
-        // 게시글 저장 및 반환
-        return ArticleResponseDetail(
-            article = article,
-            commentList = emptyList(),
-            image = image
-        )
+        return ArticleDetailResponse.from(article)
     }
 
     /**
      * 게시글 수정 메소드
      * 스프링 시큐리티를 통해 권한이 있는 사용자만 수정 가능
      * @param id 게시글 ID
-     * @param articleRequest 게시글 요청 DTO
+     * @param articleForm 게시글 요청 DTO
      */
     @Transactional
-    fun updateArticle(id: Long, articleRequest: ArticleRequest): ArticleResponseDetail {
+    fun updateArticle(id: Long, articleForm: ArticleForm): ArticleDetailResponse {
         // 게시글 조회
         val article: Article = articleRepository.findById(id).orElseThrow() {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
 
-        // 수정 요첨 폼에 이미지가 있을 경우
-        val image: Image? = articleRequest.image?.let {
-            val url = storageService.uploadFile(it)
-            imageRepository.findByArticleId(id)?.let {
-                // 이미 존재하는 이미지가 있을 경우
-                it.url = url
-                imageRepository.save(it)
-            } ?: run {
-                // 이미 존재하는 이미지가 없을 경우
-                imageRepository.save(
-                    Image(
-                        url = url,
-                        article = article
-                    )
-                )
-            }
-        }
-
         // 게시글 수정
-        article.update(articleRequest)
-
-        // 게시글 저장 및 반환
-        return ArticleResponseDetail(
-            article = articleRepository.save(article),
-            commentList = commentRepository.findByArticleId(id, Sort.by(Sort.Direction.ASC, "createdAt")),
-            image = image
+        article.update(
+            title = articleForm.title!!,
+            content = articleForm.content!!,
+            images = articleForm.images?.map {
+                storageService.uploadFile(it)
+            }
         )
+
+        return ArticleDetailResponse.from(article)
     }
 
     /**
@@ -172,36 +129,6 @@ class ArticleService(
      */
     @Transactional
     fun deleteArticle(id: Long) {
-        // 게시글 조회
-        articleRepository.findById(id).orElseThrow() {
-            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
-        }
-        // 게시글 삭제
         articleRepository.deleteById(id)
     }
-
-    /**
-     * 게시글 Hard 삭제 메소드
-     * @param id 게시글 ID
-     */
-    @Transactional
-    fun hardDeleteArticle(id: Long) {
-        // 게시글 Hard 삭제
-        articleRepository.hardDeleteById(id)
-    }
-
-    @Transactional
-    fun deleteArticleImage(id: Long) {
-        // 게시글 조회
-        articleRepository.findById(id).orElseThrow() {
-            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
-        }
-
-        // 이미지 조회
-        val image: Image = imageRepository.findByArticleId(id) ?: throw BusinessException(ErrorCode.IMAGE_NOT_FOUND)
-
-        // 이미지 삭제
-        imageRepository.delete(image)
-    }
-
 }

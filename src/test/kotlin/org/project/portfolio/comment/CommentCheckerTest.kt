@@ -10,14 +10,15 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.article.entity.Article
-import org.project.portfolio.comment.entity.Comment
+import org.project.portfolio.article.entity.Comment
 import org.project.portfolio.comment.repository.CommentRepository
-import org.project.portfolio.exception_handler.BusinessException
+import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.user.entity.User
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
 import java.util.*
+import org.project.portfolio.article.chcker.CommentChecker
 
 
 @DisplayName("CommentChecker 단위 테스트")
