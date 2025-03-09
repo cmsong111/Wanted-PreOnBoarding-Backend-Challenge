@@ -1,14 +1,19 @@
-name: SonarCloud Test CI with Gradle
+name: Test CI with Gradle
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - '*'
 
-  pull_request:
-    types: [ opened, synchronize, reopened ]
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
 
 jobs:
-  sonarcloud-test:
-    name: SonarCloud Test
+  build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -32,8 +37,12 @@ jobs:
         with:
           redis-version: 7
 
-      - name: Run Tests and Report To SonarCloud
-        run: ./gradlew --info test jacocoTestReport sonar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - name: Run Tests
+        run: ./gradlew --info test
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: ${{ always() }}
+        with:
+          files: build/test-results/**/*.xml
+
