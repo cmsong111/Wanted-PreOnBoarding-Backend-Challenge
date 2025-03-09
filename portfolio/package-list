@@ -1,70 +1,112 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:org.project.portfolio.article.chcker////PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/index.html
+$dokka.location:org.project.portfolio.article.chcker/ArticleChecker///PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-article-checker/index.html
+$dokka.location:org.project.portfolio.article.chcker/ArticleChecker/ArticleChecker/#org.project.portfolio.article.repository.ArticleRepository/PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-article-checker/-article-checker.html
+$dokka.location:org.project.portfolio.article.chcker/ArticleChecker/isAuthor/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-article-checker/is-author.html
+$dokka.location:org.project.portfolio.article.chcker/ArticleChecker/isEditable/#kotlin.Long#java.time.Instant/PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-article-checker/is-editable.html
+$dokka.location:org.project.portfolio.article.chcker/CommentChecker///PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-comment-checker/index.html
+$dokka.location:org.project.portfolio.article.chcker/CommentChecker/CommentChecker/#/PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-comment-checker/-comment-checker.html
+$dokka.location:org.project.portfolio.article.chcker/CommentChecker/isAuthor/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.chcker/-comment-checker/is-author.html
+$dokka.location:org.project.portfolio.article.controller.request////PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/index.html
+$dokka.location:org.project.portfolio.article.controller.request/ArticleForm///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-article-form/index.html
+$dokka.location:org.project.portfolio.article.controller.request/ArticleForm/ArticleForm/#kotlin.String?#kotlin.String?#kotlin.collections.List[org.springframework.web.multipart.MultipartFile]?/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-article-form/-article-form.html
+$dokka.location:org.project.portfolio.article.controller.request/ArticleForm/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-article-form/content.html
+$dokka.location:org.project.portfolio.article.controller.request/ArticleForm/images/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-article-form/images.html
+$dokka.location:org.project.portfolio.article.controller.request/ArticleForm/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-article-form/title.html
+$dokka.location:org.project.portfolio.article.controller.request/CommentForm///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-comment-form/index.html
+$dokka.location:org.project.portfolio.article.controller.request/CommentForm/CommentForm/#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-comment-form/-comment-form.html
+$dokka.location:org.project.portfolio.article.controller.request/CommentForm/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.request/-comment-form/content.html
+$dokka.location:org.project.portfolio.article.controller.response////PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/index.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse.Companion///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/-companion/index.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse.Companion/from/#org.project.portfolio.article.entity.Article/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/-companion/from.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/index.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/ArticleDetailResponse/#kotlin.Long#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.collections.List[org.project.portfolio.article.controller.response.CommentResponse]#org.project.portfolio.user.controller.response.UserHeaderResponse#kotlin.String#kotlin.String#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/-article-detail-response.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/author.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/comments/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/comments.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/content.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/created-at.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/id.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/images/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/images.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/title.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/updated-at.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleDetailResponse/viewCount/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-detail-response/view-count.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse.Companion///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/-companion/index.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse.Companion/from/#org.project.portfolio.article.entity.Article/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/-companion/from.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/index.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/ArticleHeaderResponse/#kotlin.Long#kotlin.String#kotlin.String#kotlin.String?#org.project.portfolio.user.controller.response.UserHeaderResponse#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/-article-header-response.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/author.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/content.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/created-at.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/id.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/thumbnail/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/thumbnail.html
+$dokka.location:org.project.portfolio.article.controller.response/ArticleHeaderResponse/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-article-header-response/title.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse.Companion///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/-companion/index.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse.Companion/from/#org.project.portfolio.article.entity.Comment/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/-companion/from.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse///PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/index.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/CommentResponse/#kotlin.Long#kotlin.String#org.project.portfolio.user.controller.response.UserHeaderResponse#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/-comment-response.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/author.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/content.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/created-at.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/id.html
+$dokka.location:org.project.portfolio.article.controller.response/CommentResponse/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.controller.response/-comment-response/updated-at.html
 $dokka.location:org.project.portfolio.article.controller////PointingToDeclaration/portfolio/org.project.portfolio.article.controller/index.html
 $dokka.location:org.project.portfolio.article.controller/ArticleController///PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/index.html
 $dokka.location:org.project.portfolio.article.controller/ArticleController/ArticleController/#org.project.portfolio.article.service.ArticleService/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/-article-controller.html
-$dokka.location:org.project.portfolio.article.controller/ArticleController/createArticle/#java.security.Principal#org.project.portfolio.article.dto.ArticleRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/create-article.html
+$dokka.location:org.project.portfolio.article.controller/ArticleController/createArticle/#java.security.Principal#org.project.portfolio.article.controller.request.ArticleForm/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/create-article.html
 $dokka.location:org.project.portfolio.article.controller/ArticleController/deleteArticle/#java.security.Principal#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/delete-article.html
 $dokka.location:org.project.portfolio.article.controller/ArticleController/getArticle/#kotlin.Long#jakarta.servlet.ServletRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/get-article.html
-$dokka.location:org.project.portfolio.article.controller/ArticleController/getArticles/#kotlin.Int#kotlin.Int#kotlin.String#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/get-articles.html
-$dokka.location:org.project.portfolio.article.controller/ArticleController/hardDeleteArticle/#java.security.Principal#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/hard-delete-article.html
-$dokka.location:org.project.portfolio.article.controller/ArticleController/updateArticle/#java.security.Principal#kotlin.Long#org.project.portfolio.article.dto.ArticleRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/update-article.html
-$dokka.location:org.project.portfolio.article.dto////PointingToDeclaration/portfolio/org.project.portfolio.article.dto/index.html
-$dokka.location:org.project.portfolio.article.dto/ArticleRequest///PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-request/index.html
-$dokka.location:org.project.portfolio.article.dto/ArticleRequest/ArticleRequest/#kotlin.String?#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-request/-article-request.html
-$dokka.location:org.project.portfolio.article.dto/ArticleRequest/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-request/content.html
-$dokka.location:org.project.portfolio.article.dto/ArticleRequest/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-request/title.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail///PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/index.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/ArticleResponseDetail/#kotlin.Long#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.Long#kotlin.collections.List[org.project.portfolio.comment.dto.CommentResponse]/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/-article-response-detail.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/ArticleResponseDetail/#org.project.portfolio.article.entity.Article#kotlin.collections.List[org.project.portfolio.comment.entity.Comment]/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/-article-response-detail.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/author.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/commentList/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/comment-list.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/content.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/created-at.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/id.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/title.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/updatability/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/updatability.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/updated-at.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseDetail/viewCount/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-detail/view-count.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader///PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/index.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/ArticleResponseHeader/#kotlin.Long#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/-article-response-header.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/ArticleResponseHeader/#org.project.portfolio.article.entity.Article/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/-article-response-header.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/authorName/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/author-name.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/created-at.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/id.html
-$dokka.location:org.project.portfolio.article.dto/ArticleResponseHeader/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.dto/-article-response-header/title.html
+$dokka.location:org.project.portfolio.article.controller/ArticleController/getArticles/#org.springframework.data.domain.PageRequest#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/get-articles.html
+$dokka.location:org.project.portfolio.article.controller/ArticleController/updateArticle/#java.security.Principal#kotlin.Long#org.project.portfolio.article.controller.request.ArticleForm/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-article-controller/update-article.html
+$dokka.location:org.project.portfolio.article.controller/CommentController///PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-comment-controller/index.html
+$dokka.location:org.project.portfolio.article.controller/CommentController/CommentController/#org.project.portfolio.article.service.CommentService/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-comment-controller/-comment-controller.html
+$dokka.location:org.project.portfolio.article.controller/CommentController/createComment/#java.security.Principal#kotlin.Long#org.project.portfolio.article.controller.request.CommentForm/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-comment-controller/create-comment.html
+$dokka.location:org.project.portfolio.article.controller/CommentController/deleteComment/#kotlin.Long#kotlin.Long#java.security.Principal/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-comment-controller/delete-comment.html
+$dokka.location:org.project.portfolio.article.controller/CommentController/updateComment/#kotlin.Long#kotlin.Long#org.project.portfolio.article.controller.request.CommentForm#java.security.Principal/PointingToDeclaration/portfolio/org.project.portfolio.article.controller/-comment-controller/update-comment.html
 $dokka.location:org.project.portfolio.article.entity////PointingToDeclaration/portfolio/org.project.portfolio.article.entity/index.html
+$dokka.location:org.project.portfolio.article.entity/Article.Companion///PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/-companion/index.html
+$dokka.location:org.project.portfolio.article.entity/Article.Companion/create/#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]?#org.project.portfolio.user.entity.User/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/-companion/create.html
 $dokka.location:org.project.portfolio.article.entity/Article///PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/index.html
-$dokka.location:org.project.portfolio.article.entity/Article/Article/#kotlin.Long#kotlin.String#kotlin.String#org.project.portfolio.user.entity.User#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/-article.html
+$dokka.location:org.project.portfolio.article.entity/Article/Article/#kotlin.Long#kotlin.String#kotlin.String#kotlin.collections.MutableList[kotlin.String]#kotlin.collections.MutableList[org.project.portfolio.article.entity.Comment]#org.project.portfolio.user.entity.User?#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/-article.html
+$dokka.location:org.project.portfolio.article.entity/Article/addComment/#org.project.portfolio.article.entity.Comment/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/add-comment.html
 $dokka.location:org.project.portfolio.article.entity/Article/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/author.html
+$dokka.location:org.project.portfolio.article.entity/Article/comments/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/comments.html
 $dokka.location:org.project.portfolio.article.entity/Article/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/content.html
 $dokka.location:org.project.portfolio.article.entity/Article/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/id.html
+$dokka.location:org.project.portfolio.article.entity/Article/images/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/images.html
+$dokka.location:org.project.portfolio.article.entity/Article/removeComment/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/remove-comment.html
 $dokka.location:org.project.portfolio.article.entity/Article/title/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/title.html
-$dokka.location:org.project.portfolio.article.entity/Article/toString/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/to-string.html
-$dokka.location:org.project.portfolio.article.entity/Article/update/#org.project.portfolio.article.dto.ArticleRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/update.html
+$dokka.location:org.project.portfolio.article.entity/Article/update/#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]?/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/update.html
+$dokka.location:org.project.portfolio.article.entity/Article/updateComment/#kotlin.Long#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/update-comment.html
 $dokka.location:org.project.portfolio.article.entity/Article/viewCount/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-article/view-count.html
+$dokka.location:org.project.portfolio.article.entity/Comment.Companion///PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/-companion/index.html
+$dokka.location:org.project.portfolio.article.entity/Comment.Companion/create/#kotlin.String#org.project.portfolio.user.entity.User/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/-companion/create.html
+$dokka.location:org.project.portfolio.article.entity/Comment///PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/index.html
+$dokka.location:org.project.portfolio.article.entity/Comment/Comment/#kotlin.Long#kotlin.String#org.project.portfolio.user.entity.User/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/-comment.html
+$dokka.location:org.project.portfolio.article.entity/Comment/author/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/author.html
+$dokka.location:org.project.portfolio.article.entity/Comment/content/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/content.html
+$dokka.location:org.project.portfolio.article.entity/Comment/id/#/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/id.html
+$dokka.location:org.project.portfolio.article.entity/Comment/update/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.entity/-comment/update.html
 $dokka.location:org.project.portfolio.article.repository////PointingToDeclaration/portfolio/org.project.portfolio.article.repository/index.html
 $dokka.location:org.project.portfolio.article.repository/ArticleRepository///PointingToDeclaration/portfolio/org.project.portfolio.article.repository/-article-repository/index.html
 $dokka.location:org.project.portfolio.article.repository/ArticleRepository/findByCreatedAtBetween/#java.sql.Timestamp#java.sql.Timestamp/PointingToDeclaration/portfolio/org.project.portfolio.article.repository/-article-repository/find-by-created-at-between.html
 $dokka.location:org.project.portfolio.article.repository/ArticleRepository/findByTitleContains/#kotlin.String?#org.springframework.data.domain.Pageable/PointingToDeclaration/portfolio/org.project.portfolio.article.repository/-article-repository/find-by-title-contains.html
-$dokka.location:org.project.portfolio.article.repository/ArticleRepository/hardDeleteById/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.repository/-article-repository/hard-delete-by-id.html
 $dokka.location:org.project.portfolio.article.service////PointingToDeclaration/portfolio/org.project.portfolio.article.service/index.html
 $dokka.location:org.project.portfolio.article.service/ArticleScheduler///PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-scheduler/index.html
 $dokka.location:org.project.portfolio.article.service/ArticleScheduler/ArticleScheduler/#org.project.portfolio.article.repository.ArticleRepository#org.project.portfolio.notification.service.NotificationService/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-scheduler/-article-scheduler.html
 $dokka.location:org.project.portfolio.article.service/ArticleScheduler/sendArticleUpdateNotification/#/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-scheduler/send-article-update-notification.html
 $dokka.location:org.project.portfolio.article.service/ArticleService///PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/index.html
-$dokka.location:org.project.portfolio.article.service/ArticleService/ArticleService/#org.project.portfolio.article.repository.ArticleRepository#org.project.portfolio.comment.repository.CommentRepository#org.project.portfolio.user.repository.UserRepository#com.amazonaws.services.s3.AmazonS3#org.springframework.data.redis.core.RedisTemplate[kotlin.String,kotlin.Any]/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/-article-service.html
-$dokka.location:org.project.portfolio.article.service/ArticleService/createArticle/#kotlin.String#org.project.portfolio.article.dto.ArticleRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/create-article.html
+$dokka.location:org.project.portfolio.article.service/ArticleService/ArticleService/#org.project.portfolio.article.repository.ArticleRepository#org.project.portfolio.user.repository.UserRepository#org.springframework.data.redis.core.RedisTemplate[kotlin.String,kotlin.Any]#org.project.portfolio.common.storage.StorageService/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/-article-service.html
+$dokka.location:org.project.portfolio.article.service/ArticleService/createArticle/#kotlin.String#org.project.portfolio.article.controller.request.ArticleForm/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/create-article.html
 $dokka.location:org.project.portfolio.article.service/ArticleService/deleteArticle/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/delete-article.html
 $dokka.location:org.project.portfolio.article.service/ArticleService/getArticle/#kotlin.Long#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/get-article.html
-$dokka.location:org.project.portfolio.article.service/ArticleService/getArticles/#org.springframework.data.domain.Pageable#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/get-articles.html
-$dokka.location:org.project.portfolio.article.service/ArticleService/hardDeleteArticle/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/hard-delete-article.html
-$dokka.location:org.project.portfolio.article.service/ArticleService/updateArticle/#kotlin.Long#org.project.portfolio.article.dto.ArticleRequest/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/update-article.html
-$dokka.location:org.project.portfolio.article////PointingToDeclaration/portfolio/org.project.portfolio.article/index.html
-$dokka.location:org.project.portfolio.article/ArticleChecker///PointingToDeclaration/portfolio/org.project.portfolio.article/-article-checker/index.html
-$dokka.location:org.project.portfolio.article/ArticleChecker/ArticleChecker/#org.project.portfolio.article.repository.ArticleRepository/PointingToDeclaration/portfolio/org.project.portfolio.article/-article-checker/-article-checker.html
-$dokka.location:org.project.portfolio.article/ArticleChecker/isAuthor/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article/-article-checker/is-author.html
-$dokka.location:org.project.portfolio.article/ArticleChecker/isEditable/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article/-article-checker/is-editable.html
+$dokka.location:org.project.portfolio.article.service/ArticleService/getArticles/#kotlin.String?#org.springframework.data.domain.Pageable/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/get-articles.html
+$dokka.location:org.project.portfolio.article.service/ArticleService/updateArticle/#kotlin.Long#org.project.portfolio.article.controller.request.ArticleForm/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-article-service/update-article.html
+$dokka.location:org.project.portfolio.article.service/CommentService///PointingToDeclaration/portfolio/org.project.portfolio.article.service/-comment-service/index.html
+$dokka.location:org.project.portfolio.article.service/CommentService/CommentService/#org.project.portfolio.article.repository.ArticleRepository#org.project.portfolio.user.repository.UserRepository/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-comment-service/-comment-service.html
+$dokka.location:org.project.portfolio.article.service/CommentService/createComment/#kotlin.String#kotlin.Long#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-comment-service/create-comment.html
+$dokka.location:org.project.portfolio.article.service/CommentService/deleteComment/#kotlin.String#kotlin.Long#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-comment-service/delete-comment.html
+$dokka.location:org.project.portfolio.article.service/CommentService/updateComment/#kotlin.String#kotlin.Long#kotlin.Long#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.article.service/-comment-service/update-comment.html
 $dokka.location:org.project.portfolio.auth.dto////PointingToDeclaration/portfolio/org.project.portfolio.auth.dto/index.html
 $dokka.location:org.project.portfolio.auth.dto/LoginRequest///PointingToDeclaration/portfolio/org.project.portfolio.auth.dto/-login-request/index.html
 $dokka.location:org.project.portfolio.auth.dto/LoginRequest/LoginRequest/#kotlin.String?#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.auth.dto/-login-request/-login-request.html
@@ -108,69 +150,137 @@ $dokka.location:org.project.portfolio.auth/JwtProvider/key/#/PointingToDeclarati
 $dokka.location:org.project.portfolio.auth/JwtProvider/resolveToken/#jakarta.servlet.http.HttpServletRequest?/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/resolve-token.html
 $dokka.location:org.project.portfolio.auth/JwtProvider/secretKey/#/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/secret-key.html
 $dokka.location:org.project.portfolio.auth/JwtProvider/validateToken/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/validate-token.html
-$dokka.location:org.project.portfolio.comment.controller////PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/index.html
-$dokka.location:org.project.portfolio.comment.controller/CommentController///PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/-comment-controller/index.html
-$dokka.location:org.project.portfolio.comment.controller/CommentController/CommentController/#org.project.portfolio.comment.service.CommentService/PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/-comment-controller/-comment-controller.html
-$dokka.location:org.project.portfolio.comment.controller/CommentController/createComment/#java.security.Principal#kotlin.Long#org.project.portfolio.comment.dto.CommentRequest/PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/-comment-controller/create-comment.html
-$dokka.location:org.project.portfolio.comment.controller/CommentController/deleteComment/#kotlin.Long#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/-comment-controller/delete-comment.html
-$dokka.location:org.project.portfolio.comment.controller/CommentController/updateComment/#java.security.Principal#kotlin.Long#kotlin.Long#org.project.portfolio.comment.dto.CommentRequest/PointingToDeclaration/portfolio/org.project.portfolio.comment.controller/-comment-controller/update-comment.html
-$dokka.location:org.project.portfolio.comment.dto////PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/index.html
-$dokka.location:org.project.portfolio.comment.dto/CommentRequest///PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-request/index.html
-$dokka.location:org.project.portfolio.comment.dto/CommentRequest/CommentRequest/#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-request/-comment-request.html
-$dokka.location:org.project.portfolio.comment.dto/CommentRequest/content/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-request/content.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse///PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/index.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/CommentResponse/#kotlin.Long#kotlin.String#kotlin.Long#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/-comment-response.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/CommentResponse/#org.project.portfolio.comment.entity.Comment/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/-comment-response.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/articleId/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/article-id.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/content/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/content.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/created-at.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/id/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/id.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/updated-at.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/userId/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/user-id.html
-$dokka.location:org.project.portfolio.comment.dto/CommentResponse/userName/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.dto/-comment-response/user-name.html
-$dokka.location:org.project.portfolio.comment.entity////PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/index.html
-$dokka.location:org.project.portfolio.comment.entity/Comment///PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/index.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/Comment/#kotlin.Long#kotlin.String#org.project.portfolio.article.entity.Article#org.project.portfolio.user.entity.User/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/-comment.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/article/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/article.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/author/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/author.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/content/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/content.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/id/#/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/id.html
-$dokka.location:org.project.portfolio.comment.entity/Comment/update/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.comment.entity/-comment/update.html
-$dokka.location:org.project.portfolio.comment.repository////PointingToDeclaration/portfolio/org.project.portfolio.comment.repository/index.html
-$dokka.location:org.project.portfolio.comment.repository/CommentRepository///PointingToDeclaration/portfolio/org.project.portfolio.comment.repository/-comment-repository/index.html
-$dokka.location:org.project.portfolio.comment.repository/CommentRepository/findByArticleId/#kotlin.Long#org.springframework.data.domain.Sort/PointingToDeclaration/portfolio/org.project.portfolio.comment.repository/-comment-repository/find-by-article-id.html
-$dokka.location:org.project.portfolio.comment.service////PointingToDeclaration/portfolio/org.project.portfolio.comment.service/index.html
-$dokka.location:org.project.portfolio.comment.service/CommentService///PointingToDeclaration/portfolio/org.project.portfolio.comment.service/-comment-service/index.html
-$dokka.location:org.project.portfolio.comment.service/CommentService/CommentService/#org.project.portfolio.comment.repository.CommentRepository#org.project.portfolio.article.repository.ArticleRepository#org.project.portfolio.user.repository.UserRepository/PointingToDeclaration/portfolio/org.project.portfolio.comment.service/-comment-service/-comment-service.html
-$dokka.location:org.project.portfolio.comment.service/CommentService/createComment/#kotlin.String#kotlin.Long#org.project.portfolio.comment.dto.CommentRequest/PointingToDeclaration/portfolio/org.project.portfolio.comment.service/-comment-service/create-comment.html
-$dokka.location:org.project.portfolio.comment.service/CommentService/deleteComment/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.comment.service/-comment-service/delete-comment.html
-$dokka.location:org.project.portfolio.comment.service/CommentService/updateComment/#kotlin.Long#org.project.portfolio.comment.dto.CommentRequest/PointingToDeclaration/portfolio/org.project.portfolio.comment.service/-comment-service/update-comment.html
-$dokka.location:org.project.portfolio.comment////PointingToDeclaration/portfolio/org.project.portfolio.comment/index.html
-$dokka.location:org.project.portfolio.comment/CommentChecker///PointingToDeclaration/portfolio/org.project.portfolio.comment/-comment-checker/index.html
-$dokka.location:org.project.portfolio.comment/CommentChecker/CommentChecker/#org.project.portfolio.comment.repository.CommentRepository/PointingToDeclaration/portfolio/org.project.portfolio.comment/-comment-checker/-comment-checker.html
-$dokka.location:org.project.portfolio.comment/CommentChecker/isAuthor/#kotlin.Long/PointingToDeclaration/portfolio/org.project.portfolio.comment/-comment-checker/is-author.html
-$dokka.location:org.project.portfolio.common////PointingToDeclaration/portfolio/org.project.portfolio.common/index.html
-$dokka.location:org.project.portfolio.common/BaseEntity///PointingToDeclaration/portfolio/org.project.portfolio.common/-base-entity/index.html
-$dokka.location:org.project.portfolio.common/BaseEntity/BaseEntity/#/PointingToDeclaration/portfolio/org.project.portfolio.common/-base-entity/-base-entity.html
-$dokka.location:org.project.portfolio.common/BaseEntity/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.common/-base-entity/created-at.html
-$dokka.location:org.project.portfolio.common/BaseEntity/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.common/-base-entity/updated-at.html
-$dokka.location:org.project.portfolio.common/DeletedAtConverter///PointingToDeclaration/portfolio/org.project.portfolio.common/-deleted-at-converter/index.html
-$dokka.location:org.project.portfolio.common/DeletedAtConverter/DeletedAtConverter/#/PointingToDeclaration/portfolio/org.project.portfolio.common/-deleted-at-converter/-deleted-at-converter.html
-$dokka.location:org.project.portfolio.common/DeletedAtConverter/convertToDatabaseColumn/#kotlin.Boolean/PointingToDeclaration/portfolio/org.project.portfolio.common/-deleted-at-converter/convert-to-database-column.html
-$dokka.location:org.project.portfolio.common/DeletedAtConverter/convertToEntityAttribute/#java.sql.Timestamp/PointingToDeclaration/portfolio/org.project.portfolio.common/-deleted-at-converter/convert-to-entity-attribute.html
+$dokka.location:org.project.portfolio.common.entity////PointingToDeclaration/portfolio/org.project.portfolio.common.entity/index.html
+$dokka.location:org.project.portfolio.common.entity/BaseEntity///PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-base-entity/index.html
+$dokka.location:org.project.portfolio.common.entity/BaseEntity/BaseEntity/#/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-base-entity/-base-entity.html
+$dokka.location:org.project.portfolio.common.entity/BaseEntity/createdAt/#/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-base-entity/created-at.html
+$dokka.location:org.project.portfolio.common.entity/BaseEntity/updatedAt/#/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-base-entity/updated-at.html
+$dokka.location:org.project.portfolio.common.entity/DeletedAtConverter///PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-deleted-at-converter/index.html
+$dokka.location:org.project.portfolio.common.entity/DeletedAtConverter/DeletedAtConverter/#/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-deleted-at-converter/-deleted-at-converter.html
+$dokka.location:org.project.portfolio.common.entity/DeletedAtConverter/convertToDatabaseColumn/#kotlin.Boolean/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-deleted-at-converter/convert-to-database-column.html
+$dokka.location:org.project.portfolio.common.entity/DeletedAtConverter/convertToEntityAttribute/#java.sql.Timestamp/PointingToDeclaration/portfolio/org.project.portfolio.common.entity/-deleted-at-converter/convert-to-entity-attribute.html
+$dokka.location:org.project.portfolio.common.exception.dto////PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/index.html
+$dokka.location:org.project.portfolio.common.exception.dto/ApiResponse///PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/-api-response/index.html
+$dokka.location:org.project.portfolio.common.exception.dto/ApiResponse/ApiResponse/#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/-api-response/-api-response.html
+$dokka.location:org.project.portfolio.common.exception.dto/ApiResponse/resultCode/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/-api-response/result-code.html
+$dokka.location:org.project.portfolio.common.exception.dto/ApiResponse/resultMessage/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/-api-response/result-message.html
+$dokka.location:org.project.portfolio.common.exception.dto/ApiResponse/toString/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception.dto/-api-response/to-string.html
+$dokka.location:org.project.portfolio.common.exception////PointingToDeclaration/portfolio/org.project.portfolio.common.exception/index.html
+$dokka.location:org.project.portfolio.common.exception/BusinessException///PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-business-exception/index.html
+$dokka.location:org.project.portfolio.common.exception/BusinessException/BusinessException/#org.project.portfolio.common.exception.ErrorCode/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-business-exception/-business-exception.html
+$dokka.location:org.project.portfolio.common.exception/BusinessException/errorCode/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-business-exception/error-code.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.ARTICLE_AUTHOR_NOT_MATCH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-a-r-t-i-c-l-e_-a-u-t-h-o-r_-n-o-t_-m-a-t-c-h/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.ARTICLE_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-a-r-t-i-c-l-e_-n-o-t_-f-o-u-n-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.COMMENT_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-c-o-m-m-e-n-t_-n-o-t_-f-o-u-n-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.IMAGE_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-i-m-a-g-e_-n-o-t_-f-o-u-n-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.INVALID_ACCESS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-i-n-v-a-l-i-d_-a-c-c-e-s-s/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.INVALID_INPUT_VALUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-i-n-v-a-l-i-d_-i-n-p-u-t_-v-a-l-u-e/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.TOKEN_EXPIRED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-t-o-k-e-n_-e-x-p-i-r-e-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.TOKEN_INVALID///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-t-o-k-e-n_-i-n-v-a-l-i-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.TOKEN_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-t-o-k-e-n_-n-o-t_-f-o-u-n-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_ALREADY_EXISTS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-a-l-r-e-a-d-y_-e-x-i-s-t-s/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_INVALID_EMAIL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-e-m-a-i-l/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_INVALID_NAME///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-n-a-m-e/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_INVALID_PASSWORD///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-p-a-s-s-w-o-r-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_INVALID_PHONE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-p-h-o-n-e/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode.USER_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.common.exception/-error-code/-u-s-e-r_-n-o-t_-f-o-u-n-d/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode///PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/index.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/code/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/code.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/entries/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/entries.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/httpStatus/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/http-status.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/message/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/message.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/valueOf/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/value-of.html
+$dokka.location:org.project.portfolio.common.exception/ErrorCode/values/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-error-code/values.html
+$dokka.location:org.project.portfolio.common.exception/GlobalExceptionHandler///PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-global-exception-handler/index.html
+$dokka.location:org.project.portfolio.common.exception/GlobalExceptionHandler/GlobalExceptionHandler/#/PointingToDeclaration/portfolio/org.project.portfolio.common.exception/-global-exception-handler/-global-exception-handler.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb////PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/index.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data///PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/index.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/Data/#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.Int?#kotlin.Int?#kotlin.Int?#kotlin.Int?#kotlin.Int?#org.project.portfolio.common.storage.data.imgbb.Image?#org.project.portfolio.common.storage.data.imgbb.Image?#org.project.portfolio.common.storage.data.imgbb.Image?#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/-data.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/deleteUrl/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/delete-url.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/displayUrl/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/display-url.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/expiration/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/expiration.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/height/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/height.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/id/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/id.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/image/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/image.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/medium/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/medium.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/size/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/size.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/thumb/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/thumb.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/time/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/time.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/title/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/title.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/url/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/url.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/urlViewer/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/url-viewer.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Data/width/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-data/width.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image///PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/index.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/Image/#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/-image.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/extension/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/extension.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/filename/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/filename.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/mime/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/mime.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/name/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/name.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/Image/url/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-image/url.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/ImgBBResponse///PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-img-b-b-response/index.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/ImgBBResponse/ImgBBResponse/#org.project.portfolio.common.storage.data.imgbb.Data?#kotlin.Boolean?#kotlin.Int?/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-img-b-b-response/-img-b-b-response.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/ImgBBResponse/data/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-img-b-b-response/data.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/ImgBBResponse/status/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-img-b-b-response/status.html
+$dokka.location:org.project.portfolio.common.storage.data.imgbb/ImgBBResponse/success/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage.data.imgbb/-img-b-b-response/success.html
+$dokka.location:org.project.portfolio.common.storage////PointingToDeclaration/portfolio/org.project.portfolio.common.storage/index.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/index.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/AmazonS3/#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/-amazon-s3.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/amazonS3/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/amazon-s3.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/awsAccessKey/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/aws-access-key.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/awsBucket/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/aws-bucket.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/awsEndpoint/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/aws-endpoint.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/awsRegion/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/aws-region.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/awsSecretKey/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/aws-secret-key.html
+$dokka.location:org.project.portfolio.common.storage/AmazonS3/uploadFile/#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-amazon-s3/upload-file.html
+$dokka.location:org.project.portfolio.common.storage/ImagBB///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-imag-b-b/index.html
+$dokka.location:org.project.portfolio.common.storage/ImagBB/ImagBB/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-imag-b-b/-imag-b-b.html
+$dokka.location:org.project.portfolio.common.storage/ImagBB/uploadFile/#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-imag-b-b/upload-file.html
+$dokka.location:org.project.portfolio.common.storage/MockStorage///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-mock-storage/index.html
+$dokka.location:org.project.portfolio.common.storage/MockStorage/MockStorage/#/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-mock-storage/-mock-storage.html
+$dokka.location:org.project.portfolio.common.storage/MockStorage/uploadFile/#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-mock-storage/upload-file.html
+$dokka.location:org.project.portfolio.common.storage/StorageService///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-storage-service/index.html
+$dokka.location:org.project.portfolio.common.storage/StorageService/uploadFile/#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-storage-service/upload-file.html
+$dokka.location:org.project.portfolio.config.properties////PointingToDeclaration/portfolio/org.project.portfolio.config.properties/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Build///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-build/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Build/Build/#kotlin.String#org.project.portfolio.config.properties.GitProperties.User#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-build/-build.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Build/host/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-build/host.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Build/user/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-build/user.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Build/version/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-build/version.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit/Commit/#kotlin.String#org.project.portfolio.config.properties.GitProperties.Message#kotlin.String#org.project.portfolio.config.properties.GitProperties.User/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/-commit.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit/id/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/id.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit/message/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/message.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit/time/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/time.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Commit/user/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-commit/user.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Message///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-message/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Message/Message/#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-message/-message.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Message/full/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-message/full.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Message/short/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-message/short.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Origin///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-origin/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Origin/Origin/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-origin/-origin.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Origin/url/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-origin/url.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Remote///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-remote/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Remote/Remote/#org.project.portfolio.config.properties.GitProperties.Origin/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-remote/-remote.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.Remote/origin/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-remote/origin.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.User///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-user/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.User/User/#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-user/-user.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.User/email/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-user/email.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties.User/name/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-user/name.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties///PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/index.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties/GitProperties/#kotlin.String#org.project.portfolio.config.properties.GitProperties.Build#org.project.portfolio.config.properties.GitProperties.Commit#org.project.portfolio.config.properties.GitProperties.Remote/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/-git-properties.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties/branch/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/branch.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties/build/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/build.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties/commit/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/commit.html
+$dokka.location:org.project.portfolio.config.properties/GitProperties/remote/#/PointingToDeclaration/portfolio/org.project.portfolio.config.properties/-git-properties/remote.html
 $dokka.location:org.project.portfolio.config////PointingToDeclaration/portfolio/org.project.portfolio.config/index.html
 $dokka.location:org.project.portfolio.config/JpaAuditingConfiguration///PointingToDeclaration/portfolio/org.project.portfolio.config/-jpa-auditing-configuration/index.html
 $dokka.location:org.project.portfolio.config/JpaAuditingConfiguration/JpaAuditingConfiguration/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-jpa-auditing-configuration/-jpa-auditing-configuration.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/index.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/ObjectStorageConfig/#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/-object-storage-config.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/amazonS3/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/amazon-s3.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/awsAccessKey/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/aws-access-key.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/awsEndpoint/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/aws-endpoint.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/awsRegion/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/aws-region.html
-$dokka.location:org.project.portfolio.config/ObjectStorageConfig/awsSecretKey/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-object-storage-config/aws-secret-key.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/index.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig/PasswordEncoderConfig/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/-password-encoder-config.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig/passwordEncoder/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/password-encoder.html
+$dokka.location:org.project.portfolio.config/PropertiesConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-properties-config/index.html
+$dokka.location:org.project.portfolio.config/PropertiesConfig/PropertiesConfig/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-properties-config/-properties-config.html
+$dokka.location:org.project.portfolio.config/PropertiesConfig/propertySourcesPlaceholderConfigurer/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-properties-config/property-sources-placeholder-configurer.html
 $dokka.location:org.project.portfolio.config/RedisConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/index.html
 $dokka.location:org.project.portfolio.config/RedisConfig/RedisConfig/#kotlin.String#kotlin.Int/PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/-redis-config.html
 $dokka.location:org.project.portfolio.config/RedisConfig/cacheManager/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/cache-manager.html
@@ -178,44 +288,15 @@ $dokka.location:org.project.portfolio.config/RedisConfig/redisConnectionFactory/
 $dokka.location:org.project.portfolio.config/RedisConfig/redisHost/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/redis-host.html
 $dokka.location:org.project.portfolio.config/RedisConfig/redisPort/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/redis-port.html
 $dokka.location:org.project.portfolio.config/RedisConfig/redisTemplate/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-redis-config/redis-template.html
+$dokka.location:org.project.portfolio.config/SecurityConfig.Companion///PointingToDeclaration/portfolio/org.project.portfolio.config/-security-config/-companion/index.html
 $dokka.location:org.project.portfolio.config/SecurityConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-security-config/index.html
 $dokka.location:org.project.portfolio.config/SecurityConfig/SecurityConfig/#org.project.portfolio.auth.AuthService#org.project.portfolio.auth.JwtAuthFilter#org.project.portfolio.auth.CustomAuthenticationEntryPoint#org.project.portfolio.auth.CustomAccessDeniedHandler/PointingToDeclaration/portfolio/org.project.portfolio.config/-security-config/-security-config.html
 $dokka.location:org.project.portfolio.config/SecurityConfig/securityFilterChain/#org.springframework.security.config.annotation.web.builders.HttpSecurity/PointingToDeclaration/portfolio/org.project.portfolio.config/-security-config/security-filter-chain.html
+$dokka.location:org.project.portfolio.config/SwaggerConfig.Companion///PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/-companion/index.html
+$dokka.location:org.project.portfolio.config/SwaggerConfig.Companion/BEARER_AUTH/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/-companion/-b-e-a-r-e-r_-a-u-t-h.html
 $dokka.location:org.project.portfolio.config/SwaggerConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/index.html
-$dokka.location:org.project.portfolio.config/SwaggerConfig/SwaggerConfig/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/-swagger-config.html
-$dokka.location:org.project.portfolio.exception_handler.dto////PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/index.html
-$dokka.location:org.project.portfolio.exception_handler.dto/ApiResponse///PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/-api-response/index.html
-$dokka.location:org.project.portfolio.exception_handler.dto/ApiResponse/ApiResponse/#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/-api-response/-api-response.html
-$dokka.location:org.project.portfolio.exception_handler.dto/ApiResponse/resultCode/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/-api-response/result-code.html
-$dokka.location:org.project.portfolio.exception_handler.dto/ApiResponse/resultMessage/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/-api-response/result-message.html
-$dokka.location:org.project.portfolio.exception_handler.dto/ApiResponse/toString/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler.dto/-api-response/to-string.html
-$dokka.location:org.project.portfolio.exception_handler////PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/index.html
-$dokka.location:org.project.portfolio.exception_handler/BusinessException///PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-business-exception/index.html
-$dokka.location:org.project.portfolio.exception_handler/BusinessException/BusinessException/#org.project.portfolio.exception_handler.ErrorCode/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-business-exception/-business-exception.html
-$dokka.location:org.project.portfolio.exception_handler/BusinessException/errorCode/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-business-exception/error-code.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.ARTICLE_AUTHOR_NOT_MATCH///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-a-r-t-i-c-l-e_-a-u-t-h-o-r_-n-o-t_-m-a-t-c-h/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.ARTICLE_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-a-r-t-i-c-l-e_-n-o-t_-f-o-u-n-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.COMMENT_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-c-o-m-m-e-n-t_-n-o-t_-f-o-u-n-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.INVALID_ACCESS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-i-n-v-a-l-i-d_-a-c-c-e-s-s/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.INVALID_INPUT_VALUE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-i-n-v-a-l-i-d_-i-n-p-u-t_-v-a-l-u-e/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.TOKEN_EXPIRED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-t-o-k-e-n_-e-x-p-i-r-e-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.TOKEN_INVALID///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-t-o-k-e-n_-i-n-v-a-l-i-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.TOKEN_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-t-o-k-e-n_-n-o-t_-f-o-u-n-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_ALREADY_EXISTS///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-a-l-r-e-a-d-y_-e-x-i-s-t-s/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_INVALID_EMAIL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-e-m-a-i-l/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_INVALID_NAME///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-n-a-m-e/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_INVALID_PASSWORD///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-p-a-s-s-w-o-r-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_INVALID_PHONE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-i-n-v-a-l-i-d_-p-h-o-n-e/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode.USER_NOT_FOUND///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.exception_handler/-error-code/-u-s-e-r_-n-o-t_-f-o-u-n-d/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode///PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/index.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/code/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/code.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/entries/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/entries.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/httpStatus/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/http-status.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/message/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/message.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/valueOf/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/value-of.html
-$dokka.location:org.project.portfolio.exception_handler/ErrorCode/values/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-error-code/values.html
-$dokka.location:org.project.portfolio.exception_handler/GlobalExceptionHandler///PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-global-exception-handler/index.html
-$dokka.location:org.project.portfolio.exception_handler/GlobalExceptionHandler/GlobalExceptionHandler/#/PointingToDeclaration/portfolio/org.project.portfolio.exception_handler/-global-exception-handler/-global-exception-handler.html
+$dokka.location:org.project.portfolio.config/SwaggerConfig/SwaggerConfig/#org.project.portfolio.config.properties.GitProperties/PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/-swagger-config.html
+$dokka.location:org.project.portfolio.config/SwaggerConfig/openAPI/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-swagger-config/open-a-p-i.html
 $dokka.location:org.project.portfolio.notification.controller////PointingToDeclaration/portfolio/org.project.portfolio.notification.controller/index.html
 $dokka.location:org.project.portfolio.notification.controller/NotificationController///PointingToDeclaration/portfolio/org.project.portfolio.notification.controller/-notification-controller/index.html
 $dokka.location:org.project.portfolio.notification.controller/NotificationController/NotificationController/#org.project.portfolio.notification.service.NotificationService/PointingToDeclaration/portfolio/org.project.portfolio.notification.controller/-notification-controller/-notification-controller.html
@@ -247,11 +328,19 @@ $dokka.location:org.project.portfolio.notification.service/NotificationService/N
 $dokka.location:org.project.portfolio.notification.service/NotificationService/getNotifications/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.notification.service/-notification-service/get-notifications.html
 $dokka.location:org.project.portfolio.notification.service/NotificationService/notificationSubscribe/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.notification.service/-notification-service/notification-subscribe.html
 $dokka.location:org.project.portfolio.notification.service/NotificationService/sendNotification/#org.project.portfolio.notification.dto.NotificationRequestDto#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.notification.service/-notification-service/send-notification.html
+$dokka.location:org.project.portfolio.user.controller.response////PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/index.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse.Companion///PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/-companion/index.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse.Companion/from/#org.project.portfolio.user.entity.User/PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/-companion/from.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse///PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/index.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse/UserHeaderResponse/#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/-user-header-response.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse/email/#/PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/email.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse/name/#/PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/name.html
+$dokka.location:org.project.portfolio.user.controller.response/UserHeaderResponse/profileImage/#/PointingToDeclaration/portfolio/org.project.portfolio.user.controller.response/-user-header-response/profile-image.html
 $dokka.location:org.project.portfolio.user.controller////PointingToDeclaration/portfolio/org.project.portfolio.user.controller/index.html
 $dokka.location:org.project.portfolio.user.controller/UserController///PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/index.html
 $dokka.location:org.project.portfolio.user.controller/UserController/UserController/#org.project.portfolio.user.service.UserService/PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/-user-controller.html
-$dokka.location:org.project.portfolio.user.controller/UserController/deleteUser/#java.security.Principal/PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/delete-user.html
-$dokka.location:org.project.portfolio.user.controller/UserController/getUserInfo/#java.security.Principal/PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/get-user-info.html
+$dokka.location:org.project.portfolio.user.controller/UserController/deleteUser/#org.springframework.security.core.userdetails.UserDetails/PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/delete-user.html
+$dokka.location:org.project.portfolio.user.controller/UserController/getUserInfo/#org.springframework.security.core.userdetails.UserDetails/PointingToDeclaration/portfolio/org.project.portfolio.user.controller/-user-controller/get-user-info.html
 $dokka.location:org.project.portfolio.user.entity////PointingToDeclaration/portfolio/org.project.portfolio.user.entity/index.html
 $dokka.location:org.project.portfolio.user.entity/Role.ADMIN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.user.entity/-role/-a-d-m-i-n/index.html
 $dokka.location:org.project.portfolio.user.entity/Role.USER///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}portfolio/org.project.portfolio.user.entity/-role/-u-s-e-r/index.html
@@ -260,8 +349,11 @@ $dokka.location:org.project.portfolio.user.entity/Role/entries/#/PointingToDecla
 $dokka.location:org.project.portfolio.user.entity/Role/getAuthority/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-role/get-authority.html
 $dokka.location:org.project.portfolio.user.entity/Role/valueOf/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-role/value-of.html
 $dokka.location:org.project.portfolio.user.entity/Role/values/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-role/values.html
+$dokka.location:org.project.portfolio.user.entity/User.Companion///PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/-companion/index.html
+$dokka.location:org.project.portfolio.user.entity/User.Companion/create/#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/-companion/create.html
+$dokka.location:org.project.portfolio.user.entity/User.Companion/createWithdrawnUser/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/-companion/create-withdrawn-user.html
 $dokka.location:org.project.portfolio.user.entity/User///PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/index.html
-$dokka.location:org.project.portfolio.user.entity/User/User/#kotlin.String#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/-user.html
+$dokka.location:org.project.portfolio.user.entity/User/User/#kotlin.String#kotlin.String#kotlin.String#kotlin.String?#kotlin.String#kotlin.collections.MutableSet[org.project.portfolio.user.entity.Role]/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/-user.html
 $dokka.location:org.project.portfolio.user.entity/User/addRole/#org.project.portfolio.user.entity.Role/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/add-role.html
 $dokka.location:org.project.portfolio.user.entity/User/email/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/email.html
 $dokka.location:org.project.portfolio.user.entity/User/getAuthorities/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/get-authorities.html
@@ -269,7 +361,8 @@ $dokka.location:org.project.portfolio.user.entity/User/getPassword/#/PointingToD
 $dokka.location:org.project.portfolio.user.entity/User/getUsername/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/get-username.html
 $dokka.location:org.project.portfolio.user.entity/User/name/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/name.html
 $dokka.location:org.project.portfolio.user.entity/User/phone/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/phone.html
-$dokka.location:org.project.portfolio.user.entity/User/toString/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/to-string.html
+$dokka.location:org.project.portfolio.user.entity/User/profileImage/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/profile-image.html
+$dokka.location:org.project.portfolio.user.entity/User/roles/#/PointingToDeclaration/portfolio/org.project.portfolio.user.entity/-user/roles.html
 $dokka.location:org.project.portfolio.user.repository////PointingToDeclaration/portfolio/org.project.portfolio.user.repository/index.html
 $dokka.location:org.project.portfolio.user.repository/UserRepository///PointingToDeclaration/portfolio/org.project.portfolio.user.repository/-user-repository/index.html
 $dokka.location:org.project.portfolio.user.service////PointingToDeclaration/portfolio/org.project.portfolio.user.service/index.html
@@ -282,31 +375,29 @@ $dokka.location:org.project.portfolio//main/#kotlin.Array[kotlin.String]/Pointin
 $dokka.location:org.project.portfolio/PortfolioApplication///PointingToDeclaration/portfolio/org.project.portfolio/-portfolio-application/index.html
 $dokka.location:org.project.portfolio/PortfolioApplication/PortfolioApplication/#/PointingToDeclaration/portfolio/org.project.portfolio/-portfolio-application/-portfolio-application.html
 org.project.portfolio
-org.project.portfolio.article
+org.project.portfolio.article.chcker
 org.project.portfolio.article.controller
-org.project.portfolio.article.dto
+org.project.portfolio.article.controller.request
+org.project.portfolio.article.controller.response
 org.project.portfolio.article.entity
 org.project.portfolio.article.repository
 org.project.portfolio.article.service
 org.project.portfolio.auth
 org.project.portfolio.auth.dto
-org.project.portfolio.comment
-org.project.portfolio.comment.controller
-org.project.portfolio.comment.dto
-org.project.portfolio.comment.entity
-org.project.portfolio.comment.repository
-org.project.portfolio.comment.service
-org.project.portfolio.common
+org.project.portfolio.common.entity
+org.project.portfolio.common.exception
+org.project.portfolio.common.exception.dto
+org.project.portfolio.common.storage
+org.project.portfolio.common.storage.data.imgbb
 org.project.portfolio.config
-org.project.portfolio.exception_handler
-org.project.portfolio.exception_handler.dto
+org.project.portfolio.config.properties
 org.project.portfolio.notification.controller
 org.project.portfolio.notification.dto
 org.project.portfolio.notification.entity
 org.project.portfolio.notification.repository
 org.project.portfolio.notification.service
 org.project.portfolio.user.controller
+org.project.portfolio.user.controller.response
 org.project.portfolio.user.entity
 org.project.portfolio.user.repository
 org.project.portfolio.user.service
-
