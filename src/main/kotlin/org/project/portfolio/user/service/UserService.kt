@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
-
     /**
      * Get user information
      * @param email 유저 이메일

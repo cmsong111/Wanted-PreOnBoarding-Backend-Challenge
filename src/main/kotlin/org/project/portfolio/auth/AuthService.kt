@@ -22,9 +22,8 @@ import org.springframework.stereotype.Service
 class AuthService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
-
     /**
      * 스프링 시큐리티에서 사용되는 사용자명으로 정보 조회하는 메소드
      * @param username 사용자명
@@ -51,7 +50,7 @@ class AuthService(
             email = registerRequest.email,
             name = registerRequest.name!!,
             phone = registerRequest.phone!!,
-            password = passwordEncoder.encode(registerRequest.password!!)
+            password = passwordEncoder.encode(registerRequest.password!!),
         )
         userRepository.save(user)
         return TokenResponse(token = jwtProvider.createToken(user.email))

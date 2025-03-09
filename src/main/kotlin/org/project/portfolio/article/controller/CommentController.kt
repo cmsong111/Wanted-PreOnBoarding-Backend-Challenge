@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/articles/{articleId}/comments")
 @Tag(name = "4. Comments", description = "API for managing comments")
 class CommentController(
-    private val commentService: CommentService
+    private val commentService: CommentService,
 ) {
     @PostMapping
     @Operation(summary = "Create a new comment for a specific article")
@@ -33,12 +33,12 @@ class CommentController(
     fun createComment(
         principal: Principal,
         @PathVariable articleId: Long,
-        @Valid @RequestBody commentForm: CommentForm
+        @Valid @RequestBody commentForm: CommentForm,
     ): ResponseEntity<CommentResponse> {
         println("create request method is called")
         val comment = commentService.createComment(principal.name, articleId, commentForm.content!!)
         println("comment: $comment")
-        return ResponseEntity.created(URI.create("/api/v1/articles/${articleId}/comments/${comment.id}")).body(comment)
+        return ResponseEntity.created(URI.create("/api/v1/articles/$articleId/comments/${comment.id}")).body(comment)
     }
 
     @PatchMapping("/{commentId}")
@@ -56,8 +56,8 @@ class CommentController(
                 email = principal.name,
                 articleId = articleId,
                 commentId = commentId,
-                content = commentForm.content!!
-            )
+                content = commentForm.content!!,
+            ),
         )
     }
 
@@ -73,7 +73,7 @@ class CommentController(
         commentService.deleteComment(
             email = principal.name,
             articleId = articleId,
-            commentId = commentId
+            commentId = commentId,
         )
         return ResponseEntity.noContent().build()
     }

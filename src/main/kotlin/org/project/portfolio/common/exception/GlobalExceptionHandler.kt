@@ -6,24 +6,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-
 /** RestAPI 전역 예외 처리 */
 @RestControllerAdvice
 class GlobalExceptionHandler {
-
     /** 비즈니스 예외 처리 */
     @ExceptionHandler(BusinessException::class)
     private fun handleBusinessException(businessException: BusinessException): ResponseEntity<ApiResponse> {
-
         return ResponseEntity
             .status(
-                businessException.errorCode.httpStatus
+                businessException.errorCode.httpStatus,
             )
             .body(
                 ApiResponse(
                     resultCode = businessException.errorCode.code,
-                    resultMessage = businessException.errorCode.message
-                )
+                    resultMessage = businessException.errorCode.message,
+                ),
             )
     }
 
@@ -35,17 +32,13 @@ class GlobalExceptionHandler {
         }
         return ResponseEntity
             .status(
-                ErrorCode.INVALID_INPUT_VALUE.httpStatus
+                ErrorCode.INVALID_INPUT_VALUE.httpStatus,
             )
             .body(
                 ApiResponse(
                     resultCode = ErrorCode.INVALID_INPUT_VALUE.code,
-                    resultMessage = "${ErrorCode.INVALID_INPUT_VALUE.message} $resultMessage"
-                )
+                    resultMessage = "${ErrorCode.INVALID_INPUT_VALUE.message} $resultMessage",
+                ),
             )
     }
 }
-
-
-
-

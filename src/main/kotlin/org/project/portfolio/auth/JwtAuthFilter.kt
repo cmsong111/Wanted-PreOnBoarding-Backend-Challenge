@@ -12,13 +12,13 @@ import org.springframework.web.filter.OncePerRequestFilter
 @Component
 class JwtAuthFilter(
     private val jwtProvider: JwtProvider,
-    private val authService: AuthService
+    private val authService: AuthService,
 ) : OncePerRequestFilter() {
     /** 필터 */
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         val token = jwtProvider.resolveToken(request)
         if (token != null && jwtProvider.validateToken(token)) {

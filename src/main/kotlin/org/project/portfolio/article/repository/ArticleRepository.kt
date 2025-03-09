@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ArticleRepository : JpaRepository<Article, Long> {
-
     /**
      * 게시글 생성일자 범위로 조회하는 메소드
      */
-    fun findByCreatedAtBetween(createdAtStart: Timestamp, createdAtEnd: Timestamp): List<Article>
+    fun findByCreatedAtBetween(
+        createdAtStart: Timestamp,
+        createdAtEnd: Timestamp,
+    ): List<Article>
 
     /**
      * 게시글 제목으로 조회하는 메소드
@@ -22,6 +24,8 @@ interface ArticleRepository : JpaRepository<Article, Long> {
      * @param pageable 페이징 정보 객체
      */
     @Query("SELECT a FROM Article a WHERE (:title IS NULL OR a.title LIKE %:title%)")
-    fun findByTitleContains(title: String?, pageable: Pageable): Page<Article>
-
+    fun findByTitleContains(
+        title: String?,
+        pageable: Pageable,
+    ): Page<Article>
 }

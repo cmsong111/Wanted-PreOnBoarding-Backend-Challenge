@@ -57,13 +57,13 @@ class Article(
             title: String,
             content: String,
             images: List<String>? = null,
-            author: User
+            author: User,
         ): Article {
             return Article(
                 title = title,
                 content = content,
                 images = images?.toMutableList() ?: mutableListOf(),
-                author = author
+                author = author,
             )
         }
     }

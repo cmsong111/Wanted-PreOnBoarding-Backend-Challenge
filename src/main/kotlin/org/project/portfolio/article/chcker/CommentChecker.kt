@@ -3,9 +3,7 @@ package org.project.portfolio.article.chcker
 import org.springframework.stereotype.Component
 
 @Component
-class CommentChecker(
-) {
-
+class CommentChecker() {
     /**
      * Check if the user is the author of the comment
      * @param commentId Comment ID

@@ -9,7 +9,7 @@ data class TokenResponse(
     /** JWT Access Token */
     @field:Schema(description = "JWT Access Token")
     @JsonProperty("token")
-    val token: String
+    val token: String,
 ) {
     override fun toString(): String {
         return "TokenResponse(token='$token')"

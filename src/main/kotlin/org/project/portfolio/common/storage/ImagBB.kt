@@ -17,13 +17,11 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
 
-
 @Component
 @Profile("dev", "local", "default")
 class ImagBB(
-    @Value("\${imgbb.api-key}") private val imagebbApiKey: String
+    @Value("\${imgbb.api-key}") private val imagebbApiKey: String,
 ) : StorageService {
-
     private val logger = LoggerFactory.getLogger(ImagBB::class.java)
     private val restTemplate = RestTemplate()
     private val uploadUrl = "https://api.imgbb.com"
@@ -58,7 +56,7 @@ class ImagBB(
             uri,
             HttpMethod.POST,
             requestEntity,
-            String::class.java
+            String::class.java,
         )
 
         // 응답 처리

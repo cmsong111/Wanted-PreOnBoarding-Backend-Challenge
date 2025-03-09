@@ -39,21 +39,20 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/articles")
 @Tag(name = "3. Article", description = "The article API")
 class ArticleController(
-    private val articleService: ArticleService
+    private val articleService: ArticleService,
 ) {
-
     @GetMapping
     @Operation(summary = "게시글 조회 API")
     fun getArticles(
         @PageableDefault(page = 0, size = 10, sort = ["createdAt"], direction = Sort.Direction.DESC)
         @ParameterObject pageable: PageRequest,
-        @RequestParam(required = false) title: String?
+        @RequestParam(required = false) title: String?,
     ): ResponseEntity<Page<ArticleHeaderResponse>> {
         return ResponseEntity.ok(
             articleService.getArticles(
                 pageable = pageable,
                 title = title,
-            )
+            ),
         )
     }
 
@@ -61,7 +60,7 @@ class ArticleController(
     @Operation(summary = "게시글 상세 조회 API")
     fun getArticle(
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
-        servletRequest: ServletRequest
+        servletRequest: ServletRequest,
     ): ResponseEntity<ArticleDetailResponse> {
         return ResponseEntity.ok(articleService.getArticle(id, servletRequest.remoteAddr))
     }
@@ -71,7 +70,7 @@ class ArticleController(
     @SecurityRequirement(name = BEARER_AUTH)
     fun createArticle(
         @AuthenticationPrincipal principal: Principal,
-        @Valid @ModelAttribute articleForm: ArticleForm
+        @Valid @ModelAttribute articleForm: ArticleForm,
     ): ResponseEntity<ArticleDetailResponse> {
         val article: ArticleDetailResponse = articleService.createArticle(principal.name, articleForm)
         return ResponseEntity
@@ -82,11 +81,11 @@ class ArticleController(
     @PatchMapping("/{id}", consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 수정 API")
     @SecurityRequirement(name = BEARER_AUTH)
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isEditable(#id)")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isEditable(#id, T(java.time.Instant).now())")
     fun updateArticle(
         @AuthenticationPrincipal principal: Principal,
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
-        @Valid @ModelAttribute articleForm: ArticleForm
+        @Valid @ModelAttribute articleForm: ArticleForm,
     ): ResponseEntity<ArticleDetailResponse> {
         return ResponseEntity.ok(articleService.updateArticle(id, articleForm))
     }
@@ -97,7 +96,7 @@ class ArticleController(
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isAuthor(#id)")
     fun deleteArticle(
         @AuthenticationPrincipal principal: Principal,
-        @PathVariable @Parameter(description = "게시글 ID") id: Long
+        @PathVariable @Parameter(description = "게시글 ID") id: Long,
     ): ResponseEntity<Unit> {
         articleService.deleteArticle(id)
         return ResponseEntity.noContent().build()

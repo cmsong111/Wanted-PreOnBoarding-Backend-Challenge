@@ -40,7 +40,7 @@ data class ArticleDetailResponse(
                 author = UserHeaderResponse.from(article.author ?: User.createWithdrawnUser()),
                 createdAt = article.createdAt.toString(),
                 updatedAt = article.updatedAt.toString(),
-                viewCount = article.viewCount
+                viewCount = article.viewCount,
             )
         }
     }

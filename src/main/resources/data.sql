@@ -1,4 +1,4 @@
--- 유저 더미 데이터 (비밀번호는 'Password1234~!')
+
 insert into users (email, name, password, phone, deleted_at, created_at, updated_at)
 values ('test@test.com', 'test', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
         '010-0000-0000', '1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -10,8 +10,7 @@ values ('test@test.com', 'ADMIN'),
        ('test@test.com', 'USER'),
        ('user@test.com', 'USER');
 
--- 게시글 더미 데이터
--- @SoftDelete에서 NULL을 허용하지 않기 때문에, 삭제 되지 않음을 표현하기 위해서 TimeStamp(0)값을 넣어줌
+
 insert into article (deleted_at, updated_at, created_at, title, content, author_email, view_count)
 values ('1970-01-01 09:00:00', '2000-03-11 09:00:00', '2000-03-11 09:00:00', '테스트 게시글 1', '1번 테스트 게시글입니다', 'test@test.com', 0),
        ('1970-01-01 09:00:00', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '테스트 게시글 2', '2번 테스트 게시글입니다', 'test@test.com', 0),

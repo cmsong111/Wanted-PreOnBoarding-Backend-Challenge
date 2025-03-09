@@ -13,10 +13,11 @@ data class UserHeaderResponse(
     val profileImage: String?,
 ) {
     companion object {
-        fun from(user: User) = UserHeaderResponse(
-            email = user.email,
-            name = user.name,
-            profileImage = user.profileImage
-        )
+        fun from(user: User) =
+            UserHeaderResponse(
+                email = user.email,
+                name = user.name,
+                profileImage = user.profileImage,
+            )
     }
 }

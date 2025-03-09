@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 
-
 @Component
 @Profile("prod")
 class AmazonS3(
@@ -25,10 +24,8 @@ class AmazonS3(
     @Value("\${cloud.aws.region.static}")
     val awsRegion: String,
     @Value("\${cloud.aws.s3.bucket}")
-    val awsBucket: String
+    val awsBucket: String,
 ) : StorageService {
-
-
     val amazonS3: AmazonS3 = AmazonS3Client.builder()
         .withEndpointConfiguration(AwsClientBuilder.EndpointConfiguration(awsEndpoint, awsRegion))
         .withPathStyleAccessEnabled(true)
@@ -45,5 +42,4 @@ class AmazonS3(
         amazonS3.putObject(awsBucket, key, file.inputStream, metadata)
         return amazonS3.getUrl(awsBucket, key).toString()
     }
-
 }

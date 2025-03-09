@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository
 
 /** 사용자 레포지토리 */
 @Repository
-interface UserRepository : JpaRepository<User, String> {
-
-}
+interface UserRepository : JpaRepository<User, String>

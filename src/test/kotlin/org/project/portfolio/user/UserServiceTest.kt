@@ -13,13 +13,12 @@ import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.project.portfolio.user.service.UserService
-import java.util.*
+import java.util.Optional
 
 /** UserService 단위 테스트 */
 @DisplayName("UserService 단위 테스트")
 @ExtendWith(MockitoExtension::class)
 class UserServiceTest {
-
     @InjectMocks
     private lateinit var userService: UserService
 
@@ -36,7 +35,7 @@ class UserServiceTest {
             email = email,
             password = "Password1234~!",
             name = "홍길동",
-            phone = "010-1234-5678"
+            phone = "010-1234-5678",
         )
 
         Mockito.`when`(userRepository.findById(email)).thenReturn(Optional.of(user))
@@ -54,14 +53,11 @@ class UserServiceTest {
         // given
         val email: String = "test@test.com"
 
-
-
         Mockito.`when`(userRepository.findById(email)).thenReturn(Optional.empty())
 
         // when & then
         assertThrows<BusinessException> {
             userService.getUser(email)
         }
-
     }
 }

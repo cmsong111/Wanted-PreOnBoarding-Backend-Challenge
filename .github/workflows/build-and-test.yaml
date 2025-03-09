@@ -37,8 +37,11 @@ jobs:
         with:
           redis-version: 7
 
+      - name: Check Lint
+        run: ./gradlew ktlintCheck
+
       - name: Run Tests
-        run: ./gradlew --info test
+        run: ./gradlew -Dspring.profiles.active=test --info test
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2

@@ -11,22 +11,21 @@ import org.springframework.stereotype.Component
 
 @Component
 class CustomAuthenticationEntryPoint(
-    private val jwtProvider: JwtProvider
+    private val jwtProvider: JwtProvider,
 ) : AuthenticationEntryPoint {
-
     private val objectMapper: ObjectMapper = ObjectMapper()
 
     override fun commence(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        authException: AuthenticationException
+        authException: AuthenticationException,
     ) {
         val token: String? = jwtProvider.resolveToken(request)
 
         if (token.isNullOrEmpty()) {
             ApiResponse(
                 resultCode = ErrorCode.TOKEN_NOT_FOUND.code,
-                resultMessage = ErrorCode.TOKEN_NOT_FOUND.message
+                resultMessage = ErrorCode.TOKEN_NOT_FOUND.message,
             ).let {
                 response.contentType = "application/json"
                 response.status = HttpServletResponse.SC_UNAUTHORIZED
@@ -36,7 +35,7 @@ class CustomAuthenticationEntryPoint(
         } else {
             ApiResponse(
                 resultCode = ErrorCode.TOKEN_EXPIRED.code,
-                resultMessage = ErrorCode.TOKEN_EXPIRED.message
+                resultMessage = ErrorCode.TOKEN_EXPIRED.message,
             ).let {
                 response.contentType = "application/json"
                 response.status = HttpServletResponse.SC_UNAUTHORIZED

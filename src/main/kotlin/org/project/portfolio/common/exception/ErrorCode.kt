@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus
 enum class ErrorCode(
     val httpStatus: HttpStatus,
     val code: String,
-    val message: String
+    val message: String,
 ) {
     TOKEN_INVALID(HttpStatus.BAD_REQUEST, "C001", "유효하지 않은 토큰입니다."),
     TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "C002", "만료된 토큰입니다."),
@@ -28,5 +28,4 @@ enum class ErrorCode(
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "C001", "댓글을 찾을 수 없습니다."),
 
     IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "I001", "이미지를 찾을 수 없습니다."),
-    ;
 }

@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost/portfolio
+    url: jdbc:h2:mem:testdb?MODE=MYSQL
     username: root
     password: root
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.h2.Driver
 
   jpa:
     generate-ddl: true
@@ -15,7 +15,6 @@ spring:
         show_sql: true
         use_sql_comments: true
         highlight: true
-        dialect: org.hibernate.dialect.MariaDBDialect
 
     defer-datasource-initialization: true
 

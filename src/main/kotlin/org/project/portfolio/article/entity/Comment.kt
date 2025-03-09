@@ -17,7 +17,7 @@ class Comment(
     var content: String,
     /** 댓글 작성자 */
     @ManyToOne
-    var author: User
+    var author: User,
 ) : BaseEntity() {
     companion object {
         /** 댓글 생성 메소드 */

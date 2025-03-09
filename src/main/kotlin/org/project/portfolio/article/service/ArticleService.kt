@@ -23,7 +23,7 @@ class ArticleService(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
     private val redisTemplate: RedisTemplate<String, Any>,
-    private val storageService: StorageService
+    private val storageService: StorageService,
 ) {
     private val logger = LoggerFactory.getLogger(ArticleService::class.java)
 
@@ -50,7 +50,10 @@ class ArticleService(
      * @param id 게시글 ID
      */
     @Transactional
-    fun getArticle(id: Long, ip: String): ArticleDetailResponse {
+    fun getArticle(
+        id: Long,
+        ip: String,
+    ): ArticleDetailResponse {
         // 게시글 조회
         val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
@@ -77,9 +80,12 @@ class ArticleService(
      * @articleRequest 게시글 요청 DTO
      */
     @Transactional
-    fun createArticle(username: String, articleForm: ArticleForm): ArticleDetailResponse {
+    fun createArticle(
+        username: String,
+        articleForm: ArticleForm,
+    ): ArticleDetailResponse {
         // 유저 조회
-        val user: User = userRepository.findById(username).orElseThrow() {
+        val user: User = userRepository.findById(username).orElseThrow {
             BusinessException(ErrorCode.USER_NOT_FOUND)
         }
 
@@ -90,8 +96,8 @@ class ArticleService(
                 images = articleForm.images?.map {
                     storageService.uploadFile(it)
                 },
-                author = user
-            )
+                author = user,
+            ),
         )
 
         return ArticleDetailResponse.from(article)
@@ -104,9 +110,12 @@ class ArticleService(
      * @param articleForm 게시글 요청 DTO
      */
     @Transactional
-    fun updateArticle(id: Long, articleForm: ArticleForm): ArticleDetailResponse {
+    fun updateArticle(
+        id: Long,
+        articleForm: ArticleForm,
+    ): ArticleDetailResponse {
         // 게시글 조회
-        val article: Article = articleRepository.findById(id).orElseThrow() {
+        val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
 
@@ -116,7 +125,7 @@ class ArticleService(
             content = articleForm.content!!,
             images = articleForm.images?.map {
                 storageService.uploadFile(it)
-            }
+            },
         )
 
         return ArticleDetailResponse.from(article)

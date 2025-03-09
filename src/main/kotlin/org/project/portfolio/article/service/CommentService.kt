@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CommentService(
     private val articleRepository: ArticleRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
     /**
      * 댓글 생성 메소드
@@ -73,7 +73,7 @@ class CommentService(
         }
         // 댓글 수정 및 반환
         return CommentResponse.from(
-            article.updateComment(commentId, content) ?: throw BusinessException(ErrorCode.COMMENT_NOT_FOUND)
+            article.updateComment(commentId, content) ?: throw BusinessException(ErrorCode.COMMENT_NOT_FOUND),
         )
     }
 

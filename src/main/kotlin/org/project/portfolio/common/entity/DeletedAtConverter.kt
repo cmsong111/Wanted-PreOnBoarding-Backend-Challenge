@@ -14,7 +14,6 @@ import java.sql.Timestamp
  */
 @Converter
 class DeletedAtConverter : AttributeConverter<Boolean, Timestamp> {
-
     /**
      * 삭제 여부를 데이터베이스에 저장할 때 사용
      * @param attribute 삭제 여부

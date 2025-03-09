@@ -41,13 +41,18 @@ class User(
 
     companion object {
         /** 유저 생성 */
-        fun create(email: String, name: String, phone: String, password: String): User {
+        fun create(
+            email: String,
+            name: String,
+            phone: String,
+            password: String,
+        ): User {
             return User(
                 email = email,
                 name = name,
                 phone = phone,
                 password = password,
-                profileImage = "https://picsum.photos/id/100/200/200"
+                profileImage = "https://picsum.photos/id/100/200/200",
             )
         }
 
@@ -57,7 +62,7 @@ class User(
                 email = "empty",
                 name = "탈퇴한 유저",
                 phone = "000-0000-0000",
-                password = "empty"
+                password = "empty",
             )
         }
     }

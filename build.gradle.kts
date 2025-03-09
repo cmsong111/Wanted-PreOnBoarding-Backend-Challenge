@@ -60,7 +60,6 @@ dependencies {
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 }
 
-
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
@@ -72,7 +71,6 @@ hibernate {
         enableAssociationManagement = true
     }
 }
-
 
 allOpen {
     annotation("jakarta.persistence.Entity")
@@ -98,8 +96,6 @@ tasks.withType<JacocoReport> {
         html.required.set(true)
     }
 }
-
-
 
 sonar {
     properties {

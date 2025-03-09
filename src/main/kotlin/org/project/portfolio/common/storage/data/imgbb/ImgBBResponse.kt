@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class ImgBBResponse(
     @JsonProperty("data") var data: Data? = Data(),
     @JsonProperty("success") var success: Boolean? = null,
-    @JsonProperty("status") var status: Int? = null
+    @JsonProperty("status") var status: Int? = null,
 )
 
 data class Image(
@@ -13,7 +13,7 @@ data class Image(
     @JsonProperty("name") var name: String? = null,
     @JsonProperty("mime") var mime: String? = null,
     @JsonProperty("extension") var extension: String? = null,
-    @JsonProperty("url") var url: String? = null
+    @JsonProperty("url") var url: String? = null,
 )
 
 data class Data(
@@ -30,5 +30,5 @@ data class Data(
     @JsonProperty("image") var image: Image? = Image(),
     @JsonProperty("thumb") var thumb: Image? = Image(),
     @JsonProperty("medium") var medium: Image? = Image(),
-    @JsonProperty("delete_url") var deleteUrl: String? = null
+    @JsonProperty("delete_url") var deleteUrl: String? = null,
 )

@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/v1/auth")
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
 ) {
-
     /**
      * 로그인 API
      * @param loginRequest 로그인 요청 정보
@@ -28,7 +27,7 @@ class AuthController(
     @PostMapping("/login")
     @Operation(summary = "로그인 API", description = "Authenticate the user and return the JWT token")
     fun login(
-        @Valid @RequestBody loginRequest: LoginRequest
+        @Valid @RequestBody loginRequest: LoginRequest,
     ): ResponseEntity<TokenResponse> {
         return ResponseEntity.ok(authService.login(loginRequest))
     }
@@ -41,7 +40,7 @@ class AuthController(
     @PostMapping("/register")
     @Operation(summary = "회원가입 API", description = "Create a new user account")
     fun register(
-        @Valid @RequestBody registerRequest: RegisterRequest
+        @Valid @RequestBody registerRequest: RegisterRequest,
     ): ResponseEntity<TokenResponse> {
         return ResponseEntity.ok(authService.register(registerRequest))
     }

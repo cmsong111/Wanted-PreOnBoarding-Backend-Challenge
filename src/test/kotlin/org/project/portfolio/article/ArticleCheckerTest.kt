@@ -8,6 +8,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import org.project.portfolio.article.chcker.ArticleChecker
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
 import org.project.portfolio.common.exception.BusinessException
@@ -16,16 +17,14 @@ import org.project.portfolio.user.repository.UserRepository
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
-import java.sql.Timestamp
-import java.util.*
+import java.time.Instant
+import java.util.Optional
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import org.project.portfolio.article.chcker.ArticleChecker
 
 @DisplayName("ArticleChecker 단위 테스트")
 @ExtendWith(MockitoExtension::class)
 class ArticleCheckerTest {
-
     @InjectMocks
     private lateinit var articleChecker: ArticleChecker
 
@@ -35,7 +34,6 @@ class ArticleCheckerTest {
     @Mock
     private lateinit var userRepository: UserRepository
 
-
     @Test
     @DisplayName("게시글 수정 가능 - 작성자 본인")
     fun isEditable2() {
@@ -44,12 +42,12 @@ class ArticleCheckerTest {
             email = "user@test.com",
             password = "Password1234~!",
             name = "홍길동",
-            phone = "010-1234-5678"
+            phone = "010-1234-5678",
         )
         val article: Article = Article(
             title = "제목",
             content = "내용",
-            author = author
+            author = author,
         )
         val context: SecurityContext = SecurityContextHolder.getContext()
         context.authentication = UsernamePasswordAuthenticationToken(author.email, author.password, author.authorities)
@@ -67,18 +65,18 @@ class ArticleCheckerTest {
             email = "user@test.com",
             password = "Password1234~!",
             name = "홍길동",
-            phone = "010-1234-5678"
+            phone = "010-1234-5678",
         )
         val author2: User = User(
             email = "anotherUser@test.com",
             password = "Password1234~!",
             name = "김남주",
-            phone = "010-1234-5678"
+            phone = "010-1234-5678",
         )
         val article: Article = Article(
             title = "제목",
             content = "내용",
-            author = author2
+            author = author2,
         )
         val context: SecurityContext = SecurityContextHolder.getContext()
         context.authentication = UsernamePasswordAuthenticationToken(author.email, author.password, author.authorities)
@@ -96,21 +94,27 @@ class ArticleCheckerTest {
             email = "user@test.com",
             password = "Password1234~!",
             name = "홍길동",
-            phone = "010-1234-5678"
+            phone = "010-1234-5678",
         )
-        val article: Article = Article(
+        val article = Article(
             title = "제목",
             content = "내용",
-            author = author
+            author = author,
         )
 
-        article.createdAt = Timestamp(System.currentTimeMillis() - 11 * 24 * 60 * 60 * 1000)
         val context: SecurityContext = SecurityContextHolder.getContext()
         context.authentication = UsernamePasswordAuthenticationToken(author.email, author.password, author.authorities)
 
-        Mockito.`when`(articleRepository.findById(1L)).thenReturn(Optional.of(article))
+        Mockito.`when`(articleRepository.findById(1L)).thenReturn(
+            Optional.of(article),
+        )
 
-        assertFalse { articleChecker.isEditable(1L) }
+        assertFalse {
+            articleChecker.isEditable(
+                id = 1L,
+                now = Instant.now().plusSeconds(11 * 24 * 60 * 60),
+            )
+        }
     }
 
     @Test
@@ -120,7 +124,9 @@ class ArticleCheckerTest {
         val id: Long = 50
 
         // when
-        Mockito.`when`(articleRepository.findById(id)).thenReturn(Optional.empty())
+        Mockito.`when`(articleRepository.findById(id)).thenReturn(
+            Optional.empty(),
+        )
 
         // then
         assertThrows<BusinessException> {

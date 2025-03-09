@@ -25,7 +25,7 @@ data class ArticleHeaderResponse(
     val author: UserHeaderResponse,
     /** 게시글 작성일 */
     @field:Schema(description = "게시글 작성일", example = "2021-01-01T00:00:00")
-    val createdAt: String
+    val createdAt: String,
 ) {
     companion object {
         fun from(article: Article): ArticleHeaderResponse {
@@ -35,7 +35,7 @@ data class ArticleHeaderResponse(
                 content = article.content.take(50),
                 thumbnail = article.images.firstOrNull(),
                 author = UserHeaderResponse.from(article.author ?: User.createWithdrawnUser()),
-                createdAt = article.createdAt.toString()
+                createdAt = article.createdAt.toString(),
             )
         }
     }
