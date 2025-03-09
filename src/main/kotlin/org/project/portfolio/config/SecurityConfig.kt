@@ -21,19 +21,8 @@ class SecurityConfig(
     private val authService: AuthService,
     private val jwtAuthFilter: JwtAuthFilter,
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
-    private val customAccessDeniedHandler: CustomAccessDeniedHandler
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler,
 ) {
-
-    /** 허용 URL 목록 */
-    private val WHITE_LIST_URL = arrayOf<String>(
-        "/api/v1/auth/**",
-        "/h2-console/**",
-        "/swagger-ui/**",
-        "/v3/api-docs/**",
-        "/",
-    )
-
-
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http
@@ -54,5 +43,16 @@ class SecurityConfig(
                 it.accessDeniedHandler(customAccessDeniedHandler)
             }
             .build()
+    }
+
+    companion object {
+        /** 허용 URL 목록 */
+        private val WHITE_LIST_URL = arrayOf<String>(
+            "/api/v1/auth/**",
+            "/h2-console/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/",
+        )
     }
 }

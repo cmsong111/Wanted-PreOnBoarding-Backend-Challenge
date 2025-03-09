@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost/article
+    url: jdbc:h2:mem:testdb?MODE=MYSQL
     username: root
     password: root
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: org.h2.Driver
 
   jpa:
     generate-ddl: true
@@ -15,19 +15,23 @@ spring:
         show_sql: true
         use_sql_comments: true
         highlight: true
-        dialect: org.hibernate.dialect.MariaDBDialect
 
     defer-datasource-initialization: true
 
   data:
     redis:
-      host: localhost
+      host: localhost/1
       port: 6379
 
   sql:
     init:
       mode: always
 
+  servlet:
+    multipart:
+      # File Max Size 15MB
+      max-file-size: 15MB
+      max-request-size: 15MB
 
 jwt:
   secret-key: ${JWT_SECRET:dGhpcy1pcy1zZWNyZXQta2V5LXJlcGxhY2Utd2l0aC15b3VyLW93bi1zZWNyZXQta2V5} # this-is-secret-key-replace-with-your-own-secret-key with BASE64 encoded
@@ -41,6 +45,7 @@ springdoc:
     tags-sorter: alpha
 
 server:
+  forward-headers-strategy: framework
   servlet:
     encoding:
       force-response: true # 한글 인코딩 반환 강제화
@@ -52,5 +57,10 @@ cloud:
       secret-key: ${AWS_SECRET_KEY:password}
     region:
       static: kr-busan-1
+    s3:
+      bucket: article
+
+imgbb:
+  api-key: ${IMGBB_API_KEY:your-api-key}
 
 

@@ -1,7 +1,11 @@
 package org.project.portfolio.notification.entity
 
-import jakarta.persistence.*
-import org.project.portfolio.common.BaseEntity
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
+import org.project.portfolio.common.entity.BaseEntity
 import org.project.portfolio.user.entity.User
 
 /**
@@ -20,6 +24,5 @@ class Notification(
     @ManyToOne
     val receiver: User,
     /** 전송 주체 */
-    val sender: String
-) : BaseEntity() {
-}
+    val sender: String,
+) : BaseEntity()

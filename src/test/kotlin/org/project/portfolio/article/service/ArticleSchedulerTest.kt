@@ -18,7 +18,6 @@ import java.sql.Timestamp
 @DisplayName("ArticleScheduler 단위 테스트")
 @ExtendWith(MockitoExtension::class)
 class ArticleSchedulerTest {
-
     @InjectMocks
     private lateinit var articleScheduler: ArticleScheduler
 
@@ -35,19 +34,19 @@ class ArticleSchedulerTest {
             email = "",
             password = "",
             name = "",
-            phone = ""
+            phone = "",
         )
         val articles: List<Article> = listOf(
             Article(
                 title = "제목",
                 content = "내용",
-                author = user
+                author = user,
             ),
             Article(
                 title = "제목",
                 content = "내용",
-                author = user
-            )
+                author = user,
+            ),
         )
         Mockito.`when`(articleRepository.findByCreatedAtBetween(any<Timestamp>(), any<Timestamp>()))
             .thenReturn(articles)

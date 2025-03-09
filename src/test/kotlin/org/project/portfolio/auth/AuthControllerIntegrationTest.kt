@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -20,9 +21,9 @@ import kotlin.test.assertNotNull
 
 @DisplayName("AuthController 통합 테스트")
 @SpringBootTest
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class AuthControllerIntegrationTest {
-
     @Autowired
     lateinit var mvc: MockMvc
 
@@ -32,14 +33,14 @@ class AuthControllerIntegrationTest {
         // given
         val loginRequest: LoginRequest = LoginRequest(
             email = "test@test.com",
-            password = "Password1234~!"
+            password = "Password1234~!",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/login")
                 .content(ObjectMapper().writeValueAsString(loginRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
         val tokenResponse: TokenResponse = ObjectMapper().readValue(result.response.contentAsString, TokenResponse::class.java)
 
@@ -54,14 +55,14 @@ class AuthControllerIntegrationTest {
         // given
         val loginRequest: LoginRequest = LoginRequest(
             email = "test@test.com",
-            password = "wrong_password1234~!"
+            password = "wrong_password1234~!",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/login")
                 .content(ObjectMapper().writeValueAsString(loginRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -79,7 +80,7 @@ class AuthControllerIntegrationTest {
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
         val tokenResponse: TokenResponse = ObjectMapper().readValue(result.response.contentAsString, TokenResponse::class.java)
 
@@ -93,14 +94,14 @@ class AuthControllerIntegrationTest {
     fun registerFailDuplicatedEmail() {
         // given
         val registerRequest: RegisterRequest = makeRegisterRequest(
-            email = "test@test.com"
+            email = "test@test.com",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -120,7 +121,7 @@ class AuthControllerIntegrationTest {
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -140,7 +141,7 @@ class AuthControllerIntegrationTest {
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -153,14 +154,14 @@ class AuthControllerIntegrationTest {
     fun registerFailInvalidName() {
         // given
         val registerRequest: RegisterRequest = makeRegisterRequest(
-            name = "테스터123@*(&$(*@$&*(^<h1>"
+            name = "테스터123@*(&$(*@$&*(^<h1>",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -173,14 +174,14 @@ class AuthControllerIntegrationTest {
     fun registerFailInvalidPassword() {
         // given
         val registerRequest: RegisterRequest = makeRegisterRequest(
-            password = "password"
+            password = "password",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -196,14 +197,14 @@ class AuthControllerIntegrationTest {
             email = "",
             password = "",
             phone = "",
-            name = ""
+            name = "",
         )
 
         // when
         val result: MvcResult = mvc.perform(
             post("/api/v1/auth/register")
                 .content(ObjectMapper().writeValueAsString(registerRequest))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON),
         ).andReturn()
 
         // then
@@ -215,13 +216,13 @@ class AuthControllerIntegrationTest {
         email: String = "test123@test.com",
         password: String = "Password12345!!",
         name: String = "테스터",
-        phone: String = "010-1234-5678"
+        phone: String = "010-1234-5678",
     ): RegisterRequest {
         return RegisterRequest(
             email = email,
             password = password,
             name = name,
-            phone = phone
+            phone = phone,
         )
     }
 }

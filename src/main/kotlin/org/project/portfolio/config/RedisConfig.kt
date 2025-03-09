@@ -13,14 +13,12 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import java.time.Duration
 
-
 @EnableCaching
 @Configuration
 class RedisConfig(
     @Value("\${spring.data.redis.host}") val redisHost: String,
-    @Value("\${spring.data.redis.port}") val redisPort: Int
+    @Value("\${spring.data.redis.port}") val redisPort: Int,
 ) {
-
     @Bean
     fun redisConnectionFactory(): RedisConnectionFactory {
         return LettuceConnectionFactory(redisHost, redisPort)
@@ -35,9 +33,9 @@ class RedisConfig(
                 // Serialize values with GenericJackson2JsonRedisSerializer
                 .serializeValuesWith(
                     RedisSerializationContext.SerializationPair.fromSerializer(
-                        GenericJackson2JsonRedisSerializer()
-                    )
-                )
+                        GenericJackson2JsonRedisSerializer(),
+                    ),
+                ),
         ).build()
     }
 

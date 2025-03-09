@@ -5,27 +5,24 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders.BASE64
 import io.jsonwebtoken.security.Keys
 import jakarta.servlet.http.HttpServletRequest
-import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.exception_handler.ErrorCode
+import java.util.Date
+import javax.crypto.SecretKey
+import org.project.portfolio.common.exception.BusinessException
+import org.project.portfolio.common.exception.ErrorCode
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
-import java.util.*
-import javax.crypto.SecretKey
 
 @Component
 class JwtProvider {
-
     @Value("\${jwt.secret-key}")
     lateinit var secretKey: String
 
     @Value("\${jwt.expiration}")
     lateinit var expiration: Integer
 
-
     val key: SecretKey by lazy {
         Keys.hmacShaKeyFor(BASE64.decode(secretKey))
     }
-
 
     /** Token Create */
     fun createToken(subject: String): String {

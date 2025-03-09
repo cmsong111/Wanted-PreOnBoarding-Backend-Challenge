@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 @Service
 class NotificationService(
     private val notificationRepository: NotificationRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
     /** 현재 연결된 모든 SSE 클라이언트 */
     private val emitters: HashMap<String, SseEmitter> = hashMapOf()
@@ -33,19 +33,21 @@ class NotificationService(
     }
 
     /** 알림 발송 API */
-    fun sendNotification(notificationRequestDto: NotificationRequestDto, sender: String) {
+    fun sendNotification(
+        notificationRequestDto: NotificationRequestDto,
+        sender: String,
+    ) {
         // 전체 알림인 경우
         if (notificationRequestDto.receiver == null) {
             // 알림 저장
             userRepository.findAll().forEach {
                 val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[notification.receiver.email]?.send(
-                    SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification))
+                    SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification)),
                 )
             }
-        }
-        // 특정 사용자에게 알림을 보내는 경우
-        else {
+        } else {
+            // 특정 사용자에게 알림을 보내는 경우
             userRepository.findById(notificationRequestDto.receiver).orElseThrow().let {
                 val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[it.email]?.send(SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification)))
@@ -53,12 +55,16 @@ class NotificationService(
         }
     }
 
-    private fun saveNotification(notificationRequestDto: NotificationRequestDto, receiver: User, sender: String): Notification {
+    private fun saveNotification(
+        notificationRequestDto: NotificationRequestDto,
+        receiver: User,
+        sender: String,
+    ): Notification {
         val notification = Notification(
             title = notificationRequestDto.title!!,
             content = notificationRequestDto.content!!,
             receiver = receiver,
-            sender = notificationRequestDto.sender ?: sender
+            sender = notificationRequestDto.sender ?: sender,
         )
         return notificationRepository.save(notification)
     }
@@ -70,6 +76,4 @@ class NotificationService(
     fun getNotifications(email: String): List<Notification> {
         return notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email)
     }
-
-
 }

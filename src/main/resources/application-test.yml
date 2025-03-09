@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb?MODE=MYSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    defer-datasource-initialization: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  sql:
+    init:
+      mode: embedded
+
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+
+jwt:
+  secret-key: ${JWT_SECRET:dGhpcy1pcy1zZWNyZXQta2V5LXJlcGxhY2Utd2l0aC15b3VyLW93bi1zZWNyZXQta2V5} # this-is-secret-key-replace-with-your-own-secret-key with BASE64 encoded
+  expiration: 1800000 # 30 minutes
+
+
+server:
+  forward-headers-strategy: framework
+
+imgbb:
+  api-key: ${IMGBB_API_KEY:your-api-key}
+
+

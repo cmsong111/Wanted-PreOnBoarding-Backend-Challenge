@@ -1,19 +1,19 @@
 package org.project.portfolio.article.service
 
-import com.amazonaws.services.s3.AmazonS3
-import org.project.portfolio.article.dto.ArticleRequest
-import org.project.portfolio.article.dto.ArticleResponseDetail
-import org.project.portfolio.article.dto.ArticleResponseHeader
+import java.util.concurrent.TimeUnit
+import org.project.portfolio.article.controller.request.ArticleForm
+import org.project.portfolio.article.controller.response.ArticleDetailResponse
+import org.project.portfolio.article.controller.response.ArticleHeaderResponse
 import org.project.portfolio.article.entity.Article
 import org.project.portfolio.article.repository.ArticleRepository
-import org.project.portfolio.comment.repository.CommentRepository
-import org.project.portfolio.exception_handler.BusinessException
-import org.project.portfolio.exception_handler.ErrorCode
+import org.project.portfolio.common.exception.BusinessException
+import org.project.portfolio.common.exception.ErrorCode
+import org.project.portfolio.common.storage.StorageService
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,10 +21,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
-    private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
-    private val amazonS3: AmazonS3,
     private val redisTemplate: RedisTemplate<String, Any>,
+    private val storageService: StorageService,
 ) {
     private val logger = LoggerFactory.getLogger(ArticleService::class.java)
 
@@ -34,14 +33,15 @@ class ArticleService(
      * @param title 검색할 게시글 제목(null일 경우 전체 조회)
      */
     @Transactional(readOnly = true)
-    fun getArticles(pageable: Pageable, title: String?): List<ArticleResponseHeader> {
+    fun getArticles(
+        title: String?,
+        pageable: Pageable,
+    ): Page<ArticleHeaderResponse> {
         return articleRepository.findByTitleContains(
+            title = title,
             pageable = pageable,
-            title = title
         ).map {
-            ArticleResponseHeader(
-                article = it,
-            )
+            ArticleHeaderResponse.from(it)
         }
     }
 
@@ -50,7 +50,10 @@ class ArticleService(
      * @param id 게시글 ID
      */
     @Transactional
-    fun getArticle(id: Long, ip: String): ArticleResponseDetail {
+    fun getArticle(
+        id: Long,
+        ip: String,
+    ): ArticleDetailResponse {
         // 게시글 조회
         val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
@@ -63,15 +66,12 @@ class ArticleService(
         if (!redisTemplate.hasKey(redisKey)) {
             article.viewCount += 1
             articleRepository.save(article)
-            redisTemplate.opsForValue()[redisKey, true, 1] = java.util.concurrent.TimeUnit.DAYS
+            redisTemplate.opsForValue()[redisKey, true, 1] = TimeUnit.DAYS
             logger.info("조회수 증가")
         }
 
         // 게시글 DTO 반환
-        return ArticleResponseDetail(
-            article = article,
-            commentList = commentRepository.findByArticleId(id, Sort.by(Sort.Direction.ASC, "createdAt"))
-        )
+        return ArticleDetailResponse.from(article)
     }
 
     /**
@@ -79,41 +79,56 @@ class ArticleService(
      * @param username 유저 이름
      * @articleRequest 게시글 요청 DTO
      */
-    fun createArticle(username: String, articleRequest: ArticleRequest): Article {
+    @Transactional
+    fun createArticle(
+        username: String,
+        articleForm: ArticleForm,
+    ): ArticleDetailResponse {
         // 유저 조회
-        val user: User = userRepository.findById(username).orElseThrow() {
+        val user: User = userRepository.findById(username).orElseThrow {
             BusinessException(ErrorCode.USER_NOT_FOUND)
         }
 
-        // 게시글 생성
-        val article = Article(
-            title = articleRequest.title!!,
-            content = articleRequest.content!!,
-            author = user
+        val article: Article = articleRepository.save(
+            Article.create(
+                title = articleForm.title!!,
+                content = articleForm.content!!,
+                images = articleForm.images?.map {
+                    storageService.uploadFile(it)
+                },
+                author = user,
+            ),
         )
 
-        // 게시글 저장 및 반환
-        return articleRepository.save(article)
+        return ArticleDetailResponse.from(article)
     }
 
     /**
      * 게시글 수정 메소드
      * 스프링 시큐리티를 통해 권한이 있는 사용자만 수정 가능
      * @param id 게시글 ID
-     * @param articleRequest 게시글 요청 DTO
+     * @param articleForm 게시글 요청 DTO
      */
     @Transactional
-    fun updateArticle(id: Long, articleRequest: ArticleRequest): Article {
+    fun updateArticle(
+        id: Long,
+        articleForm: ArticleForm,
+    ): ArticleDetailResponse {
         // 게시글 조회
-        val article: Article = articleRepository.findById(id).orElseThrow() {
+        val article: Article = articleRepository.findById(id).orElseThrow {
             BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
         }
 
         // 게시글 수정
-        article.update(articleRequest)
+        article.update(
+            title = articleForm.title!!,
+            content = articleForm.content!!,
+            images = articleForm.images?.map {
+                storageService.uploadFile(it)
+            },
+        )
 
-        // 게시글 저장 및 반환
-        return articleRepository.save(article)
+        return ArticleDetailResponse.from(article)
     }
 
     /**
@@ -123,21 +138,6 @@ class ArticleService(
      */
     @Transactional
     fun deleteArticle(id: Long) {
-        // 게시글 조회
-        articleRepository.findById(id).orElseThrow() {
-            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
-        }
-        // 게시글 삭제
         articleRepository.deleteById(id)
-    }
-
-    /**
-     * 게시글 Hard 삭제 메소드
-     * @param id 게시글 ID
-     */
-    @Transactional
-    fun hardDeleteArticle(id: Long) {
-        // 게시글 Hard 삭제
-        articleRepository.hardDeleteById(id)
     }
 }
