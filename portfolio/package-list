@@ -163,7 +163,6 @@ $dokka.location:org.project.portfolio.auth/JwtProperties/JwtProperties/#kotlin.S
 $dokka.location:org.project.portfolio.auth/JwtProperties/expiry/#/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-properties/expiry.html
 $dokka.location:org.project.portfolio.auth/JwtProperties/issuer/#/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-properties/issuer.html
 $dokka.location:org.project.portfolio.auth/JwtProperties/secret/#/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-properties/secret.html
-$dokka.location:org.project.portfolio.auth/JwtProvider.Companion///PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/-companion/index.html
 $dokka.location:org.project.portfolio.auth/JwtProvider///PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/index.html
 $dokka.location:org.project.portfolio.auth/JwtProvider/JwtProvider/#org.project.portfolio.auth.JwtProperties/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/-jwt-provider.html
 $dokka.location:org.project.portfolio.auth/JwtProvider/createToken/#kotlin.Long#kotlin.String#kotlin.collections.Set[org.project.portfolio.user.entity.UserRole]#kotlin.Long?/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/create-token.html
