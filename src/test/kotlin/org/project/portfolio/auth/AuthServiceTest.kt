@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension
 import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
+import org.project.portfolio.auth.service.AuthService
 import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository

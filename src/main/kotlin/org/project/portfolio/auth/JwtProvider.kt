@@ -1,70 +1,90 @@
 package org.project.portfolio.auth
 
-import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.io.Decoders.BASE64
 import io.jsonwebtoken.security.Keys
-import jakarta.servlet.http.HttpServletRequest
-import java.util.Date
-import javax.crypto.SecretKey
-import org.project.portfolio.common.exception.BusinessException
-import org.project.portfolio.common.exception.ErrorCode
-import org.springframework.beans.factory.annotation.Value
+import org.project.portfolio.user.entity.User
+import org.project.portfolio.user.entity.UserRole
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component
+import java.time.Instant
+import java.util.Date
+import java.util.UUID
+import javax.crypto.SecretKey
 
 @Component
-class JwtProvider {
-    @Value("\${jwt.secret-key}")
-    lateinit var secretKey: String
+@EnableConfigurationProperties(JwtProperties::class)
+class JwtProvider(
+    private val jwtProperties: JwtProperties,
+) {
+    private val key: SecretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
 
-    @Value("\${jwt.expiration}")
-    lateinit var expiration: Integer
-
-    val key: SecretKey by lazy {
-        Keys.hmacShaKeyFor(BASE64.decode(secretKey))
+    fun createToken(
+        userId: Long,
+        email: String,
+        roles: Set<UserRole>,
+        expiry: Long? = null,
+    ): String {
+        val now = Instant.now()
+        return encode(
+            AuthenticatedUser(
+                jti = UUID.randomUUID().toString(),
+                email = email,
+                roles = roles,
+                issuer = jwtProperties.issuer,
+                issuedAt = now,
+                expiry = now.plusSeconds(expiry ?: jwtProperties.expiry),
+            ),
+        )
     }
 
-    /** Token Create */
-    fun createToken(subject: String): String {
-        return "Bearer " + Jwts.builder()
-            .issuer("portfolio")
-            .issuedAt(Date())
-            .expiration(Date(System.currentTimeMillis() + expiration.toLong()))
-            .subject(subject)
+    fun createToken(
+        user: User,
+        expiry: Long? = null,
+    ): String {
+        val now = Instant.now()
+        return encode(
+            AuthenticatedUser(
+                jti = UUID.randomUUID().toString(),
+                email = user.email,
+                roles = user.roles,
+                issuer = jwtProperties.issuer,
+                issuedAt = now,
+                expiry = now.plusSeconds(expiry ?: jwtProperties.expiry),
+            ),
+        )
+    }
+
+    private fun encode(user: AuthenticatedUser): String {
+        return Jwts.builder()
+            .id(user.jti)
+            .subject(user.email)
+            .claim("roles", user.roles.joinToString(",") { it.authority })
+            .issuer(user.issuer)
+            .issuedAt(Date.from(user.issuedAt))
+            .expiration(Date.from(user.expiry))
             .signWith(key)
             .compact()
     }
 
-    /** resolve Token From Request */
-    fun resolveToken(request: HttpServletRequest?): String? {
-        return request?.getHeader("Authorization")?.takeIf { it.startsWith("Bearer ") }?.substring(7)
-    }
-
-    /** validate Token */
-    fun validateToken(token: String): Boolean {
-        return try {
-            extractAllClaims(token)
-            true
-        } catch (e: BusinessException) {
-            false
-        }
-    }
-
-    /** extract All Claims*/
-    private fun extractAllClaims(token: String): Claims {
-        try {
-            return Jwts.parser()
+    fun decode(token: String): AuthenticatedUser {
+        val claims = try {
+            Jwts.parser()
                 .verifyWith(key)
+                .requireIssuer(jwtProperties.issuer)
                 .build()
                 .parseSignedClaims(token)
                 .payload
         } catch (e: Exception) {
-            throw BusinessException(ErrorCode.TOKEN_INVALID)
+            throw IllegalArgumentException("Invalid token", e)
         }
-    }
 
-    /** Get Username(Subject) From Token */
-    fun getUsername(token: String): String {
-        return extractAllClaims(token).subject
+        return AuthenticatedUser(
+            jti = claims.id,
+            email = claims.subject,
+            roles = (claims["roles"] as String).split(",").map { UserRole.valueOf(it.substring("ROLE_".length)) }.toSet(),
+            issuer = claims.issuer,
+            issuedAt = claims.issuedAt.toInstant(),
+            expiry = claims.expiration.toInstant(),
+        )
     }
 }

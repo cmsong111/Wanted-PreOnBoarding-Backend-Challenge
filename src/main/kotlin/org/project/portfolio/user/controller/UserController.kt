@@ -3,6 +3,7 @@ package org.project.portfolio.user.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.project.portfolio.auth.AuthenticatedUser
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.service.UserService
 import org.springframework.http.ResponseEntity
@@ -23,24 +24,24 @@ class UserController(
 ) {
     /**
      * 내 정보 조회 API
-     * @param principal 로그인 정보
+     * @param authenticatedUser 로그인 정보
      * @return 사용자 정보
      */
     @GetMapping
     @Operation(summary = "내 정보 조회 API")
     fun getUserInfo(
-        @AuthenticationPrincipal userDetails: UserDetails,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser
     ): ResponseEntity<User> {
-        return ResponseEntity.ok(userService.getUser(userDetails.username))
+        return ResponseEntity.ok(userService.getUser(authenticatedUser.email))
     }
 
     /** 회원 탈퇴 기능 */
     @DeleteMapping
     @Operation(summary = "회원 탈퇴 API")
     fun deleteUser(
-        @AuthenticationPrincipal userDetails: UserDetails,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser
     ): ResponseEntity<Unit> {
-        userService.deleteUser(userDetails.username)
+        userService.deleteUser(authenticatedUser.email)
         return ResponseEntity.noContent().build()
     }
 }

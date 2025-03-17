@@ -4,8 +4,8 @@ plugins {
     id("jacoco")
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
-    id("org.hibernate.orm") version "6.6.8.Final"
-    id("org.graalvm.buildtools.native") version "0.10.5"
+//    id("org.hibernate.orm") version "6.6.8.Final"
+//    id("org.graalvm.buildtools.native") version "0.10.5"
     id("org.jetbrains.dokka") version "2.0.0"
     id("org.sonarqube") version "6.0.1.5171"
     id("com.gorylenko.gradle-git-properties") version "2.5.0"
@@ -40,6 +40,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
 
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
@@ -66,11 +67,11 @@ kotlin {
     }
 }
 
-hibernate {
-    enhancement {
-        enableAssociationManagement = true
-    }
-}
+//hibernate {
+//    enhancement {
+//        enableAssociationManagement = true
+//    }
+//}
 
 allOpen {
     annotation("jakarta.persistence.Entity")

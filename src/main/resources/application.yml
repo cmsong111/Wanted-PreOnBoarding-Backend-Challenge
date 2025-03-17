@@ -1,66 +1,41 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb?MODE=MYSQL
-    username: root
-    password: root
-    driver-class-name: org.h2.Driver
+  application:
+    name: portfolio
 
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-        show_sql: true
-        use_sql_comments: true
-        highlight: true
-
-    defer-datasource-initialization: true
+  profiles:
+    default: local
 
   data:
     redis:
-      host: localhost/1
+      host: localhost
       port: 6379
 
   sql:
     init:
-      mode: always
+      mode: embedded
 
   servlet:
     multipart:
-      # File Max Size 15MB
       max-file-size: 15MB
       max-request-size: 15MB
 
 jwt:
-  secret-key: ${JWT_SECRET:dGhpcy1pcy1zZWNyZXQta2V5LXJlcGxhY2Utd2l0aC15b3VyLW93bi1zZWNyZXQta2V5} # this-is-secret-key-replace-with-your-own-secret-key with BASE64 encoded
-  expiration: 1800000 # 30 minutes
+  secret: ${JWT_SECRET:this-is-a-secret-key-and-it-should-be-kept-secure}
+  issuer: ${JWT_ISSUER:article.cmsong111.site}
+  expiry: ${JWT_EXPIRATION:3600000}
 
-minio:
-  url: http://localhost:9000
 
 springdoc:
   swagger-ui:
     tags-sorter: alpha
 
 server:
-  forward-headers-strategy: framework
   servlet:
     encoding:
       force-response: true # 한글 인코딩 반환 강제화
 
-cloud:
-  aws:
-    credentials:
-      access-key: ${AWS_ACCESS_KEY:username}
-      secret-key: ${AWS_SECRET_KEY:password}
-    region:
-      static: kr-busan-1
-    s3:
-      bucket: article
-
-imgbb:
-  api-key: ${IMGBB_API_KEY:your-api-key}
+storage:
+  imgbb:
+    api-key: ${IMGBB_API_KEY:your-api-key}
 
 

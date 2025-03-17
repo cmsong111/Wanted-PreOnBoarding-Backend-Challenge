@@ -1,4 +1,4 @@
-package org.project.portfolio.auth
+package org.project.portfolio.auth.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -6,6 +6,7 @@ import jakarta.validation.Valid
 import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
+import org.project.portfolio.auth.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

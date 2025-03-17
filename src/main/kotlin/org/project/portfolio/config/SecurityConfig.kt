@@ -1,15 +1,16 @@
 package org.project.portfolio.config
 
-import org.project.portfolio.auth.AuthService
 import org.project.portfolio.auth.CustomAccessDeniedHandler
 import org.project.portfolio.auth.CustomAuthenticationEntryPoint
-import org.project.portfolio.auth.JwtAuthFilter
+import org.project.portfolio.auth.JwtProvider
+import org.project.portfolio.auth.filter.JwtTokenFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -18,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 class SecurityConfig(
-    private val authService: AuthService,
-    private val jwtAuthFilter: JwtAuthFilter,
+    private val userDetailsService: UserDetailsService,
+    private val jwtProvider: JwtProvider,
     private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
     private val customAccessDeniedHandler: CustomAccessDeniedHandler,
 ) {
@@ -36,8 +37,8 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET, "/api/v1/article/**").permitAll()
                     .anyRequest().authenticated()
             }
-            .userDetailsService(authService)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+            .userDetailsService(userDetailsService)
+            .addFilterBefore(JwtTokenFilter(jwtProvider), UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling {
                 it.authenticationEntryPoint(customAuthenticationEntryPoint)
                 it.accessDeniedHandler(customAccessDeniedHandler)

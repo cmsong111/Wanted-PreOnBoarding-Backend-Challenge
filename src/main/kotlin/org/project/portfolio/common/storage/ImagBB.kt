@@ -1,8 +1,6 @@
 package org.project.portfolio.common.storage
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import java.net.URI
-import java.util.Base64
 import org.project.portfolio.common.storage.data.imgbb.ImgBBResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -16,11 +14,13 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.util.UriComponentsBuilder
+import java.net.URI
+import java.util.Base64
 
 @Component
-@Profile("dev", "local", "default")
+@Profile("prod", "local")
 class ImagBB(
-    @Value("\${imgbb.api-key}") private val imagebbApiKey: String,
+    @Value("\${storage.imgbb.api-key}") private val imagebbApiKey: String,
 ) : StorageService {
     private val logger = LoggerFactory.getLogger(ImagBB::class.java)
     private val restTemplate = RestTemplate()

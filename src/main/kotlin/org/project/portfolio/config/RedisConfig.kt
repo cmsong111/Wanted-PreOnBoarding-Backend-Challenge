@@ -1,50 +1,57 @@
 package org.project.portfolio.config
 
-import org.springframework.beans.factory.annotation.Value
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
-import java.time.Duration
+import org.springframework.data.redis.serializer.StringRedisSerializer
 
 @EnableCaching
 @Configuration
-class RedisConfig(
-    @Value("\${spring.data.redis.host}") val redisHost: String,
-    @Value("\${spring.data.redis.port}") val redisPort: Int,
-) {
+class RedisConfig {
     @Bean
-    fun redisConnectionFactory(): RedisConnectionFactory {
-        return LettuceConnectionFactory(redisHost, redisPort)
-    }
-
-    @Bean
-    fun cacheManager(): RedisCacheManager {
-        return RedisCacheManager.builder(redisConnectionFactory()).cacheDefaults(
+    fun redisCacheManager(connectionFactory: RedisConnectionFactory): RedisCacheManager {
+        val configuration =
             RedisCacheConfiguration.defaultCacheConfig()
-                // Set cache expiration to 10 seconds
-                .entryTtl(Duration.ofSeconds(60))
-                // Serialize values with GenericJackson2JsonRedisSerializer
+                .serializeKeysWith(
+                    RedisSerializationContext.SerializationPair.fromSerializer(
+                        StringRedisSerializer(),
+                    ),
+                )
                 .serializeValuesWith(
                     RedisSerializationContext.SerializationPair.fromSerializer(
-                        GenericJackson2JsonRedisSerializer(),
+                        GenericJackson2JsonRedisSerializer(
+                            ObjectMapper()
+                                .apply {
+                                    registerKotlinModule()
+                                    registerModule(JavaTimeModule())
+                                    enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL)
+                                },
+                        ),
                     ),
-                ),
-        ).build()
+                )
+        return RedisCacheManager
+            .RedisCacheManagerBuilder
+            .fromConnectionFactory(connectionFactory)
+            .cacheDefaults(configuration)
+            .build()
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Any> {
+    fun redisTemplate(connectionFactory: RedisConnectionFactory): RedisTemplate<String, Any> {
         val redisTemplate = RedisTemplate<String, Any>()
-        redisTemplate.keySerializer = GenericJackson2JsonRedisSerializer()
+        redisTemplate.connectionFactory = connectionFactory
+        redisTemplate.keySerializer = StringRedisSerializer()
+        redisTemplate.hashKeySerializer = StringRedisSerializer()
         redisTemplate.valueSerializer = GenericJackson2JsonRedisSerializer()
-        redisTemplate.connectionFactory = redisConnectionFactory()
         return redisTemplate
     }
 }

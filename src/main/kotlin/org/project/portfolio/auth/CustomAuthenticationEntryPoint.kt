@@ -5,22 +5,21 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.project.portfolio.common.exception.ErrorCode
 import org.project.portfolio.common.exception.dto.ApiResponse
+import org.project.portfolio.common.utils.TokenResolver
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.stereotype.Component
 
 @Component
 class CustomAuthenticationEntryPoint(
-    private val jwtProvider: JwtProvider,
+    private val objectMapper: ObjectMapper,
 ) : AuthenticationEntryPoint {
-    private val objectMapper: ObjectMapper = ObjectMapper()
-
     override fun commence(
         request: HttpServletRequest,
         response: HttpServletResponse,
         authException: AuthenticationException,
     ) {
-        val token: String? = jwtProvider.resolveToken(request)
+        val token: String? = TokenResolver.resolveToken(request)
 
         if (token.isNullOrEmpty()) {
             ApiResponse(

@@ -8,7 +8,6 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.project.portfolio.common.entity.BaseEntity
-import org.springframework.security.core.userdetails.UserDetails
 
 /** 유저 엔티티 */
 @Entity
@@ -24,21 +23,12 @@ class User(
     /** 유저 프로필 이미지 */
     var profileImage: String? = null,
     /** 유저 비밀번호 */
-    private var password: String,
+     var password: String,
     /** 유저 역할(권한) */
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    var roles: MutableSet<Role> = mutableSetOf(Role.USER),
-) : UserDetails, BaseEntity() {
-    /** 유저 역할(권한) */
-    override fun getAuthorities() = roles
-
-    /** 유저 이름 Getter */
-    override fun getUsername() = email
-
-    /** 패드워드 Getter */
-    override fun getPassword() = password
-
+    var roles: MutableSet<UserRole> = mutableSetOf(UserRole.USER),
+) : BaseEntity() {
     companion object {
         /** 유저 생성 */
         fun create(
@@ -68,7 +58,7 @@ class User(
     }
 
     /** 계정 역할 부여  */
-    fun addRole(role: Role) {
+    fun addRole(role: UserRole) {
         roles.add(role)
     }
 }

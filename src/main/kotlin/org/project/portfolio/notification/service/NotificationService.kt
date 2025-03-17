@@ -14,11 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 class NotificationService(
     private val notificationRepository: NotificationRepository,
     private val userRepository: UserRepository,
+    private val objectMapper : ObjectMapper,
 ) {
     /** 현재 연결된 모든 SSE 클라이언트 */
     private val emitters: HashMap<String, SseEmitter> = hashMapOf()
-
-    private val objectMapper = ObjectMapper()
 
     /** 알림 구독 API */
     fun notificationSubscribe(email: String): SseEmitter {

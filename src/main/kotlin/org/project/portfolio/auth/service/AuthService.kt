@@ -1,5 +1,6 @@
-package org.project.portfolio.auth
+package org.project.portfolio.auth.service
 
+import org.project.portfolio.auth.JwtProvider
 import org.project.portfolio.auth.dto.LoginRequest
 import org.project.portfolio.auth.dto.RegisterRequest
 import org.project.portfolio.auth.dto.TokenResponse
@@ -7,8 +8,6 @@ import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.common.exception.ErrorCode
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -23,18 +22,7 @@ class AuthService(
     private val userRepository: UserRepository,
     private val jwtProvider: JwtProvider,
     private val passwordEncoder: PasswordEncoder,
-) : UserDetailsService {
-    /**
-     * 스프링 시큐리티에서 사용되는 사용자명으로 정보 조회하는 메소드
-     * @param username 사용자명
-     * @return 사용자 정보
-     */
-    override fun loadUserByUsername(username: String): UserDetails {
-        return userRepository.findById(username).orElseThrow {
-            throw BusinessException(ErrorCode.USER_NOT_FOUND)
-        }
-    }
-
+)  {
     /**
      * 회원가입
      * @param registerRequest 회원가입 요청 폼
@@ -53,7 +41,7 @@ class AuthService(
             password = passwordEncoder.encode(registerRequest.password!!),
         )
         userRepository.save(user)
-        return TokenResponse(token = jwtProvider.createToken(user.email))
+        return TokenResponse(token = jwtProvider.createToken(user))
     }
 
     /**
@@ -68,6 +56,6 @@ class AuthService(
         if (!passwordEncoder.matches(loginRequest.password, user.password)) {
             throw BusinessException(ErrorCode.USER_INVALID_PASSWORD)
         }
-        return TokenResponse(token = jwtProvider.createToken(user.email))
+        return TokenResponse(token = jwtProvider.createToken(user))
     }
 }

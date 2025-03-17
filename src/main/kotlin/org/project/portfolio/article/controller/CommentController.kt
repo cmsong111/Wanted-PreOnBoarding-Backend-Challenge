@@ -35,9 +35,7 @@ class CommentController(
         @PathVariable articleId: Long,
         @Valid @RequestBody commentForm: CommentForm,
     ): ResponseEntity<CommentResponse> {
-        println("create request method is called")
         val comment = commentService.createComment(principal.name, articleId, commentForm.content!!)
-        println("comment: $comment")
         return ResponseEntity.created(URI.create("/api/v1/articles/$articleId/comments/${comment.id}")).body(comment)
     }
 

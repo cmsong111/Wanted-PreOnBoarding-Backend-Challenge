@@ -5,6 +5,7 @@ import org.project.portfolio.common.exception.ErrorCode
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
@@ -14,6 +15,7 @@ class UserService(
      * Get user information
      * @param email 유저 이메일
      */
+    @Transactional(readOnly = true)
     fun getUser(email: String): User {
         return userRepository.findById(email).orElseThrow {
             throw BusinessException(ErrorCode.USER_NOT_FOUND)
@@ -24,6 +26,7 @@ class UserService(
      * Delete user
      * @param name 유저 이름
      */
+    @Transactional
     fun deleteUser(name: String) {
         userRepository.deleteById(name)
     }

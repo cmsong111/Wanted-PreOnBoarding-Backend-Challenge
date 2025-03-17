@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.ServletRequest
 import jakarta.validation.Valid
 import java.net.URI
-import java.security.Principal
 import org.project.portfolio.article.controller.request.ArticleForm
 import org.project.portfolio.article.controller.response.ArticleDetailResponse
 import org.project.portfolio.article.controller.response.ArticleHeaderResponse
 import org.project.portfolio.article.service.ArticleService
+import org.project.portfolio.auth.AuthenticatedUser
 import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.springdoc.core.annotations.ParameterObject
 import org.springframework.data.domain.Page
@@ -69,13 +69,17 @@ class ArticleController(
     @Operation(summary = "게시글 생성 API")
     @SecurityRequirement(name = BEARER_AUTH)
     fun createArticle(
-        @AuthenticationPrincipal principal: Principal,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
         @Valid @ModelAttribute articleForm: ArticleForm,
     ): ResponseEntity<ArticleDetailResponse> {
-        val article: ArticleDetailResponse = articleService.createArticle(principal.name, articleForm)
-        return ResponseEntity
-            .created(URI.create("/api/v1/article/${article.id}"))
-            .body(article)
+        return articleService.createArticle(
+            email = authenticatedUser.email,
+            articleForm = articleForm,
+        ).let {
+            ResponseEntity
+                .created(URI.create("/api/v1/article/${it.id}"))
+                .body(it)
+        }
     }
 
     @PatchMapping("/{id}", consumes = ["multipart/form-data"])
@@ -83,7 +87,7 @@ class ArticleController(
     @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isEditable(#id, T(java.time.Instant).now())")
     fun updateArticle(
-        @AuthenticationPrincipal principal: Principal,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
         @Valid @ModelAttribute articleForm: ArticleForm,
     ): ResponseEntity<ArticleDetailResponse> {
@@ -95,7 +99,7 @@ class ArticleController(
     @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("hasRole('ROLE_ADMIN') or @articleChecker.isAuthor(#id)")
     fun deleteArticle(
-        @AuthenticationPrincipal principal: Principal,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
         @PathVariable @Parameter(description = "게시글 ID") id: Long,
     ): ResponseEntity<Unit> {
         articleService.deleteArticle(id)

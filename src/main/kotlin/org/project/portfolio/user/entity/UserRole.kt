@@ -3,7 +3,7 @@ package org.project.portfolio.user.entity
 import org.springframework.security.core.GrantedAuthority
 
 /** The roles that a user can have. */
-enum class Role : GrantedAuthority {
+enum class UserRole : GrantedAuthority {
     /** A regular user. */
     USER,
 

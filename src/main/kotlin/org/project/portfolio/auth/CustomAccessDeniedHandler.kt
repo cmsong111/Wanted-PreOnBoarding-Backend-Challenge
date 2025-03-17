@@ -10,9 +10,9 @@ import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.stereotype.Component
 
 @Component
-class CustomAccessDeniedHandler : AccessDeniedHandler {
-    private val objectMapper: ObjectMapper = ObjectMapper()
-
+class CustomAccessDeniedHandler(
+    private val objectMapper: ObjectMapper,
+) : AccessDeniedHandler {
     override fun handle(
         request: HttpServletRequest,
         response: HttpServletResponse,
