@@ -1,8 +1,6 @@
 name: SonarCloud Test CI with Gradle
-on:
-  push:
-    branches: [ "main" ]
 
+on:
   pull_request:
     types: [ opened, synchronize, reopened ]
 
