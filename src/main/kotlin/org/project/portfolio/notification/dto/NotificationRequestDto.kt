@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull
 /**
  * 알림 요청 DTO
  */
-@Schema(name = "알림 요청 폼")
+@Schema(description = "알림 요청 폼")
 data class NotificationRequestDto(
     /** 제목 */
     @field:Schema(description = "제목", example = "알림 제목")

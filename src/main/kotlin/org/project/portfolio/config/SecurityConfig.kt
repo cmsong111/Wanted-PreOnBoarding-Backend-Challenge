@@ -6,7 +6,6 @@ import org.project.portfolio.auth.JwtProvider
 import org.project.portfolio.auth.filter.JwtTokenFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -32,10 +31,7 @@ class SecurityConfig(
             .sessionManagement { it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers(*WHITE_LIST_URL).permitAll()
-                    // 게시글 조회(GET) API는 인증 없이 접근 가능
-                    .requestMatchers(HttpMethod.GET, "/api/v1/article/**").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
             }
             .userDetailsService(userDetailsService)
             .addFilterBefore(JwtTokenFilter(jwtProvider), UsernamePasswordAuthenticationFilter::class.java)
@@ -44,16 +40,5 @@ class SecurityConfig(
                 it.accessDeniedHandler(customAccessDeniedHandler)
             }
             .build()
-    }
-
-    companion object {
-        /** 허용 URL 목록 */
-        private val WHITE_LIST_URL = arrayOf<String>(
-            "/api/v1/auth/**",
-            "/h2-console/**",
-            "/swagger-ui/**",
-            "/v3/api-docs/**",
-            "/",
-        )
     }
 }

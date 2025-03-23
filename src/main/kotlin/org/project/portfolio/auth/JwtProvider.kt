@@ -28,6 +28,7 @@ class JwtProvider(
         return encode(
             AuthenticatedUser(
                 jti = UUID.randomUUID().toString(),
+                userId = userId,
                 email = email,
                 roles = roles,
                 issuer = jwtProperties.issuer,
@@ -45,6 +46,7 @@ class JwtProvider(
         return encode(
             AuthenticatedUser(
                 jti = UUID.randomUUID().toString(),
+                userId = user.id,
                 email = user.email,
                 roles = user.roles,
                 issuer = jwtProperties.issuer,
@@ -57,7 +59,8 @@ class JwtProvider(
     private fun encode(user: AuthenticatedUser): String {
         return Jwts.builder()
             .id(user.jti)
-            .subject(user.email)
+            .subject(user.userId.toString())
+            .claim("email", user.email)
             .claim("roles", user.roles.joinToString(",") { it.authority })
             .issuer(user.issuer)
             .issuedAt(Date.from(user.issuedAt))
@@ -80,7 +83,8 @@ class JwtProvider(
 
         return AuthenticatedUser(
             jti = claims.id,
-            email = claims.subject,
+            userId = claims.subject.toLong(),
+            email = claims["email"] as String,
             roles = (claims["roles"] as String).split(",").map { UserRole.valueOf(it.substring("ROLE_".length)) }.toSet(),
             issuer = claims.issuer,
             issuedAt = claims.issuedAt.toInstant(),

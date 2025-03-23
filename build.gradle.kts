@@ -1,11 +1,10 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
+    id("java-test-fixtures")
     id("jacoco")
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
-//    id("org.hibernate.orm") version "6.6.8.Final"
-//    id("org.graalvm.buildtools.native") version "0.10.5"
     id("org.jetbrains.dokka") version "2.0.0"
     id("org.sonarqube") version "6.0.1.5171"
     id("com.gorylenko.gradle-git-properties") version "2.5.0"
@@ -30,9 +29,6 @@ repositories {
     mavenCentral()
 }
 
-val openApiVersion = "2.8.5"
-val jwtVersion = "0.12.6"
-
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -49,16 +45,19 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    val jwtVersion = "0.12.6"
     implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
 
+    val openApiVersion = "2.8.5"
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("io.mockk:mockk:1.13.17")
 }
 
 kotlin {
@@ -66,12 +65,6 @@ kotlin {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
-
-//hibernate {
-//    enhancement {
-//        enableAssociationManagement = true
-//    }
-//}
 
 allOpen {
     annotation("jakarta.persistence.Entity")

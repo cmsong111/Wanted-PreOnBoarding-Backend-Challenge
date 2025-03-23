@@ -2,7 +2,6 @@ package org.project.portfolio.auth.service
 
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
@@ -17,7 +16,7 @@ class CustomUserDetailsService(
      * @return 사용자 정보
      */
     override fun loadUserByUsername(username: String): UserDetails {
-        val user: User = userRepository.findByIdOrNull(username)
+        val user: User = userRepository.findByEmail(username)
             ?: throw IllegalArgumentException("User not found with email: $username")
 
         return org.springframework.security.core.userdetails.User.builder()
@@ -25,6 +24,5 @@ class CustomUserDetailsService(
             .password(user.password)
             .authorities(user.roles)
             .build()
-
     }
 }

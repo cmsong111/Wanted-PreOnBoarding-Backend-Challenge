@@ -4,12 +4,17 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.project.portfolio.auth.AuthenticatedUser
 import org.project.portfolio.notification.dto.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
 import org.project.portfolio.notification.service.NotificationService
+import org.springdoc.core.annotations.ParameterObject
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PagedModel
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -32,8 +37,18 @@ class NotificationController(
 
     @Operation(summary = "알림 내역 조회 API")
     @GetMapping
-    fun getNotifications(principal: Principal): ResponseEntity<List<Notification>> {
-        return ResponseEntity.ok(notificationService.getNotifications(principal.name))
+    fun getNotifications(
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @ParameterObject pageable: Pageable,
+    ): ResponseEntity<PagedModel<Notification>> {
+        return ResponseEntity.ok(
+            PagedModel(
+                notificationService.getNotifications(
+                    email = authenticatedUser.email,
+                    pageable = pageable,
+                ),
+            ),
+        )
     }
 
     @PostMapping
@@ -41,11 +56,11 @@ class NotificationController(
     @Operation(summary = "알림 발송 API(관리자용)")
     fun sendNotification(
         @Valid notificationRequestDto: NotificationRequestDto,
-        principal: Principal,
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
     ): ResponseEntity<String> {
         notificationService.sendNotification(
             notificationRequestDto,
-            principal.name,
+            authenticatedUser.email,
         )
         return ResponseEntity.accepted().body("OK")
     }

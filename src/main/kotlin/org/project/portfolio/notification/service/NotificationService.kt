@@ -6,7 +6,9 @@ import org.project.portfolio.notification.entity.Notification
 import org.project.portfolio.notification.repository.NotificationRepository
 import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.repository.UserRepository
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 
@@ -14,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 class NotificationService(
     private val notificationRepository: NotificationRepository,
     private val userRepository: UserRepository,
-    private val objectMapper : ObjectMapper,
+    private val objectMapper: ObjectMapper,
 ) {
     /** 현재 연결된 모든 SSE 클라이언트 */
     private val emitters: HashMap<String, SseEmitter> = hashMapOf()
@@ -47,7 +49,7 @@ class NotificationService(
             }
         } else {
             // 특정 사용자에게 알림을 보내는 경우
-            userRepository.findById(notificationRequestDto.receiver).orElseThrow().let {
+            userRepository.findByEmail(notificationRequestDto.receiver)?.let {
                 val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[it.email]?.send(SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification)))
             }
@@ -72,7 +74,13 @@ class NotificationService(
      * 유저 별 알림 내역 조회
      * @param email 사용자 이메일
      */
-    fun getNotifications(email: String): List<Notification> {
-        return notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(email)
+    fun getNotifications(
+        email: String,
+        pageable: Pageable,
+    ): Page<Notification> {
+        return notificationRepository.findByReceiverEmailOrderByCreatedAtDesc(
+            email = email,
+            pageable = pageable,
+        )
     }
 }

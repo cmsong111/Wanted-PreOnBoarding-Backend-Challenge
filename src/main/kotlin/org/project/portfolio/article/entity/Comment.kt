@@ -7,8 +7,9 @@ import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import org.project.portfolio.common.entity.BaseEntity
 import org.project.portfolio.user.entity.User
+import java.time.Instant
 
-@Entity
+@Entity(name = "article_comments")
 class Comment(
     /** 댓글 번호 */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,16 +19,22 @@ class Comment(
     /** 댓글 작성자 */
     @ManyToOne
     var author: User,
+    @ManyToOne
+    var article: Article,
+    override var createdAt: Instant = Instant.now(),
+    override var updatedAt: Instant = Instant.now(),
 ) : BaseEntity() {
     companion object {
         /** 댓글 생성 메소드 */
         fun create(
             content: String,
             author: User,
+            article: Article,
         ): Comment {
             return Comment(
                 content = content,
                 author = author,
+                article = article,
             )
         }
     }

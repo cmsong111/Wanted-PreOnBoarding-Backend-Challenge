@@ -7,10 +7,4 @@ data class JwtProperties(
     val secret: String,
     val issuer: String,
     val expiry: Long,
-) {
-    init {
-        println("Secret: $secret")
-        println("Issuer: $issuer")
-        println("Expiry: $expiry")
-    }
-}
+)

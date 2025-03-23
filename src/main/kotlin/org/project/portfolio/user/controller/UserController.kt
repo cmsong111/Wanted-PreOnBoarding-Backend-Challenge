@@ -8,7 +8,6 @@ import org.project.portfolio.user.entity.User
 import org.project.portfolio.user.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,7 +29,7 @@ class UserController(
     @GetMapping
     @Operation(summary = "내 정보 조회 API")
     fun getUserInfo(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
     ): ResponseEntity<User> {
         return ResponseEntity.ok(userService.getUser(authenticatedUser.email))
     }
@@ -39,9 +38,9 @@ class UserController(
     @DeleteMapping
     @Operation(summary = "회원 탈퇴 API")
     fun deleteUser(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser
+        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
     ): ResponseEntity<Unit> {
-        userService.deleteUser(authenticatedUser.email)
+        userService.deleteUser(authenticatedUser.userId)
         return ResponseEntity.noContent().build()
     }
 }

@@ -9,6 +9,8 @@ import java.time.Instant
 data class AuthenticatedUser(
     /** JWT ID */
     val jti: String,
+    /** 사용자 ID */
+    val userId: Long,
     /** 사용자 이메일 */
     val email: String,
     /** 사용자 역할 */

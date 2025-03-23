@@ -3,16 +3,16 @@ package org.project.portfolio.article.service
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.project.portfolio.article.entity.Article
-import org.project.portfolio.article.repository.ArticleRepository
+import org.project.portfolio.article.repository.ArticleJpaRepository
 import org.project.portfolio.notification.dto.NotificationRequestDto
 import org.project.portfolio.notification.service.NotificationService
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
-import java.sql.Timestamp
+import java.time.Instant
 
 @Component
 class ArticleScheduler(
-    private val articleRepository: ArticleRepository,
+    private val articleRepository: ArticleJpaRepository,
     private val notificationService: NotificationService,
 ) {
     /**
@@ -21,12 +21,14 @@ class ArticleScheduler(
     @Scheduled(cron = "0 0 * * * *")
     fun sendArticleUpdateNotification() {
         logger.info { "게시글 수정가능 알림 전송 스케줄러 시작" }
-        val start = Timestamp(System.currentTimeMillis() - 9 * 24 * 60 * 60 * 1000)
-        val end = Timestamp(System.currentTimeMillis() - 9 * 24 * 60 * 60 * 1000 + 1 * 60 * 60 * 1000)
-        logger.info("$start ~ $end 사이의 게시글 조회")
+//        val start = Timestamp(System.currentTimeMillis() - 9 * 24 * 60 * 60 * 1000)
+        val start: Instant = Instant.now().minusSeconds(9 * 24 * 60 * 60 + 1 * 60 * 60)
+//        val end = Timestamp(System.currentTimeMillis() - 9 * 24 * 60 * 60 * 1000 + 1 * 60 * 60 * 1000)
+        val end: Instant = Instant.now().minusSeconds(9 * 24 * 60 * 60)
+        logger.info { "$start ~ $end 사이의 게시글 조회" }
         // 게시글 조회
         val articles: List<Article> = articleRepository.findByCreatedAtBetween(start, end)
-        logger.info("조회된 게시글 수: ${articles.size}")
+        logger.info { "조회된 게시글 수: ${articles.size}" }
         articles.forEach {
             notificationService.sendNotification(
                 NotificationRequestDto(
@@ -38,7 +40,7 @@ class ArticleScheduler(
                 "system",
             )
         }
-        logger.info("게시글 수정가능 알림 전송 스케줄러 종료")
+        logger.info { "게시글 수정가능 알림 전송 스케줄러 종료" }
     }
 
     companion object {

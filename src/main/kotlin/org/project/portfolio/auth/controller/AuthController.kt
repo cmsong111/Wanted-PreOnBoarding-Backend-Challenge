@@ -1,11 +1,13 @@
 package org.project.portfolio.auth.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.project.portfolio.auth.dto.LoginRequest
-import org.project.portfolio.auth.dto.RegisterRequest
-import org.project.portfolio.auth.dto.TokenResponse
+import org.project.portfolio.auth.controller.request.EmailCheckRequest
+import org.project.portfolio.auth.controller.request.LoginRequest
+import org.project.portfolio.auth.controller.request.RegisterRequest
+import org.project.portfolio.auth.controller.response.TokenResponse
 import org.project.portfolio.auth.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -30,7 +32,12 @@ class AuthController(
     fun login(
         @Valid @RequestBody loginRequest: LoginRequest,
     ): ResponseEntity<TokenResponse> {
-        return ResponseEntity.ok(authService.login(loginRequest))
+        return ResponseEntity.ok(
+            authService.login(
+                email = loginRequest.email,
+                password = loginRequest.password,
+            ),
+        )
     }
 
     /**
@@ -45,4 +52,23 @@ class AuthController(
     ): ResponseEntity<TokenResponse> {
         return ResponseEntity.ok(authService.register(registerRequest))
     }
+
+    @PostMapping("/email-check")
+    @Operation(summary = "이메일 사용 가능 여부 확인 API")
+    fun checkEmail(
+        @Valid @RequestBody emailCheckRequest: EmailCheckRequest,
+    ): ResponseEntity<EmailCheckResponse> {
+        return ResponseEntity.ok(
+            EmailCheckResponse(
+                !authService.existsEmail(
+                    email = emailCheckRequest.email,
+                ),
+            ),
+        )
+    }
+
+    data class EmailCheckResponse(
+        @field:Schema(description = "이메일 사용 가능 여부")
+        val available: Boolean,
+    )
 }

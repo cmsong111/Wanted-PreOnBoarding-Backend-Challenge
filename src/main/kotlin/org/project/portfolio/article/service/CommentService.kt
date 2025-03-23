@@ -2,8 +2,7 @@ package org.project.portfolio.article.service
 
 import org.project.portfolio.article.controller.response.CommentResponse
 import org.project.portfolio.article.entity.Article
-import org.project.portfolio.article.entity.Comment
-import org.project.portfolio.article.repository.ArticleRepository
+import org.project.portfolio.article.repository.ArticleJpaRepository
 import org.project.portfolio.common.exception.BusinessException
 import org.project.portfolio.common.exception.ErrorCode
 import org.project.portfolio.user.entity.User
@@ -14,52 +13,46 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
-    private val articleRepository: ArticleRepository,
+    private val articleRepository: ArticleJpaRepository,
     private val userRepository: UserRepository,
 ) {
     /**
      * 댓글 생성 메소드
-     * @param name 유저 이름
+     * @param userId 유저 ID
      * @param articleId 게시글 ID
      * @param content 댓글 내용
      * @return 댓글 응답 DTO
      */
     @Transactional
     fun createComment(
-        name: String,
+        userId: Long,
         articleId: Long,
         content: String,
     ): CommentResponse {
         // 게시글이 존재하지 않는 경우 예외 처리
-        val article: Article = articleRepository.findById(articleId).orElseThrow {
-            BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
-        }
-        // 유저가 존재하지 않는 경우 예외 처리
-        val user: User = userRepository.findById(name).orElseThrow {
-            BusinessException(ErrorCode.USER_NOT_FOUND)
-        }
-
-        // 댓글 생성
-        val comment = Comment.create(
-            content = content,
-            author = user,
-        )
-
-        // 게시글에 댓글 추가
-        article.addComment(comment)
+        val article: Article = articleRepository.findByIdOrNull(articleId)
+            ?: throw BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
 
         // 댓글 저장 및 반환
-        return CommentResponse.from(comment)
+        return CommentResponse.from(
+            comment = article.addComment(
+                content = content,
+                author = userRepository.findByIdOrNull(userId)
+                    ?: throw BusinessException(ErrorCode.USER_NOT_FOUND),
+            ),
+        )
     }
 
     /**
      * 댓글 수정 메소드
-     * @param id 댓글 ID
-     * @param commentForm 댓글 요청 DTO
+     * @param userId 유저 ID
+     * @param articleId 게시글 ID
+     * @param commentId 댓글 ID
+     * @param content 댓글 내용
      * @return 댓글 응답 DTO
      */
     fun updateComment(
-        email: String,
+        userId: Long,
         articleId: Long,
         commentId: Long,
         content: String,
@@ -68,9 +61,9 @@ class CommentService(
         val article: Article = articleRepository.findByIdOrNull(articleId) ?: throw BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
 
         // 유저가 존재하지 않는 경우 예외 처리
-        val user: User = userRepository.findById(email).orElseThrow {
-            BusinessException(ErrorCode.USER_NOT_FOUND)
-        }
+        val user: User = userRepository.findByIdOrNull(userId)
+            ?: throw BusinessException(ErrorCode.USER_NOT_FOUND)
+
         // 댓글 수정 및 반환
         return CommentResponse.from(
             article.updateComment(commentId, content) ?: throw BusinessException(ErrorCode.COMMENT_NOT_FOUND),
@@ -86,7 +79,7 @@ class CommentService(
      */
     @Transactional
     fun deleteComment(
-        email: String,
+        userId: Long,
         articleId: Long,
         commentId: Long,
     ) {
@@ -94,9 +87,8 @@ class CommentService(
         val article: Article = articleRepository.findByIdOrNull(articleId) ?: throw BusinessException(ErrorCode.ARTICLE_NOT_FOUND)
 
         // 유저가 존재하지 않는 경우 예외 처리
-        val user: User = userRepository.findById(email).orElseThrow {
-            BusinessException(ErrorCode.USER_NOT_FOUND)
-        }
+        val user: User = userRepository.findByIdOrNull(userId)
+            ?: throw BusinessException(ErrorCode.USER_NOT_FOUND)
 
         // 댓글 삭제
         article.removeComment(commentId)

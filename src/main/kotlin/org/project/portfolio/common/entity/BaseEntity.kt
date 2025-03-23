@@ -17,14 +17,13 @@ import java.time.Instant
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 @SoftDelete(columnName = "deleted_at", converter = DeletedAtConverter::class)
-abstract class BaseEntity {
+abstract class BaseEntity(
     /** 생성일 */
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
-    var createdAt: Instant = Instant.now()
-
+    var createdAt: Instant = Instant.now(),
     /** 수정일 */
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: Instant = Instant.now()
-}
+    var updatedAt: Instant = Instant.now(),
+)

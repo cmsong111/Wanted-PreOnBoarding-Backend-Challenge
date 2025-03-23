@@ -1,6 +1,7 @@
 package org.project.portfolio.notification.repository
 
 import org.project.portfolio.notification.entity.Notification
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
@@ -12,7 +13,7 @@ interface NotificationRepository : JpaRepository<Notification, Long> {
     fun findByReceiverEmailOrderByCreatedAtDesc(
         email: String,
         pageable: Pageable,
-    ): List<Notification>
+    ): Page<Notification>
 
     fun findByReceiverEmailOrderByCreatedAtDesc(email: String): List<Notification>
 }

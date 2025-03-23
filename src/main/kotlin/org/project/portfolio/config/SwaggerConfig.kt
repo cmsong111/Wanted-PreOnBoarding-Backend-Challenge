@@ -58,7 +58,7 @@ class SwaggerConfig(
                 |<p><strong>Commit ID:</strong> ${gitProperties.get("commit.id")}</p>
                 |<p><strong>Commit Time:</strong> ${Instant.ofEpochMilli(gitProperties.get("commit.time").toLong())}</p>
                 |<p><strong>Committed by:</strong> ${gitProperties.get("commit.user.name")} (${gitProperties.get("commit.user.email")})</p>
-                """.trimMargin()
+            """.trimMargin()
             termsOfService = ""
             contact = Contact().apply {
                 name = "Namju Kim"

@@ -18,6 +18,7 @@ import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import org.project.portfolio.common.entity.BaseEntity
 import org.project.portfolio.user.entity.User
+import java.time.Instant
 
 /** 게시글 엔티티 */
 @Entity
@@ -37,7 +38,7 @@ class Article(
     var content: String,
     /** 게시글 이미지 */
     @ElementCollection
-    @CollectionTable(name = "article_images", joinColumns = [JoinColumn(name = "article_id")])
+    @CollectionTable(name = "article_images")
     @OrderColumn(name = "image_order")
     var images: MutableList<String> = mutableListOf(),
     /** 게시글 댓글 */
@@ -51,6 +52,8 @@ class Article(
     var author: User?,
     /** 조회수 */
     var viewCount: Long = 0,
+    override var createdAt: Instant = Instant.now(),
+    override var updatedAt: Instant = Instant.now(),
 ) : BaseEntity() {
     companion object {
         fun create(
@@ -78,10 +81,33 @@ class Article(
         this.images = images?.toMutableList() ?: mutableListOf()
     }
 
-    fun addComment(comment: Comment) {
-        this.comments.add(comment)
+    /**
+     * 댓글 추가 메소드
+     * @param content 댓글 내용
+     * @param author 댓글 작성자
+     * @return 추가된 댓글
+     */
+    fun addComment(
+        content: String,
+        author: User,
+    ): Comment {
+        val comment = Comment.create(
+            content = content,
+            author = author,
+            article = this,
+        )
+        this.comments.add(
+            comment,
+        )
+        return comment
     }
 
+    /**
+     * 댓글 수정 메소드
+     * @param commentId 댓글 ID
+     * @param content 댓글 내용
+     * @return 수정된 댓글
+     */
     fun updateComment(
         commentId: Long,
         content: String,

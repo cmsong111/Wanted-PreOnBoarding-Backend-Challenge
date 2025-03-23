@@ -1,10 +1,13 @@
 package org.project.portfolio.user.entity
 
+import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.project.portfolio.common.entity.BaseEntity
@@ -13,9 +16,11 @@ import org.project.portfolio.common.entity.BaseEntity
 @Entity
 @Table(name = "users")
 class User(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0L,
     /** 유저 이메일 */
-    @Id
-    val email: String,
+    @Column(unique = true)
+    var email: String,
     /** 유저 이름 */
     var name: String,
     /** 유저 핸드폰 번호 */
@@ -23,7 +28,7 @@ class User(
     /** 유저 프로필 이미지 */
     var profileImage: String? = null,
     /** 유저 비밀번호 */
-     var password: String,
+    var password: String,
     /** 유저 역할(권한) */
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

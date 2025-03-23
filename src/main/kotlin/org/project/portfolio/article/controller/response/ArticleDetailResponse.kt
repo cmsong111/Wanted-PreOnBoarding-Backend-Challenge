@@ -11,23 +11,23 @@ import org.project.portfolio.user.entity.User
 @Schema(description = "게시글 상세 응답 DTO")
 data class ArticleDetailResponse(
     @field:Schema(description = "게시글 번호")
-    var id: Long,
+    val id: Long,
     @field:Schema(description = "게시글 제목")
-    var title: String,
+    val title: String,
     @field:Schema(description = "게시글 내용")
-    var content: String,
+    val content: String,
     @field:Schema(description = "게시글 이미지들")
     val images: List<String>,
     @field:Schema(description = "댓글 들")
     val comments: List<CommentResponse>,
     @field:Schema(description = "게시글 작성자")
-    var author: UserHeaderResponse,
+    val author: UserHeaderResponse,
     @field:Schema(description = "게시글 생성일시")
-    var createdAt: String,
+    val createdAt: String,
     @field:Schema(description = "게시글 수정일시")
-    var updatedAt: String,
+    val updatedAt: String,
     @field:Schema(description = "조회수")
-    var viewCount: Long,
+    val viewCount: Long,
 ) {
     companion object {
         fun from(article: Article): ArticleDetailResponse {
