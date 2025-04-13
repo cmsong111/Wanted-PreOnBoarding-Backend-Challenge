@@ -13,7 +13,7 @@ object TokenResolver {
         // 헤더에서 토큰 추출
         val tokenFromHeader: String? = request.getHeader(AUTHORIZATION_HEADER)
         if (tokenFromHeader != null && tokenFromHeader.startsWith(BEARER_PREFIX)) {
-            return tokenFromHeader.substring(7)
+            return tokenFromHeader.substring(BEARER_PREFIX.length)
         }
         return null
     }

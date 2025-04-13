@@ -71,5 +71,12 @@ class SwaggerConfig(
     companion object {
         // Auth 방식
         const val BEARER_AUTH: String = "Bearer Authentication"
+
+        const val AUTH_API_TAG = "Auth API"
+        const val USER_API_TAG = "User API"
+        const val USERS_API_TAG = "Users API"
+        const val ARTICLE_API_TAG = "Article API"
+        const val COMMENT_API_TAG = "Comment API"
+        const val NOTIFICATIONS_API_TAG = "Notifications API"
     }
 }

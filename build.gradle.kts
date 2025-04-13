@@ -1,9 +1,11 @@
+import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
+
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
     id("java-test-fixtures")
     id("jacoco")
-    id("org.springframework.boot") version "3.4.3"
+    id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jetbrains.dokka") version "2.0.0"
     id("org.sonarqube") version "6.0.1.5171"
@@ -35,10 +37,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
 
-    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.4")
+    val springCloudAwsVersion = "3.3.0"
+    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
+    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     runtimeOnly("com.h2database:h2")
 
@@ -50,14 +55,21 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
 
-    val openApiVersion = "2.8.5"
+    val openApiVersion = "2.8.6"
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openApiVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.springframework.security:spring-security-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    val kotestVersion = "5.9.0"
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
     testImplementation("io.mockk:mockk:1.13.17")
+
+    val fixtureMonkeyVersion = "1.1.11"
+    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:$fixtureMonkeyVersion")
+    testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-jakarta-validation:$fixtureMonkeyVersion")
 }
 
 kotlin {
@@ -74,6 +86,10 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.withType<BootBuildImage>().configureEach {
+    createdDate = "now"
 }
 
 configurations.matching { it.name.startsWith("dokka") }.configureEach {

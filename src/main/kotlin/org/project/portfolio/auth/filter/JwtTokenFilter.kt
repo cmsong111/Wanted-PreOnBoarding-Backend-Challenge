@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.project.portfolio.auth.AuthenticatedUser
+import org.project.portfolio.common.domain.AuthenticatedUser
 import org.project.portfolio.auth.JwtProvider
 import org.project.portfolio.common.utils.TokenResolver
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

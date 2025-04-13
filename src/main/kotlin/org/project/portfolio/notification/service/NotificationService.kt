@@ -1,14 +1,15 @@
 package org.project.portfolio.notification.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.project.portfolio.notification.dto.NotificationRequestDto
+import org.project.portfolio.notification.controller.request.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
 import org.project.portfolio.notification.repository.NotificationRepository
-import org.project.portfolio.user.entity.User
-import org.project.portfolio.user.repository.UserRepository
+import org.project.portfolio.user.domain.User
+import org.project.portfolio.user.domain.UserRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 
@@ -49,7 +50,7 @@ class NotificationService(
             }
         } else {
             // 특정 사용자에게 알림을 보내는 경우
-            userRepository.findByEmail(notificationRequestDto.receiver)?.let {
+            userRepository.findByIdOrNull(notificationRequestDto.receiver)?.let {
                 val notification = saveNotification(notificationRequestDto, receiver = it, sender = sender)
                 emitters[it.email]?.send(SseEmitter.event().name("notification").data(objectMapper.writeValueAsString(notification)))
             }

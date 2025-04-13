@@ -2,8 +2,9 @@ package org.project.portfolio.auth
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.project.portfolio.user.entity.User
-import org.project.portfolio.user.entity.UserRole
+import org.project.portfolio.common.domain.AuthenticatedUser
+import org.project.portfolio.user.domain.User
+import org.project.portfolio.user.domain.UserRole
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component
 import java.time.Instant
@@ -43,17 +44,16 @@ class JwtProvider(
         expiry: Long? = null,
     ): String {
         val now = Instant.now()
-        return encode(
-            AuthenticatedUser(
-                jti = UUID.randomUUID().toString(),
-                userId = user.id,
-                email = user.email,
-                roles = user.roles,
-                issuer = jwtProperties.issuer,
-                issuedAt = now,
-                expiry = now.plusSeconds(expiry ?: jwtProperties.expiry),
-            ),
-        )
+        return Jwts.builder()
+            .id(UUID.randomUUID().toString())
+            .subject(user.id.toString())
+            .claim("email", user.email)
+            .claim("roles", user.roles.joinToString(",") { it.authority })
+            .issuer(jwtProperties.issuer)
+            .issuedAt(Date.from(now))
+            .expiration(Date.from(now.plusSeconds(expiry ?: jwtProperties.expiry)))
+            .signWith(key)
+            .compact()
     }
 
     private fun encode(user: AuthenticatedUser): String {

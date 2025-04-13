@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.project.portfolio.auth.AuthenticatedUser
-import org.project.portfolio.notification.dto.NotificationRequestDto
+import org.project.portfolio.common.domain.AuthenticatedUser
+import org.project.portfolio.config.SwaggerConfig.Companion.NOTIFICATIONS_API_TAG
+import org.project.portfolio.notification.controller.request.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
 import org.project.portfolio.notification.service.NotificationService
 import org.springdoc.core.annotations.ParameterObject
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
 import java.security.Principal
 
-@Tag(name = "5. Notification", description = "The notification API")
+@Tag(name = NOTIFICATIONS_API_TAG, description = "The notification API")
 @RestController
 @SecurityRequirement(name = "Bearer Authentication")
-@RequestMapping("/api/v1/notification")
+@RequestMapping("/api/v1/notifications")
 class NotificationController(
     private val notificationService: NotificationService,
 ) {
