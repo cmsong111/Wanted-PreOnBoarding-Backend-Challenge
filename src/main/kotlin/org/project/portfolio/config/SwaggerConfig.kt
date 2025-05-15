@@ -70,7 +70,7 @@ class SwaggerConfig(
 
     companion object {
         // Auth 방식
-        const val BEARER_AUTH: String = "Bearer Authentication"
+        const val BEARER_AUTH: String = "Bearer_Authentication"
 
         const val AUTH_API_TAG = "Auth API"
         const val USER_API_TAG = "User API"
