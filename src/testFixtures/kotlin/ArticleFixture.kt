@@ -7,12 +7,19 @@ import org.project.portfolio.article.domain.Article
 import org.project.portfolio.article.presentation.request.ArticleForm
 import java.time.Instant
 
-object ArticleBuilder {
+object ArticleFixture {
     private val fixtureMonkey: FixtureMonkey = FixtureMonkey.builder()
         .plugin(KotlinPlugin())
         .plugin(SimpleValueJqwikPlugin())
         .plugin(JakartaValidationPlugin())
         .build()
+
+    fun getRandomArticle(authorId: Long): ArticleForm {
+        return fixtureMonkey.giveMeBuilder<ArticleForm>()
+            .set("images", null)
+            .set("authorId", authorId)
+            .sample()
+    }
 
     fun getRandomArticle(size: Int): List<ArticleForm> {
         return fixtureMonkey.giveMeBuilder<ArticleForm>()

@@ -2,7 +2,7 @@ package org.project.portfolio.user.presentation.response
 
 import io.swagger.v3.oas.annotations.media.Schema
 import org.project.portfolio.user.domain.User
-import org.project.portfolio.user.domain.UserRole
+import org.springframework.security.core.GrantedAuthority
 import java.time.Instant
 
 @Schema(description = "User Response")
@@ -18,7 +18,7 @@ data class UserResponse(
     @field:Schema(description = "유저 프로필 이미지")
     var profileImage: String? = null,
     @field:Schema(description = "유저 권한")
-    var roles: MutableSet<UserRole>,
+    var roles: List<String>,
     @field:Schema(description = "유저 생성일시")
     var createdAt: Instant,
     @field:Schema(description = "유저 수정일시")
@@ -32,7 +32,7 @@ data class UserResponse(
                 name = user.name,
                 phone = user.phone,
                 profileImage = user.profileImage,
-                roles = user.roles,
+                roles = user.roles.map(GrantedAuthority::getAuthority),
                 createdAt = user.createdAt,
                 updatedAt = user.updatedAt,
             )

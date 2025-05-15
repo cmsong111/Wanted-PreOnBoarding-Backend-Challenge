@@ -4,37 +4,25 @@ import com.navercorp.fixturemonkey.jakarta.validation.plugin.JakartaValidationPl
 import com.navercorp.fixturemonkey.kotlin.KotlinPlugin
 import com.navercorp.fixturemonkey.kotlin.giveMe
 import com.navercorp.fixturemonkey.kotlin.giveMeOne
-import org.project.portfolio.auth.presentation.request.RegisterRequest
-import org.project.portfolio.user.domain.User
+import org.project.portfolio.auth.presentation.request.EmailCheckForm
+import org.project.portfolio.auth.presentation.request.RegisterForm
 
 object UsersFixture {
-    fun createUser(
-        id: Long = 1L,
-        email: String = "test$id@test.com",
-        password: String = "Password1234!",
-        name: String = "홍길동",
-        phone: String = "010-1234-5678",
-    ): User {
-        return User(
-            id = id,
-            email = email,
-            password = password,
-            name = name,
-            phone = phone,
-        )
-    }
-
     private val fixtureMonkey: FixtureMonkey = FixtureMonkey.builder()
         .plugin(KotlinPlugin())
         .plugin(SimpleValueJqwikPlugin())
         .plugin(JakartaValidationPlugin())
         .build()
 
-    fun getRandomRegisterRequest(size: Int): List<RegisterRequest> {
+    fun getRandomRegisterRequest(size: Int): List<RegisterForm> {
         return fixtureMonkey.giveMe(size)
     }
 
-    fun getRandomRegisterRequest(): RegisterRequest {
+    fun getRandomRegisterRequest(): RegisterForm {
+        return fixtureMonkey.giveMeOne()
+    }
+
+    fun getRandomEmailCheckRequest(): EmailCheckForm {
         return fixtureMonkey.giveMeOne()
     }
 }

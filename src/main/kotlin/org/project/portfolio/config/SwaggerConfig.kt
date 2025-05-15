@@ -33,7 +33,7 @@ class SwaggerConfig(
      */
     private fun securityScheme(): SecurityScheme {
         return SecurityScheme()
-            .type(io.swagger.v3.oas.models.security.SecurityScheme.Type.HTTP)
+            .type(SecurityScheme.Type.HTTP)
             .description(
                 """<h3>Bearer Auth</h3>
                 <p>JWT Token을 발급받아 Header에 넣어 요청합니다.</p>

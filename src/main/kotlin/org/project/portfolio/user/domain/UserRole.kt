@@ -13,6 +13,18 @@ enum class UserRole : GrantedAuthority {
 
     /** Returns the authority of this role. */
     override fun getAuthority(): String {
-        return "ROLE_$name"
+        return "$ROLE_PREFIX$name"
+    }
+
+    companion object {
+        const val ROLE_PREFIX = "ROLE_"
+
+        fun parse(authority: String): UserRole {
+            return valueOf(authority.trim().removePrefix(ROLE_PREFIX))
+        }
+
+        fun convert(authorities: List<String>): Set<UserRole> {
+            return authorities.map { parse(it) }.toSet()
+        }
     }
 }

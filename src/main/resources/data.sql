@@ -1,8 +1,8 @@
-insert into users (email, name, password, phone, is_deleted, created_at, updated_at)
-values ('test123@test.com', 'test', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
-        '010-0000-0000', FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-       ('user123@test.com', 'user', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
-        '010-1234-1234', FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+insert into users (email, name, password, profile_image, phone, is_deleted, created_at, updated_at)
+values ('test1@test.com', 'test', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
+        'https://i.pravatar.cc/300?img=1', '010-0000-0000', FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+       ('user2@test.com', 'user', '$2a$10$v.DHYimH.eimSYeMF2vtdeOHgbu3JElaN.OPBzaYyQzlwrwbBeVD2',
+        'https://i.pravatar.cc/300?img=2', '010-1234-1234', FALSE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 insert into user_roles (user_id, roles)
 values (1, 'ADMIN'),

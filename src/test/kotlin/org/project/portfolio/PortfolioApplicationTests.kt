@@ -1,19 +1,20 @@
 package org.project.portfolio
 
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
+import io.kotest.core.annotation.DisplayName
+import io.kotest.core.spec.style.FunSpec
+import io.kotest.extensions.spring.SpringExtension
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.annotation.DirtiesContext
-import org.springframework.test.context.ActiveProfiles
 
 @DisplayName("PortfolioApplication 테스트")
 @DirtiesContext
-@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PortfolioApplicationTests {
-    @Test
-    @DisplayName("Context 로드 테스트")
-    fun contextLoads() {
-        assert(true)
-    }
-}
+class PortfolioApplicationTests : FunSpec(
+    {
+        extensions(SpringExtension)
+
+        test("Load application context") {
+            assert(true)
+        }
+    },
+)

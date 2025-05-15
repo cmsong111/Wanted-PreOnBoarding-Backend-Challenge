@@ -5,18 +5,16 @@ import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import java.net.URI
-import org.project.portfolio.article.application.ArticleManageService
+import org.project.portfolio.article.application.ArticleAuthorService
 import org.project.portfolio.article.presentation.request.ArticleForm
 import org.project.portfolio.article.presentation.request.ArticleUpdateForm
 import org.project.portfolio.article.presentation.response.ArticleResponse
-import org.project.portfolio.common.domain.AuthenticatedUser
-import org.project.portfolio.common.presentation.response.ApiResponse
 import org.project.portfolio.config.SwaggerConfig.Companion.ARTICLE_API_TAG
 import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PatchMapping
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.net.URI
 
 /**
  * 게시글 작성자 API 컨트롤러
@@ -32,18 +31,18 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/articles")
 @Tag(name = ARTICLE_API_TAG, description = "The article API")
 class ArticleAuthorController(
-    private val articleService: ArticleManageService,
+    private val articleService: ArticleAuthorService,
 ) {
     @PostMapping(consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 생성 API")
     @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("isAuthenticated()")
     fun createArticle(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @Valid @ModelAttribute articleForm: ArticleForm,
     ): ResponseEntity<ArticleResponse> {
         return articleService.createArticle(
-            userId = authenticatedUser.userId,
+            email = userDetails.username,
             articleForm = articleForm,
         ).let {
             ResponseEntity
@@ -55,9 +54,9 @@ class ArticleAuthorController(
     @PatchMapping("/{articleId}", consumes = ["multipart/form-data"])
     @Operation(summary = "게시글 수정 API")
     @SecurityRequirement(name = BEARER_AUTH)
-    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @articleValidator.isEditable(#articleId, #authenticatedUser.userId))")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @articleValidator.isEditable(#articleId, #userDetails.username))")
     fun updateArticle(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @PathVariable @Parameter(description = "게시글 ID") articleId: Long,
         @Valid @ModelAttribute articleUpdateForm: ArticleUpdateForm,
     ): ResponseEntity<ArticleResponse> {
@@ -70,14 +69,14 @@ class ArticleAuthorController(
     }
 
     @DeleteMapping("/{articleId}")
-    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @articleValidator.isEditable(#articleId, #authenticatedUser.userId))")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @articleValidator.isEditable(#articleId, #userDetails.username))")
     @Operation(summary = "게시글 삭제 API")
     @SecurityRequirement(name = BEARER_AUTH)
     fun deleteArticle(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @PathVariable @Parameter(description = "게시글 ID") articleId: Long,
-    ): ApiResponse<Unit> {
+    ): ResponseEntity<Unit> {
         articleService.deleteArticle(articleId)
-        return ApiResponse.success(Unit)
+        return ResponseEntity.noContent().build()
     }
 }

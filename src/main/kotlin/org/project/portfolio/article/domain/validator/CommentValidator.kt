@@ -2,12 +2,15 @@ package org.project.portfolio.article.domain.validator
 
 import org.project.portfolio.article.domain.Comment
 import org.project.portfolio.article.domain.CommentRepository
-import org.project.portfolio.article.domain.exception.CommentNotFoundException
+import org.project.portfolio.common.domain.exception.NotFoundException
+import org.project.portfolio.user.domain.User
+import org.project.portfolio.user.domain.UserRepository
 import org.springframework.stereotype.Component
 
 @Component
 class CommentValidator(
     private val commentRepository: CommentRepository,
+    private val userRepository: UserRepository,
 ) {
     /**
      * 댓글 작성자가 맞는지 확인
@@ -18,11 +21,14 @@ class CommentValidator(
     fun isAuthor(
         articleId: Long,
         commentId: Long,
-        userId: Long,
+        email: String,
     ): Boolean {
         val comment: Comment = commentRepository.findByArticleIdAndId(articleId, commentId)
-            ?: throw CommentNotFoundException()
+            ?: throw NotFoundException(Comment::class.java, mapOf("articleId" to articleId, "commentId" to commentId))
 
-        return comment.authorId == userId
+        val user = userRepository.findByEmail(email)
+            ?: throw NotFoundException(User::class.java, mapOf("email" to email))
+
+        return comment.authorId == user.id
     }
 }

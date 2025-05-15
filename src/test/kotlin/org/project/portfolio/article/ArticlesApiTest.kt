@@ -1,13 +1,17 @@
 package org.project.portfolio.article
 
-import ArticleBuilder
+import ArticleFixture
 import UsersFixture
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.extensions.spring.SpringExtension
-import org.project.portfolio.article.application.ArticleManageService
+import org.project.portfolio.article.application.ArticleAuthorService
+import org.project.portfolio.article.application.ArticleReaderService
+import org.project.portfolio.article.presentation.response.ArticleResponse
 import org.project.portfolio.auth.application.AuthService
 import org.project.portfolio.auth.presentation.response.TokenResponse
+import org.project.portfolio.user.domain.User
+import org.project.portfolio.utils.withJwt
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -16,6 +20,7 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -30,33 +35,24 @@ import org.springframework.transaction.annotation.Transactional
 class ArticlesApiTest(
     private val mockMvc: MockMvc,
     private val authService: AuthService,
-    private val articleService: ArticleManageService,
+    private val articleService: ArticleAuthorService,
+    private val articleReaderService: ArticleReaderService,
 ) : DescribeSpec(
     {
         extensions(SpringExtension)
 
-        val userTokens = mutableListOf<TokenResponse>()
-        val articleIds = mutableListOf<Long>()
+        val userRegisterForm = UsersFixture.getRandomRegisterRequest()
+        val author: User = authService.register(userRegisterForm)
+        val authorToken: TokenResponse = authService.login(userRegisterForm.email, userRegisterForm.password)
 
-        beforeSpec {
-            // 1~10번 유저의 명의로 게시글 30개 작성
-            val userLength = 10
-            userTokens.addAll(
-                UsersFixture.getRandomRegisterRequest(userLength).map { registerForm ->
-                    authService.register(registerForm)
-                },
-            )
+        val nonUserRegisterForm = UsersFixture.getRandomRegisterRequest()
+        val nonAuthor: User = authService.register(nonUserRegisterForm)
+        val nonAuthorToken: TokenResponse = authService.login(nonUserRegisterForm.email, nonUserRegisterForm.password)
 
-            val articleLength = 30
-            articleIds.addAll(
-                ArticleBuilder.getRandomArticle(articleLength).mapIndexed { index, articleForm ->
-                    articleService.createArticle(
-                        userId = index % userLength + 1L,
-                        articleForm = articleForm,
-                    ).id
-                },
-            )
-        }
+        val article: ArticleResponse = articleService.createArticle(
+            email = author.email,
+            articleForm = ArticleFixture.getRandomArticle(author.id),
+        )
 
         describe("GET /api/v1/articles - 게시글 조회 API") {
             it("200 OK") {
@@ -90,7 +86,7 @@ class ArticlesApiTest(
                         .file(file)
                         .param("title", title)
                         .param("content", content)
-                        .header("Authorization", "Bearer ${userTokens[0].token}")
+                        .withJwt(authorToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA),
                 ).andExpect {
                     status().isCreated
@@ -101,7 +97,7 @@ class ArticlesApiTest(
                     multipart("/api/v1/articles")
                         .param("title", "") // 빈 제목
                         .param("content", "내용")
-                        .header("Authorization", "Bearer ${userTokens[0].token}")
+                        .withJwt(authorToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA),
                 ).andExpect {
                     status().isBadRequest
@@ -121,17 +117,14 @@ class ArticlesApiTest(
 
         describe("GET /api/v1/articles/{articleId} - 게시글 조회 API") {
             it("200 OK") {
-                // Given
-                val articleId = articleIds[0]
-
                 // When & Then
-                mockMvc.get("/api/v1/articles/$articleId") {
+                mockMvc.get("/api/v1/articles/${article.id}") {
                     contentType = MediaType.APPLICATION_JSON
                 }.andExpect {
                     status { isOk() }
                     content { contentType(MediaType.APPLICATION_JSON) }
 
-                    jsonPath("$.id") { value(articleId) }
+                    jsonPath("$.id") { value(article.id) }
                     jsonPath("$.title") {
                         isString()
                         isNotEmpty()
@@ -151,8 +144,7 @@ class ArticlesApiTest(
 
             it("404 Not Found") {
                 // Given
-                val articleId = 9999
-
+                val articleId = Int.MAX_VALUE
                 // When & Then
                 mockMvc.get("/api/v1/articles/$articleId") {
                     contentType = MediaType.APPLICATION_JSON
@@ -165,7 +157,6 @@ class ArticlesApiTest(
 
         describe("PATCH /api/v1/articles/{articleId} - 게시글 수정 API") {
             it("200 OK") {
-                val articleId = articleIds[0]
                 val title = "수정된 제목"
                 val content = "수정된 내용"
                 val file = MockMultipartFile(
@@ -176,11 +167,11 @@ class ArticlesApiTest(
                 )
 
                 mockMvc.perform(
-                    multipart("/api/v1/articles/$articleId")
+                    multipart("/api/v1/articles/${article.id}")
                         .file(file)
                         .param("title", title)
                         .param("content", content)
-                        .header("Authorization", "Bearer ${userTokens[0].token}")
+                        .withJwt(authorToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .with {
                             it.method = "PATCH"
@@ -192,12 +183,11 @@ class ArticlesApiTest(
             }
 
             it("400 Bad Request (@Valid)") {
-                val articleId = articleIds[0]
                 mockMvc.perform(
-                    multipart("/api/v1/articles/$articleId")
+                    multipart("/api/v1/articles/${article.id}")
                         .param("title", "") // 빈 제목
                         .param("content", "수정된 내용")
-                        .header("Authorization", "Bearer ${userTokens[0].token}")
+                        .withJwt(authorToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .with {
                             it.method = "PATCH"
@@ -209,9 +199,8 @@ class ArticlesApiTest(
             }
 
             it("401 Unauthorized") {
-                val articleId = articleIds[0]
                 mockMvc.perform(
-                    multipart("/api/v1/articles/$articleId")
+                    multipart("/api/v1/articles/${article.id}")
                         .param("title", "수정된 제목")
                         .param("content", "수정된 내용")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -226,10 +215,10 @@ class ArticlesApiTest(
 
             it("404 Not Found") {
                 mockMvc.perform(
-                    multipart("/api/v1/articles/9999")
+                    multipart("/api/v1/articles/${Int.MAX_VALUE}")
                         .param("title", "수정된 제목")
                         .param("content", "수정된 내용")
-                        .header("Authorization", "Bearer ${userTokens[0].token}")
+                        .withJwt(authorToken)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .with {
                             it.method = "PATCH"
@@ -243,37 +232,37 @@ class ArticlesApiTest(
 
         describe("DELETE /api/v1/articles/{articleId} - 게시글 삭제 API") {
             it("200 OK") {
-                val articleId = articleIds[0]
-                mockMvc.delete("/api/v1/articles/$articleId") {
-                    header("Authorization", "Bearer ${userTokens[0].token}")
-                }.andExpect {
-                    status { isOk() }
-                }
+                mockMvc.perform(
+                    delete("/api/v1/articles/${article.id}")
+                        .withJwt(authorToken),
+                ).andExpectAll(
+                    status().isNoContent,
+                )
             }
 
             it("401 Unauthorized") {
-                val articleId = articleIds[0]
-                mockMvc.delete("/api/v1/articles/$articleId")
+                mockMvc.delete("/api/v1/articles/${article.id}")
                     .andExpect {
                         status { isUnauthorized() }
                     }
             }
 
             it("403 Forbidden") {
-                val articleId = articleIds[0]
-                mockMvc.delete("/api/v1/articles/$articleId") {
-                    header("Authorization", "Bearer ${userTokens[1].token}") // 다른 사용자의 토큰
-                }.andExpect {
-                    status { isForbidden() }
-                }
+                mockMvc.perform(
+                    delete("/api/v1/articles/${article.id}")
+                        .withJwt(nonAuthorToken),
+                ).andExpectAll(
+                    status().isForbidden,
+                )
             }
 
             it("404 Not Found") {
-                mockMvc.delete("/api/v1/articles/9999") {
-                    header("Authorization", "Bearer ${userTokens[0].token}")
-                }.andExpect {
-                    status { isNotFound() }
-                }
+                mockMvc.perform(
+                    delete("/api/v1/articles/${Int.MAX_VALUE}")
+                        .withJwt(authorToken),
+                ).andExpectAll(
+                    status().isNotFound,
+                )
             }
         }
     },

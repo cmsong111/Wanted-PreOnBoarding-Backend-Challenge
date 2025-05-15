@@ -1,6 +1,5 @@
 package org.project.portfolio.article.domain.validator
 
-import CommentFixture
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -9,29 +8,42 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.project.portfolio.article.domain.Comment
 import org.project.portfolio.article.domain.CommentRepository
+import org.project.portfolio.user.domain.User
+import org.project.portfolio.user.domain.UserRepository
 
 @DisplayName("댓글 도메인 검증기 테스트")
 class CommentValidatorTest {
     private val commentRepository: CommentRepository = mockk()
-    private val commentValidator = CommentValidator(commentRepository)
+    private val userRepository: UserRepository = mockk()
+    private val commentValidator = CommentValidator(commentRepository, userRepository)
 
     @Test
     fun `댓글 작성자인지 확인 - 성공케이스`() {
         // given
-        val articleId: Long = 1L
-        val commentId: Long = 1L
-        val userId: Long = 1L
-
-        val comment: Comment = CommentFixture.createComment(
-            id = commentId,
-            authorId = userId,
-            articleId = articleId,
+        val user = User(
+            id = 1L,
+            name = "TestUser",
+            email = "test@test.com",
+            password = "password",
+            phone = "010-1234-5678",
         )
 
-        every { commentRepository.findByArticleIdAndId(articleId, commentId) } returns comment
+        val comment = Comment(
+            id = 1L,
+            content = "댓글 내용입니다",
+            authorId = user.id,
+            articleId = 1L,
+        )
+
+        every { userRepository.findByEmail(user.email) } returns user
+        every { commentRepository.findByArticleIdAndId(comment.articleId, comment.id) } returns comment
 
         // when
-        val result = commentValidator.isAuthor(articleId, commentId, userId)
+        val result = commentValidator.isAuthor(
+            articleId = comment.articleId,
+            commentId = comment.id,
+            email = user.email,
+        )
 
         // then
         assertTrue(result)
@@ -40,24 +52,29 @@ class CommentValidatorTest {
     @Test
     fun `댓글 작성자인지 확인 - 실패케이스(본인 아님)`() {
         // given
-        val articleId: Long = 1L
-        val commentId: Long = 1L
-        val userId: Long = 1L
-
-        // 다른 작성자 ID (2L)로 댓글 생성
-        val comment: Comment = CommentFixture.createComment(
-            id = commentId,
-            authorId = 2L,
-            articleId = articleId,
+        val user = User(
+            id = 1L,
+            name = "TestUser",
+            email = "test@test.com",
+            password = "password",
+            phone = "010-1234-5678",
         )
 
-        every { commentRepository.findByArticleIdAndId(articleId, commentId) } returns comment
+        val comment = Comment(
+            id = 1L,
+            content = "댓글 내용입니다",
+            authorId = 2L,
+            articleId = 1L,
+        )
+
+        every { userRepository.findByEmail(user.email) } returns user
+        every { commentRepository.findByArticleIdAndId(comment.articleId, comment.id) } returns comment
 
         // when
         val result = commentValidator.isAuthor(
-            articleId = articleId,
-            commentId = commentId,
-            userId = userId,
+            articleId = comment.articleId,
+            commentId = comment.id,
+            email = user.email,
         )
 
         // then

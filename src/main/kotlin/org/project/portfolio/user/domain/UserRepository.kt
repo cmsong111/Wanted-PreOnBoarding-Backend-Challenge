@@ -11,4 +11,7 @@ interface UserRepository : JpaRepository<User, Long> {
 
     /** 이메일로 사용자 존재 여부 조회 */
     fun existsByEmail(email: String): Boolean
+
+    /** 사용자 삭제 */
+    fun deleteByEmail(email: String)
 }

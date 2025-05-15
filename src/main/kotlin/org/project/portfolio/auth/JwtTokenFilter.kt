@@ -1,14 +1,12 @@
-package org.project.portfolio.auth.filter
+package org.project.portfolio.auth
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.project.portfolio.common.domain.AuthenticatedUser
-import org.project.portfolio.auth.JwtProvider
 import org.project.portfolio.common.utils.TokenResolver
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.filter.OncePerRequestFilter
 
 class JwtTokenFilter(
@@ -20,19 +18,18 @@ class JwtTokenFilter(
         filterChain: FilterChain,
     ) {
         TokenResolver.resolveToken(request)?.let { token ->
-            val authenticatedUser: AuthenticatedUser = try {
-                tokenProvider.decode(token)
+            try {
+                val authenticatedUser: UserDetails = tokenProvider.decodeAccessToken(token)
+                SecurityContextHolder.getContext().authentication = UsernamePasswordAuthenticationToken(
+                    authenticatedUser,
+                    token,
+                    authenticatedUser.authorities,
+                )
             } catch (e: Exception) {
-                logger.error(e.message)
-                return
+                logger.error("JWT token validation failed", e)
+                SecurityContextHolder.clearContext()
             }
-            val authentication = UsernamePasswordAuthenticationToken(authenticatedUser, token, authenticatedUser.roles)
-            SecurityContextHolder.getContext().authentication = authentication
         }
         filterChain.doFilter(request, response)
-    }
-
-    companion object {
-        val logger = KotlinLogging.logger {}
     }
 }

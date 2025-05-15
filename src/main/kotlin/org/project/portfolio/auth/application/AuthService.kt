@@ -1,15 +1,19 @@
 package org.project.portfolio.auth.application
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.project.portfolio.auth.JwtProvider
-import org.project.portfolio.auth.presentation.request.RegisterRequest
+import org.project.portfolio.auth.domain.RefreshToken
+import org.project.portfolio.auth.presentation.request.RegisterForm
 import org.project.portfolio.auth.presentation.response.TokenResponse
-import org.project.portfolio.auth.domain.exception.AlreadyExistingEmailException
-import org.project.portfolio.auth.domain.exception.LoginFailedException
+import org.project.portfolio.common.domain.exception.BadRequestException
+import org.project.portfolio.common.domain.exception.ConflictException
+import org.project.portfolio.common.domain.exception.UnauthorizedException
 import org.project.portfolio.user.domain.User
 import org.project.portfolio.user.domain.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 /**
  * 사용자 인증 서비스
@@ -20,30 +24,30 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AuthService(
     private val userRepository: UserRepository,
+    private val refreshTokenRepository: RefreshTokenRedisRepository,
     private val jwtProvider: JwtProvider,
     private val passwordEncoder: PasswordEncoder,
 ) {
     /**
      * 회원가입
-     * @param registerRequest 회원가입 요청 폼
+     * @param registerForm 회원가입 요청 폼
      * @return JWT 토큰
      */
     @Transactional
-    fun register(registerRequest: RegisterRequest): TokenResponse {
+    fun register(registerForm: RegisterForm): User {
         // 중복 확인
-        if (userRepository.existsByEmail(registerRequest.email)) {
-            throw AlreadyExistingEmailException()
+        if (userRepository.existsByEmail(registerForm.email)) {
+            throw ConflictException("이미 존재하는 이메일입니다.")
         }
 
-        val user = userRepository.save(
+        return userRepository.save(
             User.create(
-                email = registerRequest.email,
-                name = registerRequest.name,
-                phone = registerRequest.phone,
-                password = passwordEncoder.encode(registerRequest.password),
+                email = registerForm.email,
+                name = registerForm.name,
+                phone = registerForm.phone,
+                password = passwordEncoder.encode(registerForm.password),
             ),
         )
-        return TokenResponse(token = jwtProvider.createToken(user))
     }
 
     /**
@@ -52,22 +56,62 @@ class AuthService(
      * @param password 비밀번호
      * @return JWT 토큰
      */
-    @Transactional(readOnly = true)
+    @Transactional
     fun login(
         email: String,
         password: String,
     ): TokenResponse {
         // 유저 조회
-        val user = userRepository.findByEmail(email)
-            ?: throw LoginFailedException()
+        val user: User = userRepository.findByEmail(email) ?: throw BadRequestException(
+            message = "이메일 또는 비밀번호가 잘못되었습니다.",
+        )
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(password, user.password)) {
-            throw LoginFailedException()
+            throw BadRequestException(
+                message = "이메일 또는 비밀번호가 잘못되었습니다.",
+            )
         }
-        // 로그인 성공 및 토큰 발급
+
+        // Refresh Token 발급
+        val refreshToken: String = UUID.randomUUID().toString()
+        refreshTokenRepository.save(RefreshToken(jit = refreshToken, email = user.email))
+
         return TokenResponse(
-            token = jwtProvider.createToken(user),
+            accessToken = jwtProvider.createAccessToken(email = user.email, roles = user.roles),
+            refreshToken = jwtProvider.createRefreshToken(email = user.email, jit = refreshToken),
+        )
+    }
+
+    /**
+     * 엑세스 토큰 재발급
+     * @param token 리프레시 토큰 (ex. eyj...)
+     * @return
+     */
+    @Transactional
+    fun reissueAccessToken(token: String): TokenResponse {
+        // 리프레시 토큰 파싱
+        val refreshToken: RefreshToken = jwtProvider.decodeRefreshToken(token)
+
+        // 리프레시 토큰 검증
+        if (!refreshTokenRepository.existsById(refreshToken.jit)) {
+            throw UnauthorizedException("리프레시 토큰이 존재하지 않습니다.")
+        }
+
+        // 유저 조회
+        val user: User = userRepository.findByEmail(refreshToken.email) ?: throw UnauthorizedException("유저가 존재하지 않습니다.")
+
+        // 기존 리프레시 토큰 삭제
+        refreshTokenRepository.deleteById(refreshToken.jit)
+
+        // 리프레시 토큰 재발급
+        val newRefreshToken: String = UUID.randomUUID().toString()
+        refreshTokenRepository.save(RefreshToken(jit = newRefreshToken, email = user.email))
+
+        // 엑세스 토큰 재발급
+        return TokenResponse(
+            accessToken = jwtProvider.createAccessToken(email = user.email, roles = user.roles),
+            refreshToken = jwtProvider.createRefreshToken(email = user.email, jit = newRefreshToken),
         )
     }
 
@@ -78,6 +122,16 @@ class AuthService(
      */
     @Transactional(readOnly = true)
     fun existsEmail(email: String): Boolean {
-        return userRepository.existsByEmail(email)
+        if (userRepository.existsByEmail(email)) {
+            throw ConflictException(
+                message = "이미 존재하는 이메일입니다.",
+                properties = mapOf("email" to email),
+            )
+        }
+        return false
+    }
+
+    companion object {
+        private val logger = KotlinLogging.logger {}
     }
 }

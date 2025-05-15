@@ -23,8 +23,9 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET:this-is-a-secret-key-and-it-should-be-kept-secure}
-  issuer: ${JWT_ISSUER:article.cmsong111.site}
-  expiry: ${JWT_EXPIRATION:3600000}
+  issuer: ${JWT_ISSUER:localhost}
+  access-expiry: ${JWT_ACCESS_EXPIRATION:3600}
+  refresh-expiry: ${JWT_REFRESH_EXPIRATION:604800}
 
 
 springdoc:
@@ -39,5 +40,3 @@ server:
 storage:
   imgbb:
     api-key: ${IMGBB_API_KEY:your-api-key}
-
-

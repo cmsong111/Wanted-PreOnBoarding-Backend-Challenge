@@ -1,7 +1,7 @@
 package org.project.portfolio.user.application
 
+import org.project.portfolio.common.domain.exception.NotFoundException
 import org.project.portfolio.user.domain.User
-import org.project.portfolio.user.domain.exception.UserNotFoundException
 import org.project.portfolio.user.domain.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -18,19 +18,25 @@ class UserManageService(
     @Transactional(readOnly = true)
     fun getUser(email: String): User {
         return userRepository.findByEmail(email)
-            ?: throw UserNotFoundException()
+            ?: throw NotFoundException(User::class.java, mapOf("email" to email))
+    }
+
+    @Transactional(readOnly = true)
+    fun getUser(userId: Long): User {
+        return userRepository.findByIdOrNull(userId)
+            ?: throw NotFoundException(User::class.java, mapOf("userId" to userId))
     }
 
     /**
      * Delete user
-     * @param userId 유저 아이디
+     * @param email 유저 아이디
      */
     @Transactional
-    fun deleteUser(userId: Long) {
-        val user: User = userRepository.findByIdOrNull(userId)
-            ?: throw UserNotFoundException()
+    fun deleteUser(email: String) {
+        val user: User = userRepository.findByEmail(email)
+            ?: throw NotFoundException(User::class.java, mapOf("email" to email))
 
-        user.email = "${user.email}_deleted_${System.currentTimeMillis()}"
-        userRepository.deleteById(userId)
+        user.email = "${user.email}.deleted.${System.currentTimeMillis()}"
+        userRepository.deleteByEmail(user.email)
     }
 }

@@ -8,12 +8,12 @@ import jakarta.validation.constraints.Size
 
 /** 회원가입 폼 */
 @Schema(description = "회원가입 폼")
-data class RegisterRequest(
+data class RegisterForm(
     /** 이메일 */
     @field:Schema(description = "이메일", example = "test12345@test.com")
     @field:Size(max = 254, message = "이메일은 254자 이하로 입력해주세요")
     @field:Pattern(
-        regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        regexp = "^[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
         message = "이메일 형식이 올바르지 않습니다",
     )
     val email: String,

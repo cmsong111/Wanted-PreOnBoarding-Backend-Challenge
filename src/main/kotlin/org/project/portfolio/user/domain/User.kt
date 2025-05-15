@@ -59,7 +59,7 @@ class User(
                 name = name,
                 phone = phone,
                 password = password,
-                profileImage = "https://i.pravatar.cc/300",
+                profileImage = "https://i.pravatar.cc/300?img=${(1..70).random()}",
             )
         }
     }

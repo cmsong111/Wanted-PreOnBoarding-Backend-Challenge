@@ -1,32 +1,32 @@
 package org.project.portfolio.common.domain.exception
 
-abstract class CustomException(
+sealed class CustomException(
     val code: String,
     override val message: String,
     val properties: Map<String, Any?> = mapOf(),
 ) : RuntimeException(message)
 
-abstract class BadRequestException(
+class BadRequestException(
     message: String,
     properties: Map<String, Any?> = mapOf(),
 ) : CustomException("BAD_REQUEST", message, properties)
 
-abstract class UnauthorizedException(
+class UnauthorizedException(
     message: String,
     properties: Map<String, Any?> = mapOf(),
 ) : CustomException("UNAUTHORIZED", message, properties)
 
-abstract class ForbiddenException(
+class ForbiddenException(
     message: String,
     properties: Map<String, Any?> = mapOf(),
 ) : CustomException("FORBIDDEN", message, properties)
 
-abstract class NotFoundException(
-    message: String,
+class NotFoundException(
+    clazz: Class<*>,
     properties: Map<String, Any?> = mapOf(),
-) : CustomException("NOT_FOUND", message, properties)
+) : CustomException("${clazz.simpleName.uppercase()}_NOT_FOUND", "${clazz.simpleName} not found", properties)
 
-abstract class ConflictException(
+class ConflictException(
     message: String,
     properties: Map<String, Any?> = mapOf(),
 ) : CustomException("CONFLICT", message, properties)

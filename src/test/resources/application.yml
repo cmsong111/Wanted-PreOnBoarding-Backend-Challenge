@@ -14,6 +14,12 @@ spring:
         show_sql: true
     defer-datasource-initialization: true
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 2
+
   sql:
     init:
       mode: never
@@ -25,5 +31,6 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET:this-is-a-secret-key-and-it-should-be-kept-secure}
-  issuer: ${JWT_ISSUER:test.localhost}
-  expiry: ${JWT_EXPIRATION:3600000}
+  issuer: ${JWT_ISSUER:localhost}
+  access-expiry: ${JWT_ACCESS_EXPIRATION:3600}
+  refresh-expiry: ${JWT_REFRESH_EXPIRATION:604800}

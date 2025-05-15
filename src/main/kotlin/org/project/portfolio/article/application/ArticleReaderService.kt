@@ -5,12 +5,12 @@ import org.project.portfolio.article.domain.ArticleRepository
 import org.project.portfolio.article.domain.ArticleView
 import org.project.portfolio.article.domain.ArticleViewRepository
 import org.project.portfolio.article.domain.CommentRepository
-import org.project.portfolio.article.domain.exception.ArticleNotFoundException
 import org.project.portfolio.article.presentation.response.ArticleResponse
 import org.project.portfolio.article.presentation.response.ArticleSummaryResponse
 import org.project.portfolio.article.presentation.response.CommentResponse
-import org.project.portfolio.user.presentation.response.UserSummaryResponse
+import org.project.portfolio.common.domain.exception.NotFoundException
 import org.project.portfolio.user.domain.UserRepository
+import org.project.portfolio.user.presentation.response.UserSummaryResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
@@ -36,10 +36,10 @@ class ArticleReaderService(
     ): Page<ArticleSummaryResponse> {
         return articleRepository.findByArticleTitleAndContent(
             pageable = pageable,
-        ).map {
+        ).map { article ->
             ArticleSummaryResponse.from(
-                article = it,
-                author = UserSummaryResponse.from(userRepository.findByIdOrNull(it.authorId)),
+                article = article,
+                author = UserSummaryResponse.from(userRepository.findByIdOrNull(article.authorId)),
             )
         }
     }
@@ -74,7 +74,7 @@ class ArticleReaderService(
     ): Long {
         // 게시글 조회
         val article: Article = articleRepository.findByIdOrNull(articleId)
-            ?: throw ArticleNotFoundException()
+            ?: throw NotFoundException(Article::class.java, mapOf("articleId" to articleId))
 
         // 중복 조회수 증가 방지
         if (articleViewRepository.findByIdOrNull(ArticleView.createKey(articleId, ip, userAgent)) == null) {

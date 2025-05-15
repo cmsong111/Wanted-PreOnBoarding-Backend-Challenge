@@ -3,6 +3,7 @@ package org.project.portfolio.article.domain
 import org.springframework.data.annotation.Id
 import org.springframework.data.redis.core.RedisHash
 import java.io.Serializable
+import java.security.MessageDigest
 import java.time.Instant
 
 @RedisHash(value = "article_views", timeToLive = 60 * 60 * 24)
@@ -47,7 +48,12 @@ data class ArticleView(
             ip: String,
             userAgent: String,
         ): String {
-            return "article_views:$articleId:$ip:$userAgent"
+            val newIp: String = ip.replace(':', '.')
+            val hashUserAgent: String = MessageDigest.getInstance("SHA-256")
+                .digest(userAgent.toByteArray())
+                .joinToString("") { "%02x".format(it) }
+                .take(10)
+            return "$articleId:${newIp}_$hashUserAgent"
         }
     }
 }

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.project.portfolio.common.domain.AuthenticatedUser
 import org.project.portfolio.config.SwaggerConfig.Companion.NOTIFICATIONS_API_TAG
 import org.project.portfolio.notification.controller.request.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
@@ -16,6 +15,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -39,13 +39,13 @@ class NotificationController(
     @Operation(summary = "알림 내역 조회 API")
     @GetMapping
     fun getNotifications(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @ParameterObject pageable: Pageable,
     ): ResponseEntity<PagedModel<Notification>> {
         return ResponseEntity.ok(
             PagedModel(
                 notificationService.getNotifications(
-                    email = authenticatedUser.email,
+                    email = userDetails.username,
                     pageable = pageable,
                 ),
             ),
@@ -57,11 +57,11 @@ class NotificationController(
     @Operation(summary = "알림 발송 API(관리자용)")
     fun sendNotification(
         @Valid notificationRequestDto: NotificationRequestDto,
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
     ): ResponseEntity<String> {
         notificationService.sendNotification(
             notificationRequestDto,
-            authenticatedUser.email,
+            userDetails.username,
         )
         return ResponseEntity.accepted().body("OK")
     }

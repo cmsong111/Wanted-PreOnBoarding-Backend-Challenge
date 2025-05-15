@@ -5,6 +5,7 @@ import org.project.portfolio.user.domain.User
 
 @Schema(description = "User 헤더 Response")
 data class UserSummaryResponse(
+    var id: Long? = null,
     @field:Schema(description = "유저 이메일(PK)")
     val email: String,
     @field:Schema(description = "유저 이름")
@@ -16,6 +17,7 @@ data class UserSummaryResponse(
         fun from(user: User?): UserSummaryResponse {
             return user?.let {
                 UserSummaryResponse(
+                    id = it.id,
                     email = it.email,
                     name = it.name,
                     profileImage = it.profileImage,

@@ -3,14 +3,13 @@ package org.project.portfolio.article.application
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.project.portfolio.article.domain.Article
 import org.project.portfolio.article.domain.ArticleRepository
-import org.project.portfolio.article.domain.exception.ArticleNotFoundException
 import org.project.portfolio.article.presentation.request.ArticleForm
 import org.project.portfolio.article.presentation.request.ArticleUpdateForm
 import org.project.portfolio.article.presentation.response.ArticleResponse
+import org.project.portfolio.common.domain.exception.NotFoundException
 import org.project.portfolio.common.storage.StorageService
 import org.project.portfolio.user.domain.User
 import org.project.portfolio.user.domain.UserRepository
-import org.project.portfolio.user.domain.exception.UserNotFoundException
 import org.project.portfolio.user.presentation.response.UserSummaryResponse
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -18,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
 
 @Service
-class ArticleManageService(
+class ArticleAuthorService(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
     private val storageService: StorageService,
@@ -30,18 +29,18 @@ class ArticleManageService(
      */
     @Transactional
     fun createArticle(
-        userId: Long,
+        email: String,
         articleForm: ArticleForm,
     ): ArticleResponse {
         // 유저 조회
-        val user: User = userRepository.findByIdOrNull(userId)
-            ?: throw UserNotFoundException()
+        val user: User = userRepository.findByEmail(email)
+            ?: throw NotFoundException(User::class.java, mapOf("email" to email))
 
         val article: Article = articleRepository.save(
             Article.create(
                 title = articleForm.title,
                 content = articleForm.content,
-                authorId = userId,
+                authorId = user.id,
                 images = articleForm.images?.map {
                     storageService.uploadFile(it)
                 },
@@ -67,7 +66,7 @@ class ArticleManageService(
     ): ArticleResponse {
         // 게시글 조회
         val article: Article = articleRepository.findByIdOrNull(articleId)
-            ?: throw ArticleNotFoundException()
+            ?: throw NotFoundException(Article::class.java, mapOf("articleId" to articleId))
 
         // 게시글 수정
         article.update(

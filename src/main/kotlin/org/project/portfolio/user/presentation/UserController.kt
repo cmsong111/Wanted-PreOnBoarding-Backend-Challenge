@@ -3,12 +3,12 @@ package org.project.portfolio.user.presentation
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
-import org.project.portfolio.common.domain.AuthenticatedUser
-import org.project.portfolio.common.presentation.response.ApiResponse
 import org.project.portfolio.config.SwaggerConfig.Companion.USER_API_TAG
 import org.project.portfolio.user.application.UserManageService
 import org.project.portfolio.user.presentation.response.UserResponse
+import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,10 +30,14 @@ class UserController(
     @GetMapping
     @Operation(summary = "내 정보 조회 API")
     fun getUserInfo(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
-    ): ApiResponse<UserResponse> {
-        return ApiResponse.success(
-            UserResponse.from(userService.getUser(authenticatedUser.email)),
+        @AuthenticationPrincipal userDetails: UserDetails,
+    ): ResponseEntity<UserResponse> {
+        return ResponseEntity.ok(
+            UserResponse.from(
+                user = userService.getUser(
+                    email = userDetails.username,
+                ),
+            ),
         )
     }
 
@@ -41,9 +45,9 @@ class UserController(
     @DeleteMapping
     @Operation(summary = "회원 탈퇴 API")
     fun deleteUser(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
-    ): ApiResponse<Unit> {
-        userService.deleteUser(authenticatedUser.userId)
-        return ApiResponse.success(Unit)
+        @AuthenticationPrincipal userDetails: UserDetails,
+    ): ResponseEntity<Unit> {
+        userService.deleteUser(userDetails.username)
+        return ResponseEntity.noContent().build()
     }
 }

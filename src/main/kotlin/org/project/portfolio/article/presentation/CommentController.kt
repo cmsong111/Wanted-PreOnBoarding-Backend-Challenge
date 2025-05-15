@@ -7,13 +7,13 @@ import jakarta.validation.Valid
 import org.project.portfolio.article.application.CommentService
 import org.project.portfolio.article.presentation.request.CommentForm
 import org.project.portfolio.article.presentation.response.CommentResponse
-import org.project.portfolio.common.domain.AuthenticatedUser
 import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.project.portfolio.config.SwaggerConfig.Companion.COMMENT_API_TAG
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -36,12 +36,12 @@ class CommentController(
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
     fun createComment(
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
         @PathVariable articleId: Long,
         @Valid @RequestBody commentForm: CommentForm,
     ): ResponseEntity<CommentResponse> {
         val comment = commentService.createComment(
-            userId = authenticatedUser.userId,
+            email = userDetails.username,
             articleId = articleId,
             content = commentForm.content,
         )
@@ -51,16 +51,16 @@ class CommentController(
     @PatchMapping("/{commentId}")
     @Operation(summary = "Update an existing comment")
     @SecurityRequirement(name = BEARER_AUTH)
-    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #authenticatedUser.userId)")
+    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #userDetails.username)")
     fun updateComment(
         @PathVariable articleId: Long,
         @PathVariable commentId: Long,
         @Valid @RequestBody commentForm: CommentForm,
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
     ): ResponseEntity<CommentResponse> {
         return ResponseEntity.ok(
             commentService.updateComment(
-                userId = authenticatedUser.userId,
+                email = userDetails.username,
                 articleId = articleId,
                 commentId = commentId,
                 content = commentForm.content,
@@ -69,13 +69,13 @@ class CommentController(
     }
 
     @DeleteMapping("/{commentId}")
-    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #authenticatedUser.userId)")
+    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #userDetails.username)")
     @Operation(summary = "Delete an existing comment")
     @SecurityRequirement(name = BEARER_AUTH)
     fun deleteComment(
         @PathVariable articleId: Long,
         @PathVariable commentId: Long,
-        @AuthenticationPrincipal authenticatedUser: AuthenticatedUser,
+        @AuthenticationPrincipal userDetails: UserDetails,
     ): ResponseEntity<Unit> {
         commentService.deleteComment(
             commentId = commentId,

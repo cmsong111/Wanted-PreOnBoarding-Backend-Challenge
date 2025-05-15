@@ -13,11 +13,16 @@ object TokenResolver {
         // 헤더에서 토큰 추출
         val tokenFromHeader: String? = request.getHeader(AUTHORIZATION_HEADER)
         if (tokenFromHeader != null && tokenFromHeader.startsWith(BEARER_PREFIX)) {
-            return tokenFromHeader.substring(BEARER_PREFIX.length)
+            return tokenFromHeader.substring(BEARER_PREFIX.length).trim()
         }
         return null
     }
 
-    private const val AUTHORIZATION_HEADER = "Authorization"
-    private const val BEARER_PREFIX = "Bearer "
+    fun resolveToken(token: String): String {
+        return token.substring(BEARER_PREFIX.length).trim()
+    }
+
+    const val AUTHORIZATION_HEADER = "Authorization"
+    const val REFRESH_TOKEN_HEADER = "Refresh-Token"
+    const val BEARER_PREFIX = "Bearer"
 }
