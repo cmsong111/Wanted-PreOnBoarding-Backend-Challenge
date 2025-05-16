@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.client.RestClient
 import org.springframework.web.client.support.RestClientAdapter
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.service.annotation.HttpExchange
+import org.springframework.web.service.annotation.PostExchange
 import org.springframework.web.service.invoker.HttpServiceProxyFactory
 
 @Component
@@ -31,7 +31,7 @@ class ImgBB(
             .uploadImage(
                 key = apiKey,
                 name = file.originalFilename,
-                image = file.bytes,
+                image = file,
             )
             .let { response ->
                 return response["data"]["url"].asText()
@@ -40,12 +40,12 @@ class ImgBB(
 
     @HttpExchange(url = "https://api.imgbb.com/1")
     interface ImgBBClient {
-        @PostMapping("/upload", produces = [MediaType.MULTIPART_FORM_DATA_VALUE])
+        @PostExchange("/upload", contentType = MediaType.MULTIPART_FORM_DATA_VALUE)
         fun uploadImage(
             @RequestParam key: String,
             @RequestParam name: String? = null,
             @RequestParam expiration: Int? = null,
-            @RequestPart image: ByteArray,
+            @RequestPart image: MultipartFile,
         ): JsonNode
     }
 }
