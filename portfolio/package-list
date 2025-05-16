@@ -250,7 +250,7 @@ $dokka.location:org.project.portfolio.common.presentation.response/ErrorResponse
 $dokka.location:org.project.portfolio.common.presentation.response/ErrorResponse/properties/#/PointingToDeclaration/portfolio/org.project.portfolio.common.presentation.response/-error-response/properties.html
 $dokka.location:org.project.portfolio.common.storage////PointingToDeclaration/portfolio/org.project.portfolio.common.storage/index.html
 $dokka.location:org.project.portfolio.common.storage/ImgBB.ImgBBClient///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/-img-b-b-client/index.html
-$dokka.location:org.project.portfolio.common.storage/ImgBB.ImgBBClient/uploadImage/#kotlin.String#kotlin.String?#kotlin.Int?#kotlin.ByteArray/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/-img-b-b-client/upload-image.html
+$dokka.location:org.project.portfolio.common.storage/ImgBB.ImgBBClient/uploadImage/#kotlin.String#kotlin.String?#kotlin.Int?#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/-img-b-b-client/upload-image.html
 $dokka.location:org.project.portfolio.common.storage/ImgBB///PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/index.html
 $dokka.location:org.project.portfolio.common.storage/ImgBB/ImgBB/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/-img-b-b.html
 $dokka.location:org.project.portfolio.common.storage/ImgBB/uploadFile/#org.springframework.web.multipart.MultipartFile/PointingToDeclaration/portfolio/org.project.portfolio.common.storage/-img-b-b/upload-file.html
@@ -290,6 +290,7 @@ $dokka.location:org.project.portfolio.config/SwaggerConfig/openAPI/#/PointingToD
 $dokka.location:org.project.portfolio.config/WebConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-web-config/index.html
 $dokka.location:org.project.portfolio.config/WebConfig/WebConfig/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-web-config/-web-config.html
 $dokka.location:org.project.portfolio.config/WebConfig/addArgumentResolvers/#kotlin.collections.MutableList[org.springframework.web.method.support.HandlerMethodArgumentResolver]/PointingToDeclaration/portfolio/org.project.portfolio.config/-web-config/add-argument-resolvers.html
+$dokka.location:org.project.portfolio.config/WebConfig/addCorsMappings/#org.springframework.web.servlet.config.annotation.CorsRegistry/PointingToDeclaration/portfolio/org.project.portfolio.config/-web-config/add-cors-mappings.html
 $dokka.location:org.project.portfolio.notification.controller.request////PointingToDeclaration/portfolio/org.project.portfolio.notification.controller.request/index.html
 $dokka.location:org.project.portfolio.notification.controller.request/NotificationRequestDto///PointingToDeclaration/portfolio/org.project.portfolio.notification.controller.request/-notification-request-dto/index.html
 $dokka.location:org.project.portfolio.notification.controller.request/NotificationRequestDto/NotificationRequestDto/#kotlin.String?#kotlin.String?#kotlin.Long?#kotlin.String?/PointingToDeclaration/portfolio/org.project.portfolio.notification.controller.request/-notification-request-dto/-notification-request-dto.html
