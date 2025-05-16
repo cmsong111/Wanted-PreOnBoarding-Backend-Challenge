@@ -24,3 +24,6 @@ management:
 server:
   forward-headers-strategy: framework
 
+logstash:
+  host: ${LOGSTASH_HOST:localhost}
+  port: ${LOGSTASH_PORT:5044}

@@ -25,6 +25,10 @@ class SecurityConfig(
                 request.anyRequest().permitAll()
             }
             .addFilterBefore(
+                LoggingFilter(),
+                BasicAuthenticationFilter::class.java,
+            )
+            .addFilterBefore(
                 JwtTokenFilter(jwtProvider),
                 BasicAuthenticationFilter::class.java,
             )

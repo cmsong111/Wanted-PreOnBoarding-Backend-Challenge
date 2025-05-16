@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty name="APPLICATION_NAME" source="spring.application.name"/>
+    <contextName>${APPLICATION_NAME}</contextName>
+
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+
+    <springProfile name="prod">
+        <springProperty name="LOGSTASH_HOST" source="logstash.host"/>
+        <springProperty name="LOGSTASH_PORT" source="logstash.port"/>
+
+        <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>${LOGSTASH_HOST}:${LOGSTASH_PORT}</destination>
+            <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+                    <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+                    <timestampFormatTimezoneId>Asia/Seoul</timestampFormatTimezoneId>
+                    <appendLineSeparator>true</appendLineSeparator>
+                    <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter">
+                        <prettyPrint>false</prettyPrint>
+                    </jsonFormatter>
+                </layout>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="LOGSTASH"/>
+        </root>
+    </springProfile>
+</configuration>
