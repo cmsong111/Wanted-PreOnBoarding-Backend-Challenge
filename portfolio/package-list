@@ -225,6 +225,11 @@ $dokka.location:org.project.portfolio.auth/JwtProvider/decodeAccessToken/#kotlin
 $dokka.location:org.project.portfolio.auth/JwtProvider/decodeRefreshToken/#kotlin.String/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-provider/decode-refresh-token.html
 $dokka.location:org.project.portfolio.auth/JwtTokenFilter///PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-token-filter/index.html
 $dokka.location:org.project.portfolio.auth/JwtTokenFilter/JwtTokenFilter/#org.project.portfolio.auth.JwtProvider/PointingToDeclaration/portfolio/org.project.portfolio.auth/-jwt-token-filter/-jwt-token-filter.html
+$dokka.location:org.project.portfolio.common.aop////PointingToDeclaration/portfolio/org.project.portfolio.common.aop/index.html
+$dokka.location:org.project.portfolio.common.aop/LoggingAspect.Companion///PointingToDeclaration/portfolio/org.project.portfolio.common.aop/-logging-aspect/-companion/index.html
+$dokka.location:org.project.portfolio.common.aop/LoggingAspect///PointingToDeclaration/portfolio/org.project.portfolio.common.aop/-logging-aspect/index.html
+$dokka.location:org.project.portfolio.common.aop/LoggingAspect/LoggingAspect/#/PointingToDeclaration/portfolio/org.project.portfolio.common.aop/-logging-aspect/-logging-aspect.html
+$dokka.location:org.project.portfolio.common.aop/LoggingAspect/logControllerExecution/#org.aspectj.lang.ProceedingJoinPoint/PointingToDeclaration/portfolio/org.project.portfolio.common.aop/-logging-aspect/log-controller-execution.html
 $dokka.location:org.project.portfolio.common.domain.exception////PointingToDeclaration/portfolio/org.project.portfolio.common.domain.exception/index.html
 $dokka.location:org.project.portfolio.common.domain.exception/BadRequestException///PointingToDeclaration/portfolio/org.project.portfolio.common.domain.exception/-bad-request-exception/index.html
 $dokka.location:org.project.portfolio.common.domain.exception/BadRequestException/BadRequestException/#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.Any?]/PointingToDeclaration/portfolio/org.project.portfolio.common.domain.exception/-bad-request-exception/-bad-request-exception.html
@@ -424,6 +429,7 @@ org.project.portfolio.auth.domain
 org.project.portfolio.auth.presentation
 org.project.portfolio.auth.presentation.request
 org.project.portfolio.auth.presentation.response
+org.project.portfolio.common.aop
 org.project.portfolio.common.domain.exception
 org.project.portfolio.common.presentation.response
 org.project.portfolio.common.storage
