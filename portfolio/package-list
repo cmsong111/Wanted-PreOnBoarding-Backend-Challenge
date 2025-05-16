@@ -271,6 +271,11 @@ $dokka.location:org.project.portfolio.common.utils/TokenResolver/resolveToken/#k
 $dokka.location:org.project.portfolio.config////PointingToDeclaration/portfolio/org.project.portfolio.config/index.html
 $dokka.location:org.project.portfolio.config/JpaAuditingConfiguration///PointingToDeclaration/portfolio/org.project.portfolio.config/-jpa-auditing-configuration/index.html
 $dokka.location:org.project.portfolio.config/JpaAuditingConfiguration/JpaAuditingConfiguration/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-jpa-auditing-configuration/-jpa-auditing-configuration.html
+$dokka.location:org.project.portfolio.config/LoggingFilter.Companion///PointingToDeclaration/portfolio/org.project.portfolio.config/-logging-filter/-companion/index.html
+$dokka.location:org.project.portfolio.config/LoggingFilter.Companion/REQUEST_ID/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-logging-filter/-companion/-r-e-q-u-e-s-t_-i-d.html
+$dokka.location:org.project.portfolio.config/LoggingFilter.Companion/TRACE_ID/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-logging-filter/-companion/-t-r-a-c-e_-i-d.html
+$dokka.location:org.project.portfolio.config/LoggingFilter///PointingToDeclaration/portfolio/org.project.portfolio.config/-logging-filter/index.html
+$dokka.location:org.project.portfolio.config/LoggingFilter/LoggingFilter/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-logging-filter/-logging-filter.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig///PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/index.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig/PasswordEncoderConfig/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/-password-encoder-config.html
 $dokka.location:org.project.portfolio.config/PasswordEncoderConfig/passwordEncoder/#/PointingToDeclaration/portfolio/org.project.portfolio.config/-password-encoder-config/password-encoder.html
