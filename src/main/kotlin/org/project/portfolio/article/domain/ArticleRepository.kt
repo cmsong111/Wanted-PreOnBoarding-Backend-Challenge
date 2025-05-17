@@ -3,6 +3,7 @@ package org.project.portfolio.article.domain
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
@@ -36,4 +37,17 @@ interface ArticleRepository : JpaRepository<Article, Long> {
         @Param("content") content: String? = null,
         pageable: Pageable,
     ): Page<Article>
+
+    /**
+     * 조회수 증가 메소드
+     * @param id 게시글 ID
+     */
+    @Modifying
+    @Query(
+        """
+        update Article a
+        set a.viewCount = a.viewCount + 1
+        where a.id = :id""",
+    )
+    fun increaseViewCount(id: Long): Int
 }

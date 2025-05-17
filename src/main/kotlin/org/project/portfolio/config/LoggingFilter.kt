@@ -44,7 +44,6 @@ class LoggingFilter : OncePerRequestFilter() {
 
             // 요청을 필터 체인에 전달
             filterChain.doFilter(request, response)
-
         } finally {
             // 요청이 끝난 후 MDC 클리어
             MDC.clear()

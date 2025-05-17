@@ -71,17 +71,16 @@ class ArticleReaderService(
         articleId: Long,
         ip: String,
         userAgent: String,
-    ): Long {
-        // 게시글 조회
-        val article: Article = articleRepository.findByIdOrNull(articleId)
-            ?: throw NotFoundException(Article::class.java, mapOf("articleId" to articleId))
+    ) {
+        // 게시글이 존재하지 않는 경우 예외 처리
+        if (!articleRepository.existsById(articleId)) {
+            throw NotFoundException(Article::class.java, mapOf("articleId" to articleId))
+        }
 
         // 중복 조회수 증가 방지
         if (articleViewRepository.findByIdOrNull(ArticleView.createKey(articleId, ip, userAgent)) == null) {
             articleViewRepository.save(ArticleView.create(articleId, ip, userAgent))
-            article.apply { viewCount++ }
+            articleRepository.increaseViewCount(articleId)
         }
-
-        return article.viewCount
     }
 }
