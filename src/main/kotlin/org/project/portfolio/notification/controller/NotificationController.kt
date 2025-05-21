@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.project.portfolio.config.SwaggerConfig.Companion.NOTIFICATIONS_API_TAG
 import org.project.portfolio.notification.controller.request.NotificationRequestDto
 import org.project.portfolio.notification.entity.Notification
@@ -18,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter
@@ -25,7 +27,7 @@ import java.security.Principal
 
 @Tag(name = NOTIFICATIONS_API_TAG, description = "The notification API")
 @RestController
-@SecurityRequirement(name = "Bearer Authentication")
+@SecurityRequirement(name = BEARER_AUTH)
 @RequestMapping("/api/v1/notifications")
 class NotificationController(
     private val notificationService: NotificationService,
@@ -56,7 +58,7 @@ class NotificationController(
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "알림 발송 API(관리자용)")
     fun sendNotification(
-        @Valid notificationRequestDto: NotificationRequestDto,
+        @RequestBody @Valid notificationRequestDto: NotificationRequestDto,
         @AuthenticationPrincipal userDetails: UserDetails,
     ): ResponseEntity<String> {
         notificationService.sendNotification(

@@ -3,6 +3,7 @@ package org.project.portfolio.user.presentation
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.project.portfolio.config.SwaggerConfig.Companion.USER_API_TAG
 import org.project.portfolio.user.application.UserManageService
 import org.project.portfolio.user.presentation.response.UserResponse
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 /** User API 컨트롤러 */
 @Tag(name = USER_API_TAG, description = "The user API")
-@SecurityRequirement(name = "Bearer Authentication")
+@SecurityRequirement(name = BEARER_AUTH)
 @RestController
 @RequestMapping("/api/v1/user")
 class UserController(
