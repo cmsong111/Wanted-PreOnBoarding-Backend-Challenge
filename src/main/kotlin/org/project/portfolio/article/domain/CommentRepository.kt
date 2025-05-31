@@ -1,5 +1,7 @@
 package org.project.portfolio.article.domain
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -22,4 +24,16 @@ interface CommentRepository : JpaRepository<Comment, Long> {
         articleId: Long,
         id: Long,
     ): Comment?
+
+
+    /**
+     * 작성자 ID로 댓글 조회
+     * @param authorId 작성자 ID
+     * @param pageable 페이징 정보 객체
+     * @return 댓글 리스트
+     */
+    fun findByAuthorId(
+        authorId: Long,
+        pageable: Pageable,
+    ): Page<Comment>
 }

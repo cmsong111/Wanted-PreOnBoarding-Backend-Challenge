@@ -1,5 +1,7 @@
 package org.project.portfolio.article.application
 
+import io.github.oshai.kotlinlogging.KLogger
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.project.portfolio.article.domain.Article
 import org.project.portfolio.article.domain.ArticleRepository
 import org.project.portfolio.article.domain.ArticleView
@@ -81,6 +83,13 @@ class ArticleReaderService(
         if (articleViewRepository.findByIdOrNull(ArticleView.createKey(articleId, ip, userAgent)) == null) {
             articleViewRepository.save(ArticleView.create(articleId, ip, userAgent))
             articleRepository.increaseViewCount(articleId)
+            logger.info {
+                mapOf("articleId" to articleId, "ip" to ip, "ip" to ip)
+            }
         }
+    }
+
+    companion object {
+        private val logger: KLogger = KotlinLogging.logger {}
     }
 }

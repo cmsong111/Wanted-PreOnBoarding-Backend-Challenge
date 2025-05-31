@@ -21,6 +21,17 @@ spring:
       s3:
         enabled: false
 
+  ai:
+    ollama:
+      chat:
+        options:
+          num-ctx: 2048
+      init:
+        pull-model-strategy: always
+        chat:
+          additional-models:
+            - gemma3:latest
+
 jwt:
   secret: ${JWT_SECRET:this-is-a-secret-key-and-it-should-be-kept-secure}
   issuer: ${JWT_ISSUER:localhost}

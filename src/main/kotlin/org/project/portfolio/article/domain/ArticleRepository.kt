@@ -50,4 +50,15 @@ interface ArticleRepository : JpaRepository<Article, Long> {
         where a.id = :id""",
     )
     fun increaseViewCount(id: Long): Int
+
+
+    /**
+     * 작성자 ID로 게시글 조회 메소드
+     * @param authorId 작성자 ID
+     * @param pageable 페이징 정보 객체
+     */
+    fun findByAuthorId(
+        authorId: Long,
+        pageable: Pageable,
+    ): Page<Article>
 }
