@@ -1,5 +1,6 @@
 package org.project.portfolio.config
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
@@ -35,7 +36,11 @@ class RedisConfig {
                                 .apply {
                                     registerKotlinModule()
                                     registerModule(JavaTimeModule())
-                                    enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL)
+                                    activateDefaultTyping(
+                                        this.polymorphicTypeValidator,
+                                        ObjectMapper.DefaultTyping.NON_FINAL,
+                                        JsonTypeInfo.As.PROPERTY,
+                                    )
                                 },
                         ),
                     ),

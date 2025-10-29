@@ -25,7 +25,6 @@ interface CommentRepository : JpaRepository<Comment, Long> {
         id: Long,
     ): Comment?
 
-
     /**
      * 작성자 ID로 댓글 조회
      * @param authorId 작성자 ID

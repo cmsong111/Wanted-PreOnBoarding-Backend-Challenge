@@ -66,9 +66,9 @@ class OllamaWritingToneGenerator(
                 OllamaOptions.builder()
                     .model("gemma3:latest")
                     .format(outputConverter.jsonSchemaMap)
-                    .temperature(0.9)  // 창의성 증가
-                    .topP(0.95)        // 다양성 증가
-                    .numPredict(2048)   // 출력 길이 확장 (token 기준)
+                    .temperature(0.9)
+                    .topP(0.95)
+                    .numPredict(2048)
                     .build(),
             ),
         )
@@ -77,11 +77,9 @@ class OllamaWritingToneGenerator(
 
         return outputConverter.convert(response.result.output.text!!)
             ?: throw IllegalArgumentException("Response is null")
-
     }
 
     companion object {
         private val logger: KLogger = KotlinLogging.logger {}
     }
 }
-

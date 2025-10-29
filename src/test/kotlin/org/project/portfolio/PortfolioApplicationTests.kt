@@ -9,12 +9,13 @@ import org.springframework.test.annotation.DirtiesContext
 @DisplayName("PortfolioApplication 테스트")
 @DirtiesContext
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PortfolioApplicationTests : FunSpec(
-    {
-        extensions(SpringExtension)
+class PortfolioApplicationTests :
+    FunSpec(
+        {
+            extensions(SpringExtension)
 
-        test("Load application context") {
-            assert(true)
-        }
-    },
-)
+            test("Load application context") {
+                assert(true)
+            }
+        },
+    )

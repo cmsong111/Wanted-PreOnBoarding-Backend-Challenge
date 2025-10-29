@@ -2,7 +2,6 @@ package org.project.portfolio.writing.tone
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-
 /**
  * @param title 제목
  * @param content 내용

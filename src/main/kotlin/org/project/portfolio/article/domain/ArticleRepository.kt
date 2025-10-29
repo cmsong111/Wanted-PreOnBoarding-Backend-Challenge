@@ -51,7 +51,6 @@ interface ArticleRepository : JpaRepository<Article, Long> {
     )
     fun increaseViewCount(id: Long): Int
 
-
     /**
      * 작성자 ID로 게시글 조회 메소드
      * @param authorId 작성자 ID

@@ -36,7 +36,6 @@ class WritingToneService(
         )
     }
 
-
     /**
      * 유저의 게시글과 댓글을 분석하여 텍스트를 반환하는 메소드
      */

@@ -37,14 +37,15 @@ class OllamaWritingToneAnalyzer(
                 분석 결과는 마크다운 형식으로 제목과 목록을 활용해 구조화해서 작성해주세요.
 
                 목표는 추후 AI가 이 말투를 효과적으로 모방할 수 있도록 충분한 정보를 제공하는 것입니다.
-            """.trimIndent()
+            """.trimIndent(),
         )
+
         val userMessage = UserMessage(
             """
                 다음은 한 사용자가 작성한 글입니다. 이 사용자의 말투와 글쓰기 스타일의 특징을 분석해주세요:
 
                 ${text.joinToString(separator = "\n")}
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         return chatModel.call(
@@ -55,10 +56,10 @@ class OllamaWritingToneAnalyzer(
                 ),
                 OllamaOptions.builder()
                     .model("gemma3:latest")
-                    .temperature(0.7)      // 약간 창의적인 표현을 허용
-                    .topP(0.9)             // 높은 품질의 다양성 유지
-                    .presencePenalty(0.6)  // 새로운 단어/표현을 유도
-                    .frequencyPenalty(0.3) // 반복 억제 (말버릇 추출 방해 방지)
+                    .temperature(0.7)
+                    .topP(0.9)
+                    .presencePenalty(0.6)
+                    .frequencyPenalty(0.3)
                     .build(),
             ),
         ).result.output.text
