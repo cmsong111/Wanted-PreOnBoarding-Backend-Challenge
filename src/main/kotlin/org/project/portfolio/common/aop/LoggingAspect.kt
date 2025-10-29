@@ -2,6 +2,7 @@ package org.project.portfolio.common.aop
 
 import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
+import net.logstash.logback.argument.StructuredArguments.kv
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -19,7 +20,12 @@ class LoggingAspect {
         return try {
             val result = joinPoint.proceed()
             val duration = System.currentTimeMillis() - start
-            logger.info { "Called $className.$methodName - took ${duration}ms" }
+            logger.info(
+                "API call finished: class={}, method={}",
+                kv("class", className),
+                kv("method", methodName),
+                kv("durationMs", duration),
+            )
             result
         } catch (e: Throwable) {
             val duration = System.currentTimeMillis() - start

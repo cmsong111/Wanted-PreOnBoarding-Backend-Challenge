@@ -3,19 +3,20 @@ import org.springframework.boot.gradle.tasks.bundling.BootBuildImage
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "1.9.25"
+    id("org.springframework.boot") version "3.5.6"
+    id("io.spring.dependency-management") version "1.1.7"
     id("java-test-fixtures")
     id("jacoco")
-    id("org.springframework.boot") version "3.4.5"
-    id("io.spring.dependency-management") version "1.1.7"
-    id("org.jetbrains.dokka") version "2.0.0"
-    id("org.sonarqube") version "6.0.1.5171"
-    id("com.gorylenko.gradle-git-properties") version "2.5.0"
-    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
-    kotlin("plugin.jpa") version "1.9.25"
+    id("org.jetbrains.dokka") version "2.1.0"
+    id("org.sonarqube") version "7.0.0.6105"
+    id("org.jlleitschuh.gradle.ktlint") version "13.1.0"
+    id("com.gorylenko.gradle-git-properties") version "2.5.3"
 }
 
 group = "org.project"
 version = "0.0.1-SNAPSHOT"
+description = "Wanted PreOnBoarding Backend Challenge"
 
 java {
     toolchain {
@@ -23,15 +24,11 @@ java {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.12"
-}
-
 repositories {
     mavenCentral()
 }
 
-extra["springAiVersion"] = "1.0.0"
+extra["springAiVersion"] = "1.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -43,38 +40,34 @@ dependencies {
     implementation("org.springframework.ai:spring-ai-starter-model-ollama")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    implementation("ch.qos.logback.contrib:logback-json-classic:0.1.5")
-    implementation("ch.qos.logback.contrib:logback-jackson:0.1.5")
-    implementation("com.fasterxml.jackson.core:jackson-core")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
+    // Logging
     implementation("net.logstash.logback:logstash-logback-encoder:8.1")
-    implementation("io.github.oshai:kotlin-logging-jvm:7.0.5")
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.13")
 
-    val springCloudAwsVersion = "3.3.0"
-    implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:$springCloudAwsVersion"))
-    implementation("io.awspring.cloud:spring-cloud-aws-starter-s3")
+    // DB
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.h2database:h2")
 
+    // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    val jwtVersion = "0.12.6"
-    implementation("io.jsonwebtoken:jjwt-api:$jwtVersion")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwtVersion")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwtVersion")
+    // JWT
+    implementation("io.jsonwebtoken:jjwt-api:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8")
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.30")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
 
-    val kotestVersion = "5.9.1"
+    val kotestVersion = "6.0.3"
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.3.0")
-    testImplementation("io.mockk:mockk:1.13.17")
+    testImplementation("io.mockk:mockk:1.14.6")
 
     val fixtureMonkeyVersion = "1.1.11"
     testFixturesImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:$fixtureMonkeyVersion")
@@ -106,14 +99,6 @@ tasks.withType<Test> {
 
 tasks.withType<BootBuildImage>().configureEach {
     createdDate = "now"
-}
-
-configurations.matching { it.name.startsWith("dokka") }.configureEach {
-    resolutionStrategy.eachDependency {
-        if (requested.group.startsWith("com.fasterxml.jackson")) {
-            useVersion("2.15.3")
-        }
-    }
 }
 
 tasks.withType<JacocoReport> {
