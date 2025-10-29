@@ -17,7 +17,7 @@ data class ArticleForm(
     val content: String,
     /** 게시글 사진 */
     @field:Schema(description = "게시글 사진 (수정이 필요하면 이미지를 첨부해주세요. 삭제는 API를 이용해주세요.)")
-    val images: List<MultipartFile>? = null,
+    val images: List<MultipartFile> = emptyList(),
     @field:Schema(description = "태그")
     val tags: List<String> = listOf(),
 )

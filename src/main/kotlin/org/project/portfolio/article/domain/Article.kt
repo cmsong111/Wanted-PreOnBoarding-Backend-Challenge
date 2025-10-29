@@ -22,7 +22,8 @@ import java.time.Instant
 @SoftDelete(columnName = "is_deleted")
 class Article(
     /** 게시글 번호 */
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L,
     /**
      * 게시글 제목 (200자 이하)
@@ -32,7 +33,7 @@ class Article(
     @Column(length = 400)
     var title: String,
     /** 게시글 내용 */
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     var content: String,
     /** 게시글 이미지 */
     @ElementCollection
@@ -54,18 +55,24 @@ class Article(
         fun create(
             title: String,
             content: String,
-            images: List<String>? = null,
+            images: List<String> = emptyList(),
             authorId: Long,
         ): Article {
             return Article(
                 title = title,
                 content = content,
-                images = images?.toMutableList() ?: mutableListOf(),
+                images = images.toMutableList(),
                 authorId = authorId,
             )
         }
     }
 
+    /**
+     * 게시글 수정 메서드
+     * @param title 수정할 제목 (null이면 수정하지 않음)
+     * @param content 수정할 내용 (null이면 수정하지 않음)
+     * @param images 수정할 이미지 리스트 (null이면 수정하지 않음, 빈 리스트이면 이미지 삭제)
+     */
     fun update(
         title: String?,
         content: String?,

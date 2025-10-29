@@ -19,5 +19,5 @@ data class LoginForm(
         regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{5,}\$",
         message = "비밀번호는 대소문자, 숫자, 특수문자를 포함한 5자 이상이어야 합니다",
     )
-    val password: String,
+    val password: String = "",
 )

@@ -24,7 +24,7 @@ class ArticleAuthorService(
 ) {
     /**
      * 게시글 생성 메소드
-     * @param userId 유저 이름
+     * @param email 유저 이름
      * @articleRequest 게시글 요청 DTO
      */
     @Transactional
@@ -43,7 +43,7 @@ class ArticleAuthorService(
                 authorId = user.id,
                 images = articleForm.images?.map {
                     storageService.uploadFile(it)
-                },
+                } ?: emptyList(),
             ),
         )
 

@@ -19,7 +19,7 @@ class WritingTone(
     var isPublic: Boolean = false,
 
     /** 말투 설명 */
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(columnDefinition = "TEXT")
     var description: String,
 
     @Column(updatable = false)

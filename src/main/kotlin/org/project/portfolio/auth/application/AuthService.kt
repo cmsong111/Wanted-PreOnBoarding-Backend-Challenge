@@ -18,8 +18,10 @@ import java.util.UUID
 /**
  * 사용자 인증 서비스
  * @param userRepository 사용자 레포지토리
+ * @param refreshTokenRepository 리프레시 토큰 레포지토리
  * @param jwtProvider JWT 토큰 생성 및 검증
  * @param passwordEncoder 비밀번호 암호화 및 검증
+ * @author Namju Kim
  */
 @Service
 class AuthService(
@@ -78,8 +80,14 @@ class AuthService(
         refreshTokenRepository.save(RefreshToken(jit = refreshToken, email = user.email))
 
         return TokenResponse(
-            accessToken = jwtProvider.createAccessToken(email = user.email, roles = user.roles),
-            refreshToken = jwtProvider.createRefreshToken(email = user.email, jit = refreshToken),
+            accessToken = jwtProvider.createAccessToken(
+                email = user.email,
+                roles = user.roles,
+            ),
+            refreshToken = jwtProvider.createRefreshToken(
+                email = user.email,
+                jit = refreshToken,
+            ),
         )
     }
 
@@ -99,7 +107,8 @@ class AuthService(
         }
 
         // 유저 조회
-        val user: User = userRepository.findByEmail(refreshToken.email) ?: throw UnauthorizedException("유저가 존재하지 않습니다.")
+        val user: User = userRepository.findByEmail(refreshToken.email)
+            ?: throw UnauthorizedException("유저가 존재하지 않습니다.")
 
         // 기존 리프레시 토큰 삭제
         refreshTokenRepository.deleteById(refreshToken.jit)
