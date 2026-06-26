@@ -3,7 +3,6 @@ package org.project.portfolio.user.domain
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 import jakarta.persistence.FetchType
@@ -12,16 +11,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import org.hibernate.annotations.SoftDelete
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.domain.AbstractAggregateRoot
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.time.Instant
+import org.project.portfolio.common.domain.BaseTimeEntity
 
 /** 유저 엔티티 */
 @Entity
 @Table(name = "users")
-@EntityListeners(AuditingEntityListener::class)
 @SoftDelete(columnName = "is_deleted")
 class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,14 +32,10 @@ class User(
     /** 유저 비밀번호 */
     var password: String,
     /** 유저 역할(권한) */
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     var roles: MutableSet<UserRole> = mutableSetOf(UserRole.USER),
-    @CreatedDate
-    var createdAt: Instant = Instant.now(),
-    @LastModifiedDate
-    var updatedAt: Instant = Instant.now(),
-) : AbstractAggregateRoot<User>() {
+) : BaseTimeEntity() {
     companion object {
         /** 유저 생성 */
         fun create(
@@ -64,8 +54,13 @@ class User(
         }
     }
 
-    /** 계정 역할 부여  */
+    /** 계정 역할 부여 */
     fun addRole(role: UserRole) {
         roles.add(role)
+    }
+
+    /** 비밀번호 변경 */
+    fun changePassword(encodedPassword: String) {
+        this.password = encodedPassword
     }
 }
