@@ -85,6 +85,21 @@ class AuthController(
         )
     }
 
+    @PostMapping("/logout")
+    @Operation(
+        summary = "로그아웃 API",
+        description = """## 로그아웃 API
+- Refresh-Token 헤더의 리프레시 토큰을 무효화합니다.
+""",
+    )
+    fun logout(
+        @Parameter(description = "리프래쉬 토큰", example = "Bearer eyJ0eXBlIjoiSldUIn0=")
+        @RequestHeader(REFRESH_TOKEN_HEADER) rawToken: String,
+    ): ResponseEntity<Unit> {
+        authService.logout(TokenResolver.resolveToken(rawToken))
+        return ResponseEntity.noContent().build()
+    }
+
     /**
      * 회원가입 API
      * @param registerForm 회원가입 요청 정보

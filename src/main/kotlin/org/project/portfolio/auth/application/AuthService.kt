@@ -125,6 +125,16 @@ class AuthService(
     }
 
     /**
+     * 로그아웃 (리프레시 토큰 무효화)
+     * @param token 리프레시 토큰
+     */
+    @Transactional
+    fun logout(token: String) {
+        val refreshToken: RefreshToken = jwtProvider.decodeRefreshToken(token)
+        refreshTokenRepository.deleteById(refreshToken.jit)
+    }
+
+    /**
      * 이메일 중복 확인
      * @param email 이메일
      * @return 중복 여부 (true: 중복, false: 중복 아님)

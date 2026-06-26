@@ -1,37 +1,29 @@
 package org.project.portfolio.auth
 
-import io.jsonwebtoken.Claims
-import io.jsonwebtoken.Jws
-import io.jsonwebtoken.JwtBuilder
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.security.Keys
-import org.project.portfolio.auth.domain.JwtUserDetails
 import org.project.portfolio.auth.domain.RefreshToken
 import org.project.portfolio.common.domain.exception.UnauthorizedException
 import org.project.portfolio.user.domain.UserRole
-import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm
+import org.springframework.security.oauth2.jwt.JwsHeader
+import org.springframework.security.oauth2.jwt.JwtClaimsSet
+import org.springframework.security.oauth2.jwt.JwtDecoder
+import org.springframework.security.oauth2.jwt.JwtEncoder
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters
+import org.springframework.security.oauth2.jwt.JwtException
 import org.springframework.stereotype.Component
 import java.time.Instant
-import java.util.Date
 import java.util.UUID
-import javax.crypto.SecretKey
 
 @Component
-@EnableConfigurationProperties(JwtProperties::class)
 class JwtProvider(
     private val jwtProperties: JwtProperties,
+    private val jwtEncoder: JwtEncoder,
+    @Qualifier("refreshJwtDecoder")
+    private val refreshJwtDecoder: JwtDecoder,
 ) {
-    private val key: SecretKey = Keys.hmacShaKeyFor(jwtProperties.secret.toByteArray())
-
     /**
      * JWT Access Token을 생성합니다.
-     * @param email 사용자 이메일
-     * @param roles 사용자 권한 목록
-     * @param jit JWT ID (JIT)
-     * @param issuedAt 발급 시간
-     * @param duration 유효 시간 (초) 기본값: 1시간
-     * @return JWT Access Token
      */
     fun createAccessToken(
         email: String,
@@ -40,20 +32,21 @@ class JwtProvider(
         issuedAt: Instant = Instant.now(),
         duration: Long = jwtProperties.accessExpiry,
     ): String {
-        return createDefaultJwtBuilder(jit = jit, issuedAt = issuedAt, duration = duration)
-            .subject(TokenType.ACCESS_TOKEN.name)
-            .claim("email", email)
+        val claims = defaultClaims(
+            subject = email,
+            jit = jit,
+            issuedAt = issuedAt,
+            duration = duration,
+            tokenType = TokenType.ACCESS_TOKEN,
+        )
             .claim("roles", roles.map { it.authority })
-            .compact()
+            .build()
+
+        return encode(claims)
     }
 
     /**
      * JWT Refresh Token을 생성합니다.
-     * @param email 사용자 이메일
-     * @param jit JWT ID (JIT)
-     * @param issuedAt 발급 시간
-     * @param duration 유효 시간 (초) 기본값: 1시간
-     * @return JWT Refresh Token
      */
     fun createRefreshToken(
         email: String,
@@ -61,72 +54,55 @@ class JwtProvider(
         issuedAt: Instant = Instant.now(),
         duration: Long = jwtProperties.refreshExpiry,
     ): String {
-        return createDefaultJwtBuilder(jit = jit, issuedAt = issuedAt, duration = duration)
-            .subject(TokenType.REFRESH_TOKEN.name)
-            .claim("email", email)
-            .compact()
-    }
+        val claims = defaultClaims(
+            subject = email,
+            jit = jit,
+            issuedAt = issuedAt,
+            duration = duration,
+            tokenType = TokenType.REFRESH_TOKEN,
+        ).build()
 
-    private fun createDefaultJwtBuilder(
-        jit: String,
-        issuedAt: Instant,
-        duration: Long,
-    ): JwtBuilder {
-        return Jwts
-            .builder()
-            .header()
-            .add("type", "JWT")
-            .and()
-            .id(jit)
-            .issuer(jwtProperties.issuer)
-            .notBefore(Date.from(issuedAt))
-            .issuedAt(Date.from(issuedAt))
-            .expiration(Date.from(issuedAt.plusSeconds(duration)))
-            .signWith(key)
-    }
-
-    /**
-     * JWT Access Token을 Decode합니다.
-     * @throws UnauthorizedException JWT가 유효하지 않은 경우
-     * @return JWT UserDetails
-     */
-    fun decodeAccessToken(token: String): UserDetails {
-        val claims: Jws<Claims> = decode(token)
-
-        val email: String = claims.payload["email"] as String
-        val roles: Set<UserRole> = UserRole.convert(
-            claims.payload["roles"] as List<String>,
-        )
-
-        return JwtUserDetails(email, roles)
+        return encode(claims)
     }
 
     /**
      * JWT Refresh Token을 Decode합니다.
-     * @throws UnauthorizedException JWT가 유효하지 않은 경우
-     * @return JWT RefreshToken
+     * @throws UnauthorizedException JWT가 유효하지 않거나 Refresh Token이 아닌 경우
      */
     fun decodeRefreshToken(token: String): RefreshToken {
-        val claims: Jws<Claims> = decode(token)
-
-        val email: String = claims.payload["email"] as String
-        val jit: String = claims.payload.id
-
-        return RefreshToken(
-            email = email,
-            jit = jit,
-        )
-    }
-
-    private fun decode(token: String): Jws<Claims> {
-        try {
-            return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-        } catch (e: Exception) {
+        return try {
+            val jwt = refreshJwtDecoder.decode(token)
+            RefreshToken(
+                email = jwt.subject,
+                jit = jwt.id,
+            )
+        } catch (e: JwtException) {
             throw UnauthorizedException("Invalid token")
         }
+    }
+
+    private fun defaultClaims(
+        subject: String,
+        jit: String,
+        issuedAt: Instant,
+        duration: Long,
+        tokenType: TokenType,
+    ): JwtClaimsSet.Builder {
+        return JwtClaimsSet.builder()
+            .id(jit)
+            .issuer(jwtProperties.issuer)
+            .subject(subject)
+            .issuedAt(issuedAt)
+            .notBefore(issuedAt)
+            .expiresAt(issuedAt.plusSeconds(duration))
+            .claim("token_type", tokenType.name)
+    }
+
+    private fun encode(claims: JwtClaimsSet): String {
+        val header = JwsHeader.with(MacAlgorithm.HS256)
+            .type("JWT")
+            .build()
+        return jwtEncoder.encode(JwtEncoderParameters.from(header, claims)).tokenValue
     }
 
     enum class TokenType {
