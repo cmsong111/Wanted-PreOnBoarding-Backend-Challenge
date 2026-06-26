@@ -2,8 +2,24 @@ spring:
   application:
     name: portfolio
 
+  config:
+    import: optional:file:.env[.properties]
+
   profiles:
     default: local
+
+  threads:
+    virtual:
+      enabled: true
+
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
 
   data:
     redis:
@@ -16,21 +32,14 @@ spring:
       max-file-size: 15MB
       max-request-size: 15MB
 
-  cloud:
-    aws:
-      s3:
-        enabled: false
-
   ai:
-    ollama:
-      chat:
-        options:
-          num-ctx: 2048
-      init:
-        pull-model-strategy: always
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY:dummy-api-key}
         chat:
-          additional-models:
-            - gemma3:latest
+          options:
+            model: ${GEMINI_MODEL:gemini-3.8-flash}
+            temperature: 0.7
 
 jwt:
   secret: ${JWT_SECRET:this-is-a-secret-key-and-it-should-be-kept-secure}
@@ -44,6 +53,7 @@ springdoc:
     tags-sorter: alpha
 
 server:
+  shutdown: graceful
   servlet:
     encoding:
       force-response: true # 한글 인코딩 반환 강제화
@@ -51,3 +61,11 @@ server:
 storage:
   imgbb:
     api-key: ${IMGBB_API_KEY:your-api-key}
+
+logging:
+  file:
+    name: ./logs/application.log
+  logback:
+    rollingpolicy:
+      file-name-pattern: ./logs/application.%d{yyyy-MM-dd}.%i.log.gz
+      max-history: 30

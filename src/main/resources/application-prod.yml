@@ -3,27 +3,61 @@ spring:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
-    driver-class-name: ${DATABASE_DRIVER:org.mariadb.jdbc.Driver}
+    driver-class-name: ${DATABASE_DRIVER:org.postgresql.Driver}
 
   jpa:
     hibernate:
       ddl-auto: update
 
+  sql:
+    init:
+      mode: never
+
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
-      database: ${REDIS_DATABASE}
-      username: ${REDIS_USERNAME}
-      password: ${REDIS_PASSWORD}
+      database: ${REDIS_DATABASE:0}
+      username: ${REDIS_USERNAME:}
+      password: ${REDIS_PASSWORD:}
+
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          options:
+            model: ${GEMINI_MODEL:gemini-3.8-flash}
+
+logging:
+  structured:
+    format:
+      file: ecs
+    json:
+      stacktrace:
+        max-depth: 10
 
 management:
   server:
     port: 8081
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: when_authorized
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:false}
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}
 
 server:
   forward-headers-strategy: framework
 
-logstash:
-  host: ${LOGSTASH_HOST:localhost}
-  port: ${LOGSTASH_PORT:5044}
+jwt:
+  secret: ${JWT_SECRET}
