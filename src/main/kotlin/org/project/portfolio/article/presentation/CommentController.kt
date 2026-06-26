@@ -4,17 +4,25 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.project.portfolio.article.application.CommentService
+import org.project.portfolio.article.application.CommentCommandService
+import org.project.portfolio.article.application.CommentQueryService
 import org.project.portfolio.article.presentation.request.CommentForm
+import org.project.portfolio.article.presentation.request.CommentUpdateForm
 import org.project.portfolio.article.presentation.response.CommentResponse
 import org.project.portfolio.config.SwaggerConfig.Companion.BEARER_AUTH
 import org.project.portfolio.config.SwaggerConfig.Companion.COMMENT_API_TAG
+import org.springdoc.core.annotations.ParameterObject
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
+import org.springframework.data.web.PagedModel
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,20 +36,38 @@ import java.net.URI
 @RequestMapping("/api/v1/articles/{articleId}/comments")
 @Tag(name = COMMENT_API_TAG, description = "API for managing comments")
 class CommentController(
-    private val commentService: CommentService,
+    private val commentQueryService: CommentQueryService,
+    private val commentCommandService: CommentCommandService,
 ) {
+    @GetMapping
+    @Operation(summary = "게시글 댓글 페이징 조회 API")
+    fun getComments(
+        @PathVariable articleId: Long,
+        @PageableDefault(page = 0, size = 20, sort = ["createdAt"], direction = Sort.Direction.ASC)
+        @ParameterObject pageable: Pageable,
+    ): ResponseEntity<PagedModel<CommentResponse>> {
+        return ResponseEntity.ok(
+            PagedModel(
+                commentQueryService.getComments(
+                    articleId = articleId,
+                    pageable = pageable,
+                ),
+            ),
+        )
+    }
+
     @PostMapping
     @Operation(summary = "Create a new comment for a specific article")
     @SecurityRequirement(name = BEARER_AUTH)
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
     fun createComment(
-        @AuthenticationPrincipal userDetails: UserDetails,
+        @AuthenticationPrincipal jwt: Jwt,
         @PathVariable articleId: Long,
         @Valid @RequestBody commentForm: CommentForm,
     ): ResponseEntity<CommentResponse> {
-        val comment = commentService.createComment(
-            email = userDetails.username,
+        val comment = commentCommandService.createComment(
+            email = jwt.subject,
             articleId = articleId,
             content = commentForm.content,
         )
@@ -51,33 +77,33 @@ class CommentController(
     @PatchMapping("/{commentId}")
     @Operation(summary = "Update an existing comment")
     @SecurityRequirement(name = BEARER_AUTH)
-    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #userDetails.username)")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @commentValidator.isAuthor(#articleId, #commentId, authentication.name))")
     fun updateComment(
         @PathVariable articleId: Long,
         @PathVariable commentId: Long,
-        @Valid @RequestBody commentForm: CommentForm,
-        @AuthenticationPrincipal userDetails: UserDetails,
+        @Valid @RequestBody commentUpdateForm: CommentUpdateForm,
+        @AuthenticationPrincipal jwt: Jwt,
     ): ResponseEntity<CommentResponse> {
         return ResponseEntity.ok(
-            commentService.updateComment(
-                email = userDetails.username,
+            commentCommandService.updateComment(
+                email = jwt.subject,
                 articleId = articleId,
                 commentId = commentId,
-                content = commentForm.content,
+                content = commentUpdateForm.content,
             ),
         )
     }
 
     @DeleteMapping("/{commentId}")
-    @PreAuthorize("isAuthenticated() and @commentValidator.isAuthor(#articleId, #commentId, #userDetails.username)")
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or @commentValidator.isAuthor(#articleId, #commentId, authentication.name))")
     @Operation(summary = "Delete an existing comment")
     @SecurityRequirement(name = BEARER_AUTH)
     fun deleteComment(
         @PathVariable articleId: Long,
         @PathVariable commentId: Long,
-        @AuthenticationPrincipal userDetails: UserDetails,
+        @AuthenticationPrincipal jwt: Jwt,
     ): ResponseEntity<Unit> {
-        commentService.deleteComment(
+        commentCommandService.deleteComment(
             commentId = commentId,
         )
         return ResponseEntity.noContent().build()

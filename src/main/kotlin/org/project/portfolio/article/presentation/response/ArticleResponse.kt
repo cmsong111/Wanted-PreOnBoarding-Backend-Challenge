@@ -15,6 +15,8 @@ data class ArticleResponse(
     val content: String,
     @field:Schema(description = "게시글 이미지들")
     val images: List<String>,
+    @field:Schema(description = "게시글 태그들")
+    val tags: List<String>,
     @field:Schema(description = "댓글 들")
     val comments: List<CommentResponse>,
     @field:Schema(description = "게시글 작성자")
@@ -37,6 +39,7 @@ data class ArticleResponse(
                 title = article.title,
                 content = article.content,
                 images = article.images,
+                tags = article.tags.toList(),
                 comments = comments,
                 author = author,
                 createdAt = article.createdAt.toString(),

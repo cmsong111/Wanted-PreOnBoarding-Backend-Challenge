@@ -4,21 +4,17 @@ import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
-import jakarta.persistence.EntityListeners
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OrderColumn
 import org.hibernate.annotations.SoftDelete
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.domain.AbstractAggregateRoot
-import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import org.project.portfolio.common.domain.BaseTimeEntity
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 /** 게시글 엔티티 */
 @Entity
-@EntityListeners(AuditingEntityListener::class)
 @SoftDelete(columnName = "is_deleted")
 class Article(
     /** 게시글 번호 */
@@ -40,46 +36,55 @@ class Article(
     @CollectionTable(name = "article_images")
     @OrderColumn(name = "image_order")
     var images: List<String> = mutableListOf(),
+    /** 게시글 태그 */
+    @ElementCollection
+    @CollectionTable(name = "article_tags")
+    var tags: MutableSet<String> = mutableSetOf(),
     /** 게시글 작성자 */
     var authorId: Long,
     /** 조회수 */
     var viewCount: Long = 0,
-    /** 생성일 */
-    @CreatedDate
-    var createdAt: Instant = Instant.now(),
-    /** 수정일 */
-    @LastModifiedDate
-    var updatedAt: Instant = Instant.now(),
-) : AbstractAggregateRoot<Article>() {
+) : BaseTimeEntity() {
     companion object {
+        const val EDITABLE_DAYS: Long = 10L
+
         fun create(
             title: String,
             content: String,
             images: List<String> = emptyList(),
+            tags: List<String> = emptyList(),
             authorId: Long,
         ): Article {
             return Article(
                 title = title,
                 content = content,
                 images = images.toMutableList(),
+                tags = tags.map { it.trim() }.filter { it.isNotEmpty() }.toMutableSet(),
                 authorId = authorId,
             )
         }
     }
 
+    /** 작성일 기준 수정 가능 여부 확인 (10일 미만) */
+    fun isEditableAt(now: Instant): Boolean {
+        return createdAt.until(now, ChronoUnit.DAYS) < EDITABLE_DAYS
+    }
+
     /**
      * 게시글 수정 메서드
-     * @param title 수정할 제목 (null이면 수정하지 않음)
-     * @param content 수정할 내용 (null이면 수정하지 않음)
-     * @param images 수정할 이미지 리스트 (null이면 수정하지 않음, 빈 리스트이면 이미지 삭제)
      */
     fun update(
         title: String?,
         content: String?,
         images: List<String>? = null,
+        tags: List<String>? = null,
     ) {
         title?.let { this.title = it }
         content?.let { this.content = it }
         images?.let { this.images = it }
+        tags?.let {
+            this.tags.clear()
+            this.tags.addAll(it.map { tag -> tag.trim() }.filter { tag -> tag.isNotEmpty() })
+        }
     }
 }

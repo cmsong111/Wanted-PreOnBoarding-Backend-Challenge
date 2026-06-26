@@ -7,19 +7,17 @@ import org.project.portfolio.user.domain.User
 import org.project.portfolio.user.domain.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
+import java.time.Clock
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 
 @Component
 class ArticleValidator(
     private val articleRepository: ArticleRepository,
     private val userRepository: UserRepository,
+    private val clock: Clock = Clock.systemUTC(),
 ) {
     /**
      * 게시글 작성자인지 확인
-     * @param articleId 게시글 ID
-     * @param email 유저 이메일
-     * @return 게시글 작성자 여부 (true: 작성자, false: 작성자 아님)
      */
     fun isAuthor(
         articleId: Long,
@@ -35,10 +33,7 @@ class ArticleValidator(
     }
 
     /**
-     * 게시글이 수정 가능한지 확인
-     * <p>작성 후 10일이 지나면 수정 불가능</p>
-     * @param articleId 게시글 ID
-     * @param email 유저 이메일
+     * 게시글이 수정 가능한지 확인 (작성자 본인 + 작성 후 10일 미만)
      */
     fun isEditable(
         articleId: Long,
@@ -50,13 +45,10 @@ class ArticleValidator(
         val user: User = userRepository.findByEmail(email)
             ?: throw NotFoundException(User::class.java, mapOf("email" to email))
 
-        // 게시글 작성자와 현재 사용자가 다르면 수정 불가능
         if (article.authorId != user.id) {
             return false
         }
 
-        // 게시글 작성 후 10일이 지나면 수정 불가능
-        val diffDays: Long = article.createdAt.until(Instant.now(), ChronoUnit.DAYS)
-        return diffDays < 10
+        return article.isEditableAt(Instant.now(clock))
     }
 }

@@ -20,21 +20,20 @@ interface ArticleRepository : JpaRepository<Article, Long> {
     ): List<Article>
 
     /**
-     * 게시글 제목으로 조회하는 메소드
-     * @param title 검색할 게시글 제목(null일 경우 전체 조회)
-     * @param content 검색할 게시글 내용(null일 경우 전체 조회)
+     * 게시글 제목/내용 키워드 검색 메소드
+     * @param keyword 검색 키워드 (null 또는 빈 문자열일 경우 전체 조회)
      * @param pageable 페이징 정보 객체
      */
     @Query(
         """
-    SELECT a FROM Article a
-    WHERE (:title IS NULL OR a.title LIKE CONCAT('%', :title, '%'))
-    OR (:content IS NULL OR a.content LIKE CONCAT('%', :content, '%'))
-    """,
+        SELECT a FROM Article a
+        WHERE :keyword IS NULL OR :keyword = ''
+           OR a.title LIKE CONCAT('%', :keyword, '%')
+           OR a.content LIKE CONCAT('%', :keyword, '%')
+        """,
     )
-    fun findByArticleTitleAndContent(
-        @Param("title") title: String? = null,
-        @Param("content") content: String? = null,
+    fun searchByKeyword(
+        @Param("keyword") keyword: String? = null,
         pageable: Pageable,
     ): Page<Article>
 
@@ -42,7 +41,7 @@ interface ArticleRepository : JpaRepository<Article, Long> {
      * 조회수 증가 메소드
      * @param id 게시글 ID
      */
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(
         """
         update Article a

@@ -14,6 +14,12 @@ interface CommentRepository : JpaRepository<Comment, Long> {
      */
     fun findByArticleId(articleId: Long): List<Comment>
 
+    /** 게시글 ID로 댓글 페이징 조회 */
+    fun findByArticleId(
+        articleId: Long,
+        pageable: Pageable,
+    ): Page<Comment>
+
     /**
      * 게시글 ID + 댓글 ID로 특정 댓글 조회
      * @param id 댓글 ID

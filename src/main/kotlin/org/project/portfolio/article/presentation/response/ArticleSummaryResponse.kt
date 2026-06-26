@@ -19,6 +19,8 @@ data class ArticleSummaryResponse(
     val content: String,
     @field:Schema(description = "게시글 썸네일", example = "https://example.com/thumbnail.jpg")
     val thumbnail: String?,
+    @field:Schema(description = "게시글 태그들")
+    val tags: List<String>,
     /** 게시글 작성자 이름 */
     @field:Schema(description = "게시글 작성자 이름", example = "작성자")
     val author: UserSummaryResponse,
@@ -36,6 +38,7 @@ data class ArticleSummaryResponse(
                 title = article.title,
                 content = article.content.take(50),
                 thumbnail = article.images.firstOrNull(),
+                tags = article.tags.toList(),
                 author = author,
                 createdAt = article.createdAt.toString(),
             )
