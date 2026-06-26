@@ -1,9 +1,9 @@
-package org.project.portfolio.writing.tone
+package org.project.portfolio.writing.tone.domain
 
 interface WritingToneGenerator {
     fun generate(
-        articleWritingForm: ArticleWritingForm,
+        draft: WritingToneDraft,
         toneDescription: String,
         tokenLimit: Int = 2000,
-    ): ArticleWritingForm
+    ): WritingToneDraft
 }

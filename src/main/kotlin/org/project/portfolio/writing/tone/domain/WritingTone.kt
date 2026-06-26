@@ -1,11 +1,11 @@
-package org.project.portfolio.writing.tone
+package org.project.portfolio.writing.tone.domain
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import java.time.Instant
+import org.project.portfolio.common.domain.BaseTimeEntity
 
 @Entity
 class WritingTone(
@@ -21,7 +21,4 @@ class WritingTone(
     /** 말투 설명 */
     @Column(columnDefinition = "TEXT")
     var description: String,
-
-    @Column(updatable = false)
-    val createdAt: Instant = Instant.now(),
-)
+) : BaseTimeEntity()
