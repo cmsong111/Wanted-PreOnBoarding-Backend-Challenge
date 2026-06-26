@@ -19,7 +19,7 @@ object TokenResolver {
     }
 
     fun resolveToken(token: String): String {
-        return token.substring(BEARER_PREFIX.length).trim()
+        return token.removePrefix(BEARER_PREFIX).trim()
     }
 
     const val AUTHORIZATION_HEADER = "Authorization"

@@ -49,7 +49,6 @@ class SwaggerConfig(
      * OpenAPI Info
      */
     private fun info(): Info {
-        print(gitProperties)
         // Timezone 적용
         val zonedDateTime: ZonedDateTime = ZonedDateTime.ofInstant(gitProperties.commitTime, ZonedDateTime.now().zone)
         val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a hh:mm")
@@ -89,5 +88,6 @@ class SwaggerConfig(
         const val ARTICLE_API_TAG = "Article API"
         const val COMMENT_API_TAG = "Comment API"
         const val NOTIFICATIONS_API_TAG = "Notifications API"
+        const val WRITING_TONE_API_TAG = "Writing Tone API"
     }
 }

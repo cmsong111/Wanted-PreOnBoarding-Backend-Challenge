@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.http.MediaType
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestPart
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.service.annotation.HttpExchange
 import org.springframework.web.service.annotation.PostExchange
 import org.springframework.web.service.invoker.HttpServiceProxyFactory
+import java.time.Duration
 
 @Component
 @Profile("prod", "local")
@@ -20,22 +22,31 @@ class ImgBB(
     @Value("\${storage.imgbb.api-key}")
     private val apiKey: String,
 ) : StorageService {
+    private val requestFactory = SimpleClientHttpRequestFactory().apply {
+        setConnectTimeout(Duration.ofSeconds(3))
+        setReadTimeout(Duration.ofSeconds(10))
+    }
+
     private val factory = HttpServiceProxyFactory.builder()
-        .exchangeAdapter(RestClientAdapter.create(RestClient.builder().build()))
+        .exchangeAdapter(
+            RestClientAdapter.create(
+                RestClient.builder()
+                    .requestFactory(requestFactory)
+                    .build(),
+            ),
+        )
         .build()
 
     private val imgbbClient = factory.createClient(ImgBBClient::class.java)
 
     override fun uploadFile(file: MultipartFile): String {
-        imgbbClient
+        return imgbbClient
             .uploadImage(
                 key = apiKey,
                 name = file.originalFilename,
                 image = file,
-            )
-            .let { response ->
-                return response["data"]["url"].asText()
-            }
+            )["data"]["url"]
+            .asText()
     }
 
     @HttpExchange(url = "https://api.imgbb.com/1")
