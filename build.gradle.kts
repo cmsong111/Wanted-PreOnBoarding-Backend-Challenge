@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "org.project"
-version = "0.0.1-SNAPSHOT"
+version = "2.0.0"
 description = "Wanted PreOnBoarding Backend Challenge"
 
 java {
