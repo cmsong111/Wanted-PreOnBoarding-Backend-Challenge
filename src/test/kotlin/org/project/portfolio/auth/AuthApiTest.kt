@@ -6,7 +6,6 @@ import io.github.oshai.kotlinlogging.KLogger
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.extensions.spring.SpringExtension
 import org.project.portfolio.auth.application.AuthService
 import org.project.portfolio.auth.presentation.request.EmailCheckForm
 import org.project.portfolio.auth.presentation.request.RegisterForm
@@ -18,13 +17,11 @@ import org.project.portfolio.utils.prettyJson
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
-@DirtiesContext
 @DisplayName("Auth API 통합 테스트")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -33,8 +30,6 @@ class AuthApiTest(
     private val authService: AuthService,
 ) : DescribeSpec(
     {
-        extensions(SpringExtension)
-
         val userRegisterForm = UsersFixture.getRandomRegisterRequest()
         val author: User = authService.register(userRegisterForm)
         var authorToken: TokenResponse = authService.login(userRegisterForm.email, userRegisterForm.password)
@@ -214,6 +209,27 @@ class AuthApiTest(
                 }.andExpectAll {
                     status { isUnauthorized() }
                     content { contentType(MediaType.APPLICATION_JSON) }
+                }
+            }
+        }
+
+        describe("POST /api/v1/auth/logout - 로그아웃 API") {
+            it("204 No Content - 로그아웃 후 기존 리프레시 토큰 재사용 불가") {
+                val token = authService.login(
+                    email = userRegisterForm.email,
+                    password = userRegisterForm.password,
+                )
+
+                mockMvc.post("/api/v1/auth/logout") {
+                    header(REFRESH_TOKEN_HEADER, "$BEARER_PREFIX ${token.refreshToken}")
+                }.andExpectAll {
+                    status { isNoContent() }
+                }
+
+                mockMvc.post("/api/v1/auth/refresh") {
+                    header(REFRESH_TOKEN_HEADER, "$BEARER_PREFIX ${token.refreshToken}")
+                }.andExpectAll {
+                    status { isUnauthorized() }
                 }
             }
         }

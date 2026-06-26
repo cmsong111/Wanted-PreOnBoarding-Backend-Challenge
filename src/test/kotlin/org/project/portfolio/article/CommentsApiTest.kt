@@ -4,9 +4,8 @@ import ArticleFixture
 import UsersFixture
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.extensions.spring.SpringExtension
-import org.project.portfolio.article.application.ArticleAuthorService
-import org.project.portfolio.article.application.CommentService
+import org.project.portfolio.article.application.ArticleCommandService
+import org.project.portfolio.article.application.CommentCommandService
 import org.project.portfolio.article.presentation.request.CommentForm
 import org.project.portfolio.article.presentation.response.ArticleResponse
 import org.project.portfolio.article.presentation.response.CommentResponse
@@ -18,7 +17,6 @@ import org.project.portfolio.utils.withJwt
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
@@ -28,19 +26,16 @@ import org.springframework.transaction.annotation.Transactional
 
 @DisplayName("Comments API 통합 테스트")
 @Transactional
-@DirtiesContext
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class CommentsApiTest(
     private val mockMvc: MockMvc,
     private val authService: AuthService,
-    private val articleService: ArticleAuthorService,
-    private val commentService: CommentService,
+    private val articleService: ArticleCommandService,
+    private val commentService: CommentCommandService,
 ) : DescribeSpec(
     {
-        extensions(SpringExtension)
-
         val userRegisterForm = UsersFixture.getRandomRegisterRequest()
         val author: User = authService.register(userRegisterForm)
         val authorToken: TokenResponse = authService.login(userRegisterForm.email, userRegisterForm.password)

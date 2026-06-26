@@ -3,7 +3,6 @@ package org.project.portfolio.user
 import UsersFixture
 import io.kotest.core.annotation.DisplayName
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.extensions.spring.SpringExtension
 import org.project.portfolio.auth.application.AuthService
 import org.project.portfolio.auth.presentation.response.TokenResponse
 import org.project.portfolio.user.domain.User
@@ -12,15 +11,14 @@ import org.project.portfolio.utils.withJwt
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional
-@DirtiesContext
 @DisplayName("User API 테스트")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -29,8 +27,6 @@ class UserApiTest(
     private val authService: AuthService,
 ) : DescribeSpec(
     {
-        extensions(SpringExtension)
-
         val userRegisterForm = UsersFixture.getRandomRegisterRequest()
         val user: User = authService.register(userRegisterForm)
         val userToken: TokenResponse = authService.login(userRegisterForm.email, userRegisterForm.password)
@@ -80,6 +76,33 @@ class UserApiTest(
                 mockMvc.delete("/api/v1/user") {
                 }.andExpectAll {
                     status { isUnauthorized() }
+                }
+            }
+        }
+
+        describe("GET /api/v1/users/{userId} - 공개 프로필 조회 API") {
+            it("200 OK") {
+                mockMvc.get("/api/v1/users/${user.id}")
+                    .andExpectAll {
+                        status { isOk() }
+                        jsonPath("$.id") { value(user.id) }
+                        jsonPath("$.email") { value(user.email) }
+                    }
+            }
+        }
+
+        describe("PATCH /api/v1/user/password - 비밀번호 변경 API") {
+            it("204 No Content - 새 비밀번호로 로그인 가능") {
+                val newPassword = "NewPassword1234~!"
+                mockMvc.patch("/api/v1/user/password") {
+                    withJwt(userToken)
+                    contentType = MediaType.APPLICATION_JSON
+                    content = mapOf(
+                        "currentPassword" to userRegisterForm.password,
+                        "newPassword" to newPassword,
+                    ).prettyJson()
+                }.andExpectAll {
+                    status { isNoContent() }
                 }
             }
         }

@@ -37,7 +37,6 @@ class ArticleValidatorTest : AnnotationSpec() {
             title = "Test Title",
             content = "Test Content",
             authorId = user.id,
-            createdAt = Instant.now(),
         )
 
         every { articleRepository.findByIdOrNull(article.id) } returns article
@@ -66,7 +65,6 @@ class ArticleValidatorTest : AnnotationSpec() {
             title = "Test Title",
             content = "Test Content",
             authorId = 2L,
-            createdAt = Instant.now(),
         )
 
         every { articleRepository.findByIdOrNull(article.id) } returns article
@@ -94,7 +92,6 @@ class ArticleValidatorTest : AnnotationSpec() {
             title = "Test Title",
             content = "Test Content",
             authorId = user.id,
-            createdAt = Instant.now(),
         )
 
         every { articleRepository.findByIdOrNull(article.id) } returns article
@@ -123,7 +120,6 @@ class ArticleValidatorTest : AnnotationSpec() {
             title = "Test Title",
             content = "Test Content",
             authorId = 2L,
-            createdAt = Instant.now(),
         )
 
         every { articleRepository.findByIdOrNull(article.id) } returns article
@@ -152,8 +148,9 @@ class ArticleValidatorTest : AnnotationSpec() {
             title = "Test Title",
             content = "Test Content",
             authorId = user.id,
-            createdAt = Instant.now().minus(10, ChronoUnit.DAYS),
-        )
+        ).apply {
+            createdAt = Instant.now().minus(10, ChronoUnit.DAYS)
+        }
 
         every { articleRepository.findByIdOrNull(article.id) } returns article
         every { userRepository.findByEmail(user.email) } returns user

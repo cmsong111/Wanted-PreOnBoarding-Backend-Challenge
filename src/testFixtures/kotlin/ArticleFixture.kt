@@ -39,7 +39,8 @@ object ArticleFixture {
             content = articleForm?.content ?: "내용입니다",
             images = listOf<String>(),
             authorId = authorId,
-            createdAt = createdAt,
-        )
+        ).apply {
+            this.createdAt = createdAt
+        }
     }
 }

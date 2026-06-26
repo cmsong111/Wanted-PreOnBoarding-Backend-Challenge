@@ -1,0 +1,152 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    name: Lint, Test & SonarCloud
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.project-version.outputs.version }}
+      short_sha: ${{ steps.project-version.outputs.short_sha }}
+
+    services:
+      redis:
+        image: redis:8-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Extract project version and short SHA
+        id: project-version
+        run: |
+          VERSION=$(./gradlew properties -q | grep '^version:' | awk '{print $2}')
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Check Lint
+        run: ./gradlew ktlintCheck
+
+      - name: Run Tests & JaCoCo Report
+        run: ./gradlew -Dspring.profiles.active=test test jacocoTestReport
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: ${{ always() }}
+        with:
+          files: build/test-results/**/*.xml
+
+      - name: Report to SonarCloud
+        run: |
+          if [ -n "$SONAR_TOKEN" ]; then
+            ./gradlew sonar
+          else
+            echo "SONAR_TOKEN is not set; skipping SonarCloud analysis."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build-image:
+    name: Build & Push Image (${{ matrix.arch }})
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: gradle/actions/wrapper-validation@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & Push Boot Image (${{ matrix.arch }})
+        env:
+          IMAGE_TAG: cmsong111/portfolio-server:build-${{ matrix.arch }}
+        run: |
+          ./gradlew bootBuildImage --imageName="$IMAGE_TAG"
+          docker push "$IMAGE_TAG"
+
+  publish-manifest:
+    name: Publish Multi-Arch Manifest
+    needs: [test, build-image]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create & Push Multi-Arch Manifest
+        env:
+          VERSION: ${{ needs.test.outputs.version }}
+          SHORT_SHA: ${{ needs.test.outputs.short_sha }}
+        run: |
+          docker buildx imagetools create \
+            -t "cmsong111/portfolio-server:latest" \
+            -t "cmsong111/portfolio-server:${VERSION}" \
+            -t "cmsong111/portfolio-server:${SHORT_SHA}" \
+            "cmsong111/portfolio-server:build-amd64" \
+            "cmsong111/portfolio-server:build-arm64"

@@ -21,8 +21,9 @@ object CommentFixture {
             content = content,
             authorId = authorId,
             articleId = articleId,
-            createdAt = createdAt,
-        )
+        ).apply {
+            this.createdAt = createdAt
+        }
     }
 
     private val fixtureMonkey: FixtureMonkey = FixtureMonkey.builder()
